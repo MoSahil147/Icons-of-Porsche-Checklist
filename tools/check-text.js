@@ -1,8 +1,8 @@
 // The writing rules as a check: no em dash, en dash or emoji in tracked text files. Run: bun tools/check-text.js
 const RULES = [
-  [/—/g, 'em dash'],
-  [/–/g, 'en dash'],
-  [/(?![©®™])\p{Extended_Pictographic}/gu, 'emoji']
+  [/\u2014/g, 'em dash'],
+  [/\u2013/g, 'en dash'],
+  [/(?![\u00a9\u00ae\u2122])\p{Extended_Pictographic}/gu, 'emoji']
 ];
 const TEXT = /\.(js|css|html|md|json|yml|svg|webmanifest)$/;
 
