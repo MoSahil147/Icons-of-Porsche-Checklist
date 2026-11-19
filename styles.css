@@ -42,7 +42,7 @@ button { user-select: none; -webkit-user-select: none; }
 .brand-mark circle { fill: var(--color-accent); stroke: var(--color-accent-deep); stroke-width: 1.5; }
 .main-nav { display: flex; gap: var(--space-md); margin-left: auto; }
 .main-nav a { padding-inline: var(--space-2xs); }
-.main-nav a, .ticket-link { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--text-sm); font-weight: 400; color: var(--color-ink-2); text-decoration: none; transition: color 150ms ease; }
+.main-nav a, .ticket-link { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; font-size: var(--text-sm); font-weight: 400; color: var(--color-ink-2); text-decoration: none; transition: color 150ms ease; }
 .ticket-link { gap: var(--space-2xs); font-weight: 600; color: var(--color-ink); text-decoration: underline; text-underline-offset: 0.2em; }
 .external-icon { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -307,10 +307,13 @@ html:not(.js) .spec { display: none; }
   .checklist-grid.show-pack > .collect-column,
   .checklist-grid.show-collect > .check-column:not(.collect-column) { display: none; }
 }
-@media (max-width: 40rem) {
+/* The header needs about 857px for one row with the full name; below 56rem the nav takes its own row. */
+@media (max-width: 56rem) {
   .topbar { flex-wrap: wrap; gap: 0 var(--space-md); padding-block: var(--space-xs); }
   .main-nav { order: 3; width: 100%; margin-left: 0; }
   .ticket-link { margin-left: auto; }
+}
+@media (max-width: 40rem) {
   .hero { padding-top: var(--space-lg); }
   .hero-model { margin-top: var(--space-lg); }
   .dimension-label { font-size: var(--text-xs); }
