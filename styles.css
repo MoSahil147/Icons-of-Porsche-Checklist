@@ -33,6 +33,33 @@ button { user-select: none; -webkit-user-select: none; }
 .text-button:active { transform: translateY(1px); }
 .text-link, .footer-brand { display: inline-flex; align-items: center; min-height: 44px; }
 .text-link { font-weight: 600; color: var(--color-accent-deep); }
+/* Links that take you somewhere leave a tyre mark: a directional V tread across the full band, pointing the way
+   the car drives. Buttons keep a straight underline, so the mark always means "this goes somewhere". A background,
+   not a pseudo-element, so the mark follows a link that wraps onto a second line. Stripe pitch 0.213em at 55deg
+   is 0.26em along the line, so the 0.52em hover roll lands on an identical pattern. */
+.track {
+  --track-h: 0.46em;
+  --roll: 0em;
+  text-decoration: none;
+  padding-bottom: calc(var(--track-h) + 0.05em);
+  /* In a flex link the span is a block: this keeps its text centred where it was. No effect on inline links. */
+  margin-bottom: calc(-1 * (var(--track-h) + 0.05em));
+  background-image:
+    repeating-linear-gradient(55deg, currentColor 0 0.1em, transparent 0.1em 0.213em),
+    repeating-linear-gradient(125deg, currentColor 0 0.1em, transparent 0.1em 0.213em);
+  background-size: 100% calc(var(--track-h) / 2), 100% calc(var(--track-h) / 2);
+  background-position: var(--roll) calc(100% - var(--track-h) / 2), var(--roll) 100%;
+  background-repeat: no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* The outer link of a track span must not also draw the straight underline. A track span in a flex link is a
+   block, so it draws under its last line only: keep these short labels on one line. */
+.ticket-link, .text-link, .source-link { text-decoration: none; white-space: nowrap; }
+/* Forced colours remove gradient backgrounds, so bring back a plain underline there. */
+@media (forced-colors: active) {
+  .track { background: none; text-decoration: underline; }
+}
 
 /* Header */
 .topbar { display: flex; align-items: center; gap: var(--space-xl); min-height: 72px; border-bottom: var(--rule-hair) solid var(--color-rule); }
@@ -283,6 +310,9 @@ html:not(.js) .spec { display: none; }
   .button:hover { background: var(--color-accent-deep); }
   .button-quiet:hover { background: var(--color-paper-3); }
   .main-nav a:hover { color: var(--color-ink); }
+  /* The tread rolls two blocks forward, left to right like the car, as the pointer arrives. Paint-only, on a 7px strip. */
+  .track { transition: background-position 240ms cubic-bezier(0.23, 1, 0.32, 1); }
+  a:hover .track, a.track:hover { --roll: 0.52em; }
   .day-button:not(.is-active):hover { background: var(--color-paper-2); }
   .check-row:hover .check-box { border-color: var(--color-ink); }
   .day-item-button:not([aria-pressed="true"]):hover { border-color: var(--color-ink-2); }
