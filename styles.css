@@ -27,7 +27,6 @@ button { user-select: none; -webkit-user-select: none; }
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: var(--space-sm) var(--space-lg); border: 0; border-radius: 8px; background: var(--color-accent); color: var(--color-accent-ink); font-weight: 600; font-size: var(--text-md); text-decoration: none; cursor: pointer; transition: transform 160ms var(--ease-out), background-color 150ms ease; }
 .button:active { transform: scale(0.97); }
 .button-quiet { background: transparent; color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--color-rule); }
-.button:disabled { background: var(--color-paper-3); color: var(--color-muted); cursor: not-allowed; }
 .text-button { min-height: 44px; padding: 0; border: 0; background: none; color: var(--color-ink-2); font-size: var(--text-sm); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
 .text-button-red { color: var(--color-accent-deep); }
 .text-button:active { transform: translateY(1px); }
@@ -174,7 +173,6 @@ html:not(.js) .pm-solid { display: none; }
 .step-num { font: 800 var(--text-step)/0.8 var(--font-display); font-variant-numeric: tabular-nums; color: var(--color-ink); }
 .list-heading h3 { font-size: var(--text-title); }
 .list-heading p { font-size: var(--text-sm); color: var(--color-muted); }
-.availability-note { margin-top: var(--space-md); padding: var(--space-sm) var(--space-md); border-radius: 6px; background: var(--color-paper); font-size: var(--text-sm); color: var(--color-ink-2); }
 .check-list { margin: 0; padding: 0; list-style: none; }
 .check-list > li { border-bottom: var(--rule-hair) solid var(--color-rule); }
 .check-list > li:last-child { border-bottom: 0; }
