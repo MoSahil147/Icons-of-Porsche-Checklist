@@ -9,7 +9,6 @@ const progressMeter = document.querySelector('#progress-meter');
 const resetButton = document.querySelector('#reset-button');
 const clearAllButton = document.querySelector('#clear-all-button');
 const storageStatus = document.querySelector('#storage-status');
-const railCar = document.querySelector('.rail-car');
 const confirmDialog = document.querySelector('#confirm-dialog');
 const dialogCopy = document.querySelector('#dialog-copy');
 const dialogConfirm = document.querySelector('#dialog-confirm');
@@ -241,32 +240,11 @@ engineToggle.addEventListener('click', () => {
   engineToggle.setAttribute('aria-expanded', String(running));
   engineDetail.hidden = !running;
   engineFeature.classList.toggle('is-running', running);
-  document.documentElement.classList.toggle('engine-running', running);
   engineToggle.firstChild.textContent = running ? 'Stop the flat-six ' : 'Start the flat-six ';
   engineToggle.querySelector('span').textContent = running ? '−' : '+';
 });
 
-function updateScrollCar() {
-  if (!railCar || window.matchMedia('(max-width: 860px)').matches) return;
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  const progressAlongPage = maxScroll > 0
-    ? Math.min(1, Math.max(0, window.scrollY / maxScroll))
-    : 0;
-  railCar.style.top = `${progressAlongPage * 100}%`;
-}
-
-let scrollFrame = 0;
-window.addEventListener('scroll', () => {
-  if (scrollFrame) return;
-  scrollFrame = window.requestAnimationFrame(() => {
-    updateScrollCar();
-    scrollFrame = 0;
-  });
-}, { passive: true });
-window.addEventListener('resize', () => {
-  renderCategoryView();
-  updateScrollCar();
-});
+window.addEventListener('resize', renderCategoryView);
 
 readSavedState();
 renderDayButtons();
@@ -274,4 +252,3 @@ renderCategoryButtons();
 renderCategoryView();
 renderChecklist();
 updateStorageStatus();
-updateScrollCar();
