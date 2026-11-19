@@ -38,15 +38,15 @@ button { user-select: none; -webkit-user-select: none; }
    not a pseudo-element, so the mark follows a link that wraps onto a second line. Stripe pitch 0.213em at 55deg
    is 0.26em along the line, so the 0.52em hover roll lands on an identical pattern. */
 .track {
-  --track-h: 0.46em;
+  --track-h: 0.3em;
   --roll: 0em;
   text-decoration: none;
   padding-bottom: calc(var(--track-h) + 0.05em);
   /* In a flex link the span is a block: this keeps its text centred where it was. No effect on inline links. */
   margin-bottom: calc(-1 * (var(--track-h) + 0.05em));
   background-image:
-    repeating-linear-gradient(55deg, currentColor 0 0.1em, transparent 0.1em 0.213em),
-    repeating-linear-gradient(125deg, currentColor 0 0.1em, transparent 0.1em 0.213em);
+    repeating-linear-gradient(55deg, currentColor 0 0.08em, transparent 0.08em 0.213em),
+    repeating-linear-gradient(125deg, currentColor 0 0.08em, transparent 0.08em 0.213em);
   background-size: 100% calc(var(--track-h) / 2), 100% calc(var(--track-h) / 2);
   background-position: var(--roll) calc(100% - var(--track-h) / 2), var(--roll) 100%;
   background-repeat: no-repeat;
@@ -70,7 +70,7 @@ button { user-select: none; -webkit-user-select: none; }
 .main-nav { display: flex; gap: var(--space-md); margin-left: auto; }
 .main-nav a { padding-inline: var(--space-2xs); }
 .main-nav a, .ticket-link { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; font-size: var(--text-sm); font-weight: 400; color: var(--color-ink-2); text-decoration: none; transition: color 150ms ease; }
-.ticket-link { gap: var(--space-2xs); font-weight: 600; color: var(--color-ink); text-decoration: underline; text-underline-offset: 0.2em; }
+.ticket-link { gap: var(--space-2xs); font-weight: 600; color: var(--color-ink); }
 .external-icon { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Hero: the headline over the finished model. */
@@ -310,7 +310,7 @@ html:not(.js) .spec { display: none; }
   .button:hover { background: var(--color-accent-deep); }
   .button-quiet:hover { background: var(--color-paper-3); }
   .main-nav a:hover { color: var(--color-ink); }
-  /* The tread rolls two blocks forward, left to right like the car, as the pointer arrives. Paint-only, on a 7px strip. */
+  /* The tread rolls two blocks forward, left to right like the car, as the pointer arrives. Paint-only, on a 5px strip. */
   .track { transition: background-position 240ms cubic-bezier(0.23, 1, 0.32, 1); }
   a:hover .track, a.track:hover { --roll: 0.52em; }
   .day-button:not(.is-active):hover { background: var(--color-paper-2); }
