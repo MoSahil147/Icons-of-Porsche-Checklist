@@ -110,7 +110,6 @@ async function renderStory() {
   c.fillText(countLine(complete), left, 510);
   const carWidth = 940, carHeight = carWidth * car.naturalHeight / car.naturalWidth;
   c.drawImage(car, 70, 740 - carHeight / 2, carWidth, carHeight);
-  // The paint as a 1x2 plate, like the parts box in a building step. Without a name, the lower bands move up.
   const boxY = 955;
   const lower = builderName ? 0 : -55;
   const foot = builderName ? 0 : -45;

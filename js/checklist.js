@@ -15,7 +15,6 @@ const dialogCopy = document.querySelector('#dialog-copy');
 const dialogConfirm = document.querySelector('#dialog-confirm');
 const dialogCancel = document.querySelector('#dialog-cancel');
 const buildModel = document.querySelector('.build-model');
-// Build order: the wheels first, then each row from the bottom up, then the glass.
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
 const makeItYours = document.querySelector('#make-it-yours');
 let wasComplete = null;
@@ -95,7 +94,6 @@ function renderProgress() {
   const suffix = complete ? '. The 911 is complete.' : state.activeDay === 'both' ? ' ready across both days' : ' ready';
   progressLabel.textContent = `${done} / ${total}${suffix}`;
   makeItYours.hidden = done === 0;
-  // The last tick of a day earns one short pop. Loads and day switches do not.
   if (complete && wasComplete === false && buildModel && !buildModel.classList.contains('no-anim')) {
     buildModel.classList.remove('is-done');
     void buildModel.getBoundingClientRect();
@@ -124,8 +122,6 @@ function cancelFlights() {
   flights.clear();
 }
 
-// A tick sends one plate from the tapped box to its slot. The count updates at once; only the part waits for
-// the landing. An untick or a day switch cancels it.
 function flyPart(part, source) {
   const from = source.getBoundingClientRect();
   const to = part.getBoundingClientRect();
@@ -153,7 +149,6 @@ function flyPart(part, source) {
   }, () => {});
 }
 
-// Day switches and page load show the new state at once. Only a tick animates.
 export function withoutModelMotion(render) {
   if (!buildModel) return render();
   buildModel.classList.add('no-anim');

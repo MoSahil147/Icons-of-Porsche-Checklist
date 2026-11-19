@@ -24,7 +24,6 @@ let engineVisible = true;
 let lastFrameTime = 0;
 let engineFrame = 0;
 
-// Distance from the crank axis to the piston pin, for a crank angle measured from top dead centre.
 function pistonDistance(degrees) {
   const a = degrees * Math.PI / 180;
   return ENGINE.crank * Math.cos(a) + Math.sqrt(ENGINE.rod ** 2 - (ENGINE.crank * Math.sin(a)) ** 2);
@@ -48,7 +47,6 @@ function drawEngine() {
     cylinder.pin.setAttribute('cy', crankPinY.toFixed(1));
     cylinder.crankThrow.setAttribute('y', Math.min(axis, crankPinY).toFixed(1));
     cylinder.crankThrow.setAttribute('height', Math.abs(crankPinY - axis).toFixed(1));
-    // The glow fills the space between the piston crown and the head, then fades as the piston moves in.
     const crownDistance = distance + crown;
     cylinder.glow.setAttribute('y', (cylinder.bank > 0 ? axis - headInner : axis + crownDistance).toFixed(1));
     cylinder.glow.setAttribute('height', Math.max(0, headInner - crownDistance).toFixed(1));

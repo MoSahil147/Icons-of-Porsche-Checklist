@@ -1,5 +1,3 @@
-// Pure helpers for the plan link and the paint swap. The page and `bun test` both import them.
-
 // Plan link: ?plan=1.<day>.<mask>[.<mask>] with one base-36 mask per day over this item order.
 // Append new items to the end only. Never rename, remove or reorder an id, or older links decode wrongly.
 export const PLAN_ITEMS = ['ticket', 'phone', 'power', 'shoes', 'travel', 'offline', 'young-icons', 'bag', 'water', 'payment', 'sun', 'layer', 'camera',

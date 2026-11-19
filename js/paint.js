@@ -23,8 +23,7 @@ export function applyPaint(animate = false) {
   if (animate) liftRows();
 }
 
-// Each plate row lifts and settles as its colour changes, from the base up. A new tap cancels the old lift;
-// the colour transitions retarget on their own.
+// A new tap cancels the old lift; the colour transitions retarget on their own.
 function liftRows() {
   if (reducedMotion.matches) return;
   rowLifts.forEach(lift => lift.cancel());
@@ -52,7 +51,6 @@ paintInputs.forEach(input => input.addEventListener('change', () => {
   scheduleStory();
 }));
 
-// Tooltip: mouse or pen hover, long press on touch, keyboard focus, and a short note after a tap.
 const paintTip = document.querySelector('#paint-tip');
 const paintSwatches = [...document.querySelectorAll('.swatch')];
 let tipTimer = 0;
