@@ -423,6 +423,7 @@ if ('IntersectionObserver' in window) {
 const root = document.documentElement;
 const heroImage = document.querySelector('.hero-model img');
 const paintInputs = [...document.querySelectorAll('.paint-picker input[name="paint"]')];
+let paintTicket = 0;
 const nameInput = document.querySelector('#builder-name');
 const storyFigure = document.querySelector('#story-figure');
 const storyHint = document.querySelector('#story-hint');
@@ -452,7 +453,10 @@ function paintHex(index = paintIndex) {
 }
 
 async function heroSVGText() {
-  heroSource ??= fetch(heroImage.currentSrc || heroImage.src).then(response => response.ok ? response.text() : Promise.reject(new Error(String(response.status))));
+  // A failed download is not kept, so the next tap tries again when the signal comes back.
+  heroSource ??= fetch(heroImage.currentSrc || heroImage.src)
+    .then(response => response.ok ? response.text() : Promise.reject(new Error(String(response.status))))
+    .catch(error => { heroSource = null; throw error; });
   return heroSource;
 }
 
@@ -461,10 +465,16 @@ async function applyPaint() {
   buildModel?.style.setProperty('--color-brick', hex);
   buildModel?.style.setProperty('--color-brick-edge', shade(hex, -0.45));
   paintInputs.forEach(input => { input.checked = Number(input.value) === paintIndex; });
+  // Fast taps can finish out of order: only the latest tap may change the hero.
+  const ticket = ++paintTicket;
   if (paintIndex === 0 && !heroUrl) return;
   try {
     const svg = paintedSVG(await heroSVGText(), hex);
     const next = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+    const probe = new Image();
+    probe.src = next;
+    await probe.decode().catch(() => {}); // swap a ready image; some Safari builds reject decode() for SVG
+    if (ticket !== paintTicket) { URL.revokeObjectURL(next); return; }
     const previous = heroUrl;
     heroUrl = next;
     heroImage.src = next;
@@ -660,14 +670,17 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
   }
 }
 
+let storyRun = 0;
 function scheduleStory() {
   // Drop the old image at once, so a fast tap never shares a card that no longer matches the list.
   storyFile = null;
   if (!storyVisible) return;
   clearTimeout(storyTimer);
+  const run = ++storyRun;
   storyTimer = setTimeout(async () => {
     try {
       const blob = await renderStory();
+      if (run !== storyRun) return; // a newer render is on its way
       storyFile = new File([blob], 'my-911-icons-of-porsche.png', { type: 'image/png' });
       const previous = storyUrl;
       storyUrl = URL.createObjectURL(blob);
@@ -809,4 +822,5 @@ renderCategoryButtons();
 renderCategoryView();
 withoutModelMotion(renderChecklist);
 updateStorageStatus();
+applyPaint();
 showCrankAngle(drawEngine());
