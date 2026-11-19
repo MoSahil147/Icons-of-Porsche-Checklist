@@ -314,6 +314,8 @@ html:not(.js) .spec { display: none; }
   .ticket-link { margin-left: auto; }
 }
 @media (max-width: 40rem) {
+  /* Two-line lockup (Icons of Porsche / Checklist) so the ticket link fits beside it and the header stays two rows. */
+  .brand span { max-width: 8em; }
   .hero { padding-top: var(--space-lg); }
   .hero-model { margin-top: var(--space-lg); }
   .dimension-label { font-size: var(--text-xs); }
