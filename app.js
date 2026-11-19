@@ -28,6 +28,7 @@ const PAINTS = [
 let paintIndex = 0;
 let builderName = '';
 let storageAvailable = true;
+let offlineReady = false;
 let activeDay = 'sat';
 let activeCategory = 'pack';
 let progress = emptyProgress();
@@ -80,7 +81,7 @@ function readSavedState() {
 
 function updateStorageStatus() {
   storageStatus.textContent = storageAvailable
-    ? 'Your progress stays on this device and comes back after a refresh. No account needed.'
+    ? `Your progress stays on this device and comes back after a refresh. No account needed.${offlineReady ? ' This page also opens with no signal now.' : ''}`
     : 'Browser storage is unavailable. Your ticks stay until you close or refresh this page.';
 }
 
@@ -176,9 +177,8 @@ function renderChecklist() {
   renderProgress();
 }
 
+// The tabs only show on narrow screens; CSS decides that width (53.75rem), so it follows the text size too.
 function renderCategoryView() {
-  const mobile = window.matchMedia('(max-width: 860px)').matches;
-  checklistGrid.classList.toggle('is-category-mobile', mobile);
   checklistGrid.classList.toggle('show-pack', activeCategory === 'pack');
   checklistGrid.classList.toggle('show-collect', activeCategory === 'collect');
 }
@@ -689,6 +689,7 @@ function scheduleStory() {
       saveStoryLink.href = storyUrl;
       if (previous) setTimeout(() => URL.revokeObjectURL(previous), 1000);
     } catch {
+      if (run !== storyRun) return; // a newer render is on its way
       storyFile = null;
       shareStatus.textContent = 'The story image could not be made in this browser.';
     }
@@ -877,10 +878,9 @@ nameInput.addEventListener('input', () => {
 
 if ('IntersectionObserver' in window) {
   new IntersectionObserver(entries => {
-    if (entries.some(entry => entry.isIntersecting) && !storyVisible) {
-      storyVisible = true;
-      scheduleStory();
-    }
+    // Render only while the preview is near the screen; ticks elsewhere no longer re-encode the PNG.
+    storyVisible = entries.some(entry => entry.isIntersecting);
+    if (storyVisible) scheduleStory();
   }, { rootMargin: '200px' }).observe(storyFigure);
 } else {
   storyVisible = true;
@@ -894,11 +894,10 @@ else if (location.search.includes('plan=')) clearPlanParams();
 if ('serviceWorker' in navigator && window.isSecureContext) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js')
     .then(() => navigator.serviceWorker.ready)
-    .then(() => { if (storageAvailable) storageStatus.textContent += ' This page also opens with no signal now.'; })
+    .then(() => { offlineReady = true; updateStorageStatus(); })
     .catch(() => {}));
 }
 
-window.addEventListener('resize', renderCategoryView);
 
 readSavedState();
 renderDayButtons();

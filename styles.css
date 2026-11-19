@@ -295,8 +295,8 @@ html:not(.js) .spec { display: none; }
   .category-button { flex: 1; min-height: 44px; border: 0; border-radius: 7px; background: transparent; color: var(--color-ink-2); font-weight: 600; cursor: pointer; transition: background-color 150ms ease, color 150ms ease; }
   .category-button.is-active { background: var(--color-ink); color: var(--color-paper-2); }
   .checklist-grid { grid-template-columns: minmax(0, 1fr); }
-  .checklist-grid.is-category-mobile.show-pack > .collect-column,
-  .checklist-grid.is-category-mobile.show-collect > .check-column:not(.collect-column) { display: none; }
+  .checklist-grid.show-pack > .collect-column,
+  .checklist-grid.show-collect > .check-column:not(.collect-column) { display: none; }
 }
 @media (max-width: 40rem) {
   .topbar { flex-wrap: wrap; gap: 0 var(--space-md); padding-block: var(--space-xs); }
