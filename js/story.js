@@ -161,13 +161,16 @@ async function renderStory() {
 async function renderStoryHTML(svg, done, total, complete, hex) {
   const carUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
   const canvas = document.createElement('canvas');
-  // layoutsubtree lays out the canvas children; without it they are fallback content and draw as nothing.
+  // Shipping Chrome requires content=drawable (it throws without it); the WICG explainer names layoutsubtree.
+  // Set both, so either form lays out the children instead of treating them as fallback content.
+  canvas.setAttribute('content', 'drawable');
   canvas.setAttribute('layoutsubtree', '');
   canvas.width = 1080;
   canvas.height = 1920;
   canvas.className = 'story-canvas';
   const card = document.createElement('div');
   card.className = 'story-card';
+  card.setAttribute('drawable', '');
   card.style.setProperty('--paint', hex);
   card.style.setProperty('--paint-edge', shade(hex, -0.45));
   const line = (tag, cls, text) => { const el = document.createElement(tag); el.className = cls; el.textContent = text; return el; };
@@ -193,13 +196,17 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
       const timer = setTimeout(() => reject(new Error('no paint')), 2000);
       canvas.onpaint = () => {
         clearTimeout(timer);
-        const context = canvas.getContext('2d');
-        context.reset();
-        // Paper first: a share target shows transparent pixels as black.
-        context.fillStyle = '#dbebf5';
-        context.fillRect(0, 0, 1080, 1920);
-        context.drawElementImage(card, 0, 0);
-        resolve();
+        try {
+          const context = canvas.getContext('2d');
+          context.reset();
+          // Paper first: a share target shows transparent pixels as black.
+          context.fillStyle = '#dbebf5';
+          context.fillRect(0, 0, 1080, 1920);
+          context.drawElementImage(card, 0, 0);
+          resolve();
+        } catch (error) {
+          reject(error); // a throw inside the paint event must reach the fallback, not the console
+        }
       };
       canvas.requestPaint?.();
     });
