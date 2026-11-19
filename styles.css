@@ -71,6 +71,13 @@ html:not(.js) .hero-paint { display: none; }
 .swatch:active .swatch-plate { transform: scale(0.92); }
 .swatch:has(input:checked) { background: var(--color-paper-2); box-shadow: inset 0 0 0 2px var(--color-ink); }
 .swatch:has(input:focus-visible) { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.swatch { -webkit-touch-callout: none; }
+/* Paint detail: one shared tooltip over the swatch row. It floats, so the layout never moves. */
+.hero-paint { position: relative; }
+.paint-tip { position: absolute; z-index: var(--z-tooltip); left: 0; bottom: calc(100% + var(--space-xs)); max-width: min(320px, 100%); margin: 0; padding: var(--space-xs) var(--space-sm); border-radius: 8px; background: var(--color-ink); color: var(--color-paper-2); font-size: var(--text-sm); line-height: 1.4; pointer-events: none; transform-origin: var(--tip-origin, 50%) 100%; transition: opacity 125ms var(--ease-out), transform 125ms var(--ease-out); }
+.paint-tip b { display: block; }
+.paint-tip.is-hidden { opacity: 0; transform: scale(0.97); }
+.paint-tip.is-instant { transition-duration: 0ms; }
 .dimension { display: grid; justify-items: center; gap: var(--space-2xs); }
 .ruler { display: block; width: 100%; height: clamp(20px, 3vw, 40px); }
 .ruler path { fill: none; stroke: var(--color-ink); stroke-width: 1px; vector-effect: non-scaling-stroke; }

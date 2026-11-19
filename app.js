@@ -779,6 +779,90 @@ copyPlanButton.addEventListener('click', () => {
     ?? (shareStatus.textContent = `Copy this link: ${url}`);
 });
 
+// Paint detail tooltip: mouse or pen hover, long press on touch, keyboard focus, and a short note after a tap.
+const paintTip = document.querySelector('#paint-tip');
+const paintSwatches = [...document.querySelectorAll('.swatch')];
+let tipTimer = 0;
+let tipHideTimer = 0;
+let tipOpen = false;
+let pressTimer = 0;
+let longPressed = null;
+let lastPointer = '';
+
+function showTip(swatch, delay = 0) {
+  clearTimeout(tipTimer);
+  clearTimeout(tipHideTimer);
+  const open = () => {
+    const name = swatch.querySelector('.visually-hidden').textContent;
+    const bold = document.createElement('b');
+    bold.textContent = name;
+    paintTip.replaceChildren(bold, swatch.dataset.detail);
+    // After the first tooltip, the next one opens at once (no delay, no animation).
+    paintTip.classList.toggle('is-instant', tipOpen);
+    paintTip.hidden = false;
+    const row = paintTip.parentElement.getBoundingClientRect();
+    const box = swatch.getBoundingClientRect();
+    const width = paintTip.offsetWidth;
+    const left = Math.min(Math.max(0, box.left - row.left + box.width / 2 - width / 2), row.width - width);
+    paintTip.style.left = `${left}px`;
+    paintTip.style.bottom = `${row.bottom - box.top + 8}px`;
+    paintTip.style.setProperty('--tip-origin', `${box.left - row.left + box.width / 2 - left}px`);
+    if (!tipOpen) { paintTip.classList.add('is-hidden'); void paintTip.offsetWidth; }
+    paintTip.classList.remove('is-hidden');
+    swatch.querySelector('input').setAttribute('aria-describedby', 'paint-tip');
+    tipOpen = true;
+  };
+  // Only the first hover waits. Taps, focus and moves between swatches open at once.
+  if (delay && !tipOpen) tipTimer = setTimeout(open, delay);
+  else open();
+}
+
+function hideTip(after = 0) {
+  clearTimeout(tipTimer);
+  clearTimeout(tipHideTimer);
+  tipHideTimer = setTimeout(() => {
+    paintTip.classList.add('is-hidden');
+    paintSwatches.forEach(swatch => swatch.querySelector('input').removeAttribute('aria-describedby'));
+    tipOpen = false;
+    setTimeout(() => { if (!tipOpen) paintTip.hidden = true; }, 150);
+  }, after);
+}
+
+paintSwatches.forEach(swatch => {
+  swatch.addEventListener('pointerenter', event => { if (event.pointerType !== 'touch') showTip(swatch, 300); });
+  swatch.addEventListener('pointerleave', event => { if (event.pointerType !== 'touch') hideTip(80); });
+  swatch.addEventListener('pointerdown', event => {
+    lastPointer = event.pointerType;
+    if (event.pointerType !== 'touch') return;
+    longPressed = null;
+    pressTimer = setTimeout(() => { showTip(swatch); longPressed = swatch; }, 450);
+  });
+  for (const type of ['pointerup', 'pointercancel', 'pointermove']) {
+    swatch.addEventListener(type, event => {
+      if (event.pointerType !== 'touch') return;
+      if (type === 'pointermove' && Math.hypot(event.movementX, event.movementY) < 4) return;
+      clearTimeout(pressTimer);
+    });
+  }
+  // A long press only shows the details. The tap that ends it must not change the paint.
+  swatch.addEventListener('click', event => {
+    if (longPressed === swatch) {
+      event.preventDefault();
+      longPressed = null;
+      hideTip(1500);
+      return;
+    }
+    // On touch there is no hover, so a tap shows the details of the paint for a moment.
+    if (lastPointer === 'touch') { showTip(swatch); hideTip(2500); }
+  });
+  const input = swatch.querySelector('input');
+  input.addEventListener('focus', () => { if (input.matches(':focus-visible')) showTip(swatch); });
+  input.addEventListener('blur', () => hideTip());
+});
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && tipOpen) hideTip(); });
+// A scroll closes an open hover tooltip, but not one that keyboard focus opened (focus itself can scroll the page).
+window.addEventListener('scroll', () => { if (tipOpen && !paintTip.parentElement.contains(document.activeElement)) hideTip(); }, { passive: true });
+
 paintInputs.forEach(input => input.addEventListener('change', () => {
   paintIndex = Number(input.value);
   saveState();
