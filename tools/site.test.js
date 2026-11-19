@@ -63,7 +63,7 @@ describe('scroll rail', () => {
 
   test('eight paint layers in Porsche order, one per eighth of the page', () => {
     const rail = html.slice(html.indexOf('class="rail-car"'));
-    expect([...rail.matchAll(/<svg data-paint="([a-z-]+)" style="--n:(\d)"/g)].map(match => `${match[2]}${match[1]}`)).toEqual(
+    expect([...rail.matchAll(/<span class="rail-coat" data-paint="([a-z-]+)" style="--n:(\d)"/g)].map(match => `${match[2]}${match[1]}`)).toEqual(
       ['guards-red', 'racing-yellow', 'irish-green', 'miami-blue', 'lava-orange', 'chalk', 'carrara-white', 'carmine-red'].map((paint, i) => `${i}${paint}`));
   });
 });
