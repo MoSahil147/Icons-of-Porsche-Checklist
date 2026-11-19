@@ -559,7 +559,7 @@ async function renderStory() {
     Promise.all(['800 120px "League Spartan"', '600 40px "Onest"', '400 34px "Onest"'].map(font => document.fonts.load(font))),
     new Promise(resolve => setTimeout(resolve, 1500))
   ]);
-  if ('content' in HTMLCanvasElement.prototype) {
+  if ('drawElementImage' in CanvasRenderingContext2D.prototype) {
     try { return await renderStoryHTML(svg, done, total, complete, hex); } catch { /* fall back to the drawn version */ }
   }
   const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
@@ -629,19 +629,20 @@ async function renderStory() {
   return blob;
 }
 
-// The same card laid out in HTML and CSS, drawn with drawElementImage (HTML-in-Canvas, Chrome and Edge 157+).
+// The same card laid out in HTML and CSS, drawn with drawElementImage (HTML-in-Canvas: Chromium behind a flag or an
+// origin trial; WICG explainer, github.com/WICG/html-in-canvas).
 // Real text layout: wrapping, any script and the page fonts. Times out to the drawn fallback.
 async function renderStoryHTML(svg, done, total, complete, hex) {
   const dayText = activeDay === 'both' ? 'Saturday and Sunday' : dayNames[activeDay];
   const carUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
   const canvas = document.createElement('canvas');
-  canvas.setAttribute('content', 'drawable');
+  // layoutsubtree lays out the canvas children; without it they are fallback content and draw as nothing.
+  canvas.setAttribute('layoutsubtree', '');
   canvas.width = 1080;
   canvas.height = 1920;
   canvas.className = 'story-canvas';
   const card = document.createElement('div');
   card.className = 'story-card';
-  card.setAttribute('drawable', '');
   card.style.setProperty('--paint', hex);
   card.style.setProperty('--paint-edge', shade(hex, -0.45));
   const line = (tag, cls, text) => { const el = document.createElement(tag); el.className = cls; el.textContent = text; return el; };
@@ -670,6 +671,9 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
         clearTimeout(timer);
         const context = canvas.getContext('2d');
         context.reset();
+        // Paper first: a share target shows transparent pixels as black.
+        context.fillStyle = '#dbebf5';
+        context.fillRect(0, 0, 1080, 1920);
         context.drawElementImage(card, 0, 0);
         resolve();
       };
