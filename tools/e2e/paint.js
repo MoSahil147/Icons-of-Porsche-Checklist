@@ -27,6 +27,17 @@ export default async function ({ browser, url }) {
   assert.equal((await rowFills(page)).at(-1), BLUE, 'paint survives reload');
   await page.done();
 
+  // A long press on touch shows the details and does not change the paint.
+  page = await open(browser, url);
+  const box = await page.$eval('.swatch[data-paint="chalk"]', el => { const r = el.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 }; });
+  await page.touchscreen.touchStart(box.x, box.y);
+  await wait(600);
+  assert.match(await page.$eval('#paint-tip', el => el.hidden ? '' : el.textContent), /^Chalk/);
+  await page.touchscreen.touchEnd();
+  await wait(100);
+  assert.equal(await page.$eval('.swatch input[value="5"]', el => el.checked), false, 'long press keeps the paint');
+  await page.done();
+
   page = await open(browser, url, { reduce: true });
   await page.click('.swatch input[value="1"]');
   await wait(40);

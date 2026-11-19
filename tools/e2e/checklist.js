@@ -32,12 +32,26 @@ export default async function ({ browser, url }) {
   await page.click('.day-button[data-day="both"]');
   assert.match(await label(page), /^2 \/ 46 ready across both days/);
   assert.equal(await page.$eval('.day-item-controls', el => el.hidden), false);
+  await page.click('#day-controls-water .day-item-button[data-day="sun"]');
+  assert.match(await label(page), /^3 \/ 46/);
+  await page.click('#day-controls-water .day-item-button[data-day="sun"]');
   await page.click('.day-button[data-day="sat"]');
+
+  // On a phone the two lists are tabs.
+  assert.equal(await page.$eval('.collect-column', el => getComputedStyle(el).display), 'none');
+  await page.click('.category-button[data-category="collect"]');
+  assert.notEqual(await page.$eval('.collect-column', el => getComputedStyle(el).display), 'none');
+  await page.click('.category-button[data-category="pack"]');
 
   // Ticks survive a reload.
   await page.reload({ waitUntil: 'networkidle0' });
   assert.match(await label(page), /^2 \/ 23/);
   assert.equal(JSON.parse(await page.evaluate(key => localStorage.getItem(key), STORAGE_KEY)).sat.ticket, true);
+
+  // The last tick completes the 911.
+  await page.evaluate(() => document.querySelectorAll('.check-row input').forEach(input => { if (!input.checked) input.click(); }));
+  assert.match(await label(page), /^23 \/ 23\. The 911 is complete\./);
+  assert.equal(await page.$eval('.build-model', el => el.classList.contains('is-done')), true);
 
   // Reset asks first, then clears this day.
   await page.click('#reset-button');

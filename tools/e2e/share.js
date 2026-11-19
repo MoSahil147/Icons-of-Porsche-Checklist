@@ -36,6 +36,11 @@ export default async function ({ browser, url }) {
   assert.match(await page.$eval('#progress-label', el => el.textContent), /^0 \/ 23/);
   await page.done();
 
+  page = await open(browser, link);
+  await page.click('#plan-dismiss');
+  assert.deepEqual(await page.evaluate(() => [document.querySelector('#plan-banner').hidden, location.search]), [true, '']);
+  await page.done();
+
   page = await open(browser, `${url}?plan=1.sat.12-x&by=%E2%80%AEx`);
   assert.deepEqual(await page.evaluate(() => [document.querySelector('#plan-banner').hidden, location.search]), [true, '']);
   await page.done();
