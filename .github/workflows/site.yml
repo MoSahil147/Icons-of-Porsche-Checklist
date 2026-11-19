@@ -1,0 +1,56 @@
+name: Site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Validate index.html
+        run: bunx --bun html-validate@11.21.1 index.html
+
+      - name: Check that app.js parses
+        run: bun build ./app.js --outdir "$RUNNER_TEMP/app-check"
+
+      - name: Check that the brick 911 matches its generator
+        run: |
+          bun tools/build-car.js
+          git diff --exit-code -- sports-car.svg index.html
+
+      - name: Stage the site files only
+        run: |
+          mkdir _site
+          cp index.html styles.css tokens.css base.css app.js sports-car.svg _site/
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v6
+      - id: deployment
+        uses: actions/deploy-pages@v5
