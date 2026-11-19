@@ -20,6 +20,12 @@ jobs:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
 
+      - name: Install the test tools
+        run: bun install --frozen-lockfile
+
+      - name: Check for em dashes, en dashes and emoji
+        run: bun tools/check-text.js
+
       - name: Validate index.html
         run: bunx --bun html-validate@11.21.1 index.html
 
@@ -29,6 +35,11 @@ jobs:
 
       - name: Test the plan link, paint swap and site files
         run: bun test
+
+      - name: Run the browser journeys and axe in Chrome
+        run: |
+          CHROME_PATH="$(command -v google-chrome)" || { echo "::error::google-chrome is not on this runner"; exit 1; }
+          CHROME_PATH="$CHROME_PATH" bun run e2e
 
       - name: Check that the brick 911 matches its generator
         run: |

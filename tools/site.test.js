@@ -2,6 +2,7 @@
 import { describe, expect, test } from 'bun:test';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { PLAN_ITEMS, RETIRED_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, paintedSVG } from '../plan.js';
+import { findProblems } from './check-text.js';
 
 const root = new URL('..', import.meta.url).pathname;
 const read = path => readFileSync(root + path, 'utf8');
@@ -121,5 +122,14 @@ describe('site files', () => {
       const match = html.match(new RegExp(`(?:property|name)="${tag}" content="([^"]+)"`));
       expect(match?.[1], tag).toStartWith('https://');
     }
+  });
+});
+
+describe('text check', () => {
+  test('finds em dashes, en dashes and emoji, and passes plain text and legal marks', () => {
+    const names = text => findProblems(text).map(problem => problem.name);
+    expect(names('one \u2014 two \u2013 three \u{1F697}')).toEqual(['em dash', 'en dash', 'emoji']);
+    expect(names('Porsche\u00ae 911, 9 - 11, \u00a9 2026')).toEqual([]);
+    expect(findProblems('a\nb \u2014')[0]).toEqual({ line: 2, column: 3, name: 'em dash' });
   });
 });
