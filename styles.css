@@ -356,7 +356,8 @@ html:not(.js) .spec { display: none; }
 @supports (animation-timeline: scroll()) {
   @media (min-width: 53.75rem) and (prefers-reduced-motion: no-preference) {
     .scroll-rail { display: block; position: fixed; z-index: var(--z-sticky); inset: var(--space-lg) 2px var(--space-xs) auto; width: 20px; pointer-events: none; background: linear-gradient(var(--color-rule), var(--color-rule)) 50% 0 / 2px 100% no-repeat; }
-    .rail-car { position: absolute; top: 0; left: 0; width: 20px; height: 69px; filter: drop-shadow(0 0 0.75px var(--color-ink)); animation: rail-drive linear both; animation-timeline: scroll(root); }
+    /* A 1px dark ring, then a 1px light ring: one of the two reads on any page colour (WCAG 1.4.11). */
+    .rail-car { position: absolute; top: 0; left: 0; width: 20px; height: 69px; --ring: var(--color-ink); --halo: var(--color-paper-2); filter: drop-shadow(1px 0 var(--ring)) drop-shadow(-1px 0 var(--ring)) drop-shadow(0 1px var(--ring)) drop-shadow(0 -1px var(--ring)) drop-shadow(1px 0 var(--halo)) drop-shadow(-1px 0 var(--halo)) drop-shadow(0 1px var(--halo)) drop-shadow(0 -1px var(--halo)); animation: rail-drive linear both; animation-timeline: scroll(root); }
     /* Each paint wipes on over the one below it, from the wheels (the car base) to the roof, in brick-row steps.
        The wipe takes 3% of the page, centred on each eighth. The coat slides in and its car slides back the same
        distance, so the car stands still while the coat's edge sweeps across it: a wipe with transforms only. */
