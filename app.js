@@ -121,7 +121,8 @@ function addDayControls(input) {
     button.className = 'day-item-button';
     button.dataset.day = day;
     button.textContent = shortName;
-    button.setAttribute('aria-label', `${dayNames[day]}: ${itemName}`);
+    // The name starts with the visible text (WCAG 2.5.3), so voice control can say "Sat".
+    button.setAttribute('aria-label', `${shortName}, ${itemName}`);
     button.setAttribute('aria-pressed', 'false');
     button.addEventListener('click', () => {
       progress[day][input.dataset.item] = !progress[day][input.dataset.item];
