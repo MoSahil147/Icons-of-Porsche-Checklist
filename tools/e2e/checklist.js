@@ -60,6 +60,17 @@ export default async function ({ browser, url }) {
   assert.match(await label(page), /^0 \/ 23/);
   await page.done();
 
+  // Reduced motion: the part fades in, no plate flies.
+  page = await open(browser, url, { reduce: true });
+  await page.evaluate(() => { const row = document.querySelectorAll('#pack-list li')[3]; scrollTo(0, row.getBoundingClientRect().top + scrollY - 400); });
+  await tick(page, 0);
+  await wait(300);
+  await tick(page, 3);
+  await wait(60);
+  assert.equal(await page.$$eval('.pm-solid .is-built', parts => parts.length), 3, 'the plate is built');
+  assert.equal(await page.$$eval('.flyer', flyers => flyers.length), 0);
+  await page.done();
+
   // A corrupt store is ignored; blocked storage still lets the visitor tick.
   page = await open(browser, url, { setup: () => { if (!sessionStorage.getItem('corrupt')) { sessionStorage.setItem('corrupt', '1'); localStorage.setItem('brick-by-brick-iop26-v1', '{"sat":{"ticket":"yes","phone":true},"sun":[1],"activeDay":"mars"}'); } } });
   await page.reload({ waitUntil: 'networkidle0' });

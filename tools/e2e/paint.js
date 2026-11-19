@@ -10,6 +10,8 @@ export default async function ({ browser, url }) {
   let page = await open(browser, url);
   assert.ok(await page.$eval('.hero-paint', el => el.getBoundingClientRect().top < innerHeight), 'picker on the first screen');
   await page.click('.swatch input[value="3"]');
+  // The car settles as one model: the body sways once and each wheel rolls with it.
+  assert.deepEqual(await page.evaluate(() => [document.querySelector('.hero-car .hc-body').getAnimations().length, ...[...document.querySelectorAll('.hero-car .hc-wheel')].map(wheel => wheel.getAnimations().length)]), [1, 1, 1]);
   await wait(230);
   const mid = await rowFills(page);
   assert.equal(mid[0], BLUE, 'the base row repaints first');

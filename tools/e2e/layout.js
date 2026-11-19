@@ -17,10 +17,12 @@ export default async function ({ browser, url }) {
         overflow: document.documentElement.scrollWidth > innerWidth,
         swatchBottom: document.querySelector('.swatch').getBoundingClientRect().bottom,
         headerRows: rows,
+        treads: [...document.querySelectorAll('.track')].filter(el => el.getClientRects().length).every(el => getComputedStyle(el).backgroundImage.includes('url(')),
         doubled: [...document.querySelectorAll('.track')].flatMap(t => [t, t.closest('a')]).filter(e => e && getComputedStyle(e).textDecorationLine.includes('underline')).map(e => e.className || e.tagName)
       };
     });
     assert.equal(m.overflow, false, `no sideways scroll at ${width}px`);
+    assert.ok(m.treads, `every visible tyre-mark link draws its tread at ${width}px`);
     assert.deepEqual(m.doubled, [], `no plain underline under a tyre mark at ${width}px`);
     if (width === 360) {
       assert.ok(m.headerRows <= 2, `header stays two rows at 360 x 660 (got ${m.headerRows})`);
