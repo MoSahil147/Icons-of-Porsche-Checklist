@@ -549,47 +549,57 @@ async function renderStory() {
   c.fillRect(0, 0, 1080, 1920);
   c.fillStyle = ink;
   c.textBaseline = 'alphabetic';
+  // Layout bands, all inside y 270 to 1536 (Instagram covers the top and bottom).
   fitText(c, `${done} / ${total}`, '800', width, 230);
-  c.fillText(`${done} / ${total}`, left, 500);
+  c.fillText(`${done} / ${total}`, left, 470);
   const dayText = activeDay === 'both' ? 'Saturday and Sunday' : dayNames[activeDay];
   const countLine = complete ? `items ready. ${dayText}'s 911 is complete.` : `items ready for ${dayText}.`;
   fitText(c, countLine, '600', width, 52);
-  c.fillText(countLine, left, 580);
+  c.fillText(countLine, left, 545);
   const carWidth = 1000, carHeight = carWidth * car.naturalHeight / car.naturalWidth;
-  c.drawImage(car, 40, 760 - carHeight / 2 + 60, carWidth, carHeight);
+  c.drawImage(car, 40, 740 - carHeight / 2, carWidth, carHeight);
   // The parts call-out: the paint as a 1x2 plate, like the box in a building step.
-  const boxY = 1060;
+  const boxY = 900;
   c.lineWidth = 6;
   c.strokeStyle = ink;
   c.beginPath();
-  c.roundRect(left, boxY, width, 210, 18);
+  c.roundRect(left, boxY, width, 180, 18);
   c.stroke();
   c.fillStyle = hex;
   c.strokeStyle = shade(hex, -0.45);
   c.lineWidth = 4;
-  c.beginPath(); c.roundRect(left + 40, boxY + 92, 150, 76, 8); c.fill(); c.stroke();
-  for (const x of [left + 77, left + 152]) { c.beginPath(); c.roundRect(x - 26, boxY + 64, 52, 30, 6); c.fill(); c.stroke(); }
+  c.beginPath(); c.roundRect(left + 40, boxY + 78, 150, 70, 8); c.fill(); c.stroke();
+  for (const x of [left + 77, left + 152]) { c.beginPath(); c.roundRect(x - 26, boxY + 52, 52, 28, 6); c.fill(); c.stroke(); }
   c.fillStyle = ink;
   fitText(c, `1x ${PAINTS[paintIndex][1]}`, '800', width - 260, 60);
-  c.fillText(`1x ${PAINTS[paintIndex][1]}`, left + 230, boxY + 115);
+  c.fillText(`1x ${PAINTS[paintIndex][1]}`, left + 230, boxY + 95);
   c.fillStyle = muted;
   fitText(c, '911 Carrera (992), 1:12, brick-built', '400', width - 260, 34);
-  c.fillText('911 Carrera (992), 1:12, brick-built', left + 230, boxY + 165);
+  c.fillText('911 Carrera (992), 1:12, brick-built', left + 230, boxY + 145);
   if (builderName) {
     c.fillStyle = ink;
-    fitText(c, `Built by ${builderName}`, '800', width, 72);
-    c.fillText(`Built by ${builderName}`, left, 1385);
+    fitText(c, `Built by ${builderName}`, '800', width, 64);
+    c.fillText(`Built by ${builderName}`, left, 1160);
   }
+  // Link slot: room for the Instagram link sticker. Without a sticker, the address still reads as the link.
+  const slotY = 1200;
+  c.setLineDash([18, 12]);
+  c.lineWidth = 4;
+  c.strokeStyle = muted;
+  c.beginPath();
+  c.roundRect(left, slotY, 720, 130, 65);
+  c.stroke();
+  c.setLineDash([]);
+  c.fillStyle = ink;
+  const address = (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
+  fitText(c, address, '600', 620, 34);
+  c.fillText(address, left + 50, slotY + 77);
   c.fillStyle = ink;
   fitText(c, 'Icons of Porsche, Dubai, 21 to 22 November 2026', '600', width, 38);
-  c.fillText('Icons of Porsche, Dubai, 21 to 22 November 2026', left, 1460);
+  c.fillText('Icons of Porsche, Dubai, 21 to 22 November 2026', left, 1415);
   c.fillStyle = muted;
   fitText(c, 'A fan-made guide, not an official Porsche page.', '400', width, 30);
-  c.fillText('A fan-made guide, not an official Porsche page.', left, 1560);
-  c.fillStyle = muted;
-  const address = (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
-  fitText(c, address, '400', width, 32);
-  c.fillText(address, left, 1512);
+  c.fillText('A fan-made guide, not an official Porsche page.', left, 1470);
   const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
   if (!blob) throw new Error('The story image could not be exported.');
   return blob;
@@ -622,8 +632,8 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
     line('p', 'story-line', complete ? `items ready. ${dayText}'s 911 is complete.` : `items ready for ${dayText}.`),
     img, callout,
     ...(builderName ? [line('p', 'story-name', `Built by ${builderName}`)] : []),
+    line('p', 'story-link', address),
     line('p', 'story-event', 'Icons of Porsche, Dubai, 21 to 22 November 2026'),
-    line('p', 'story-small', address),
     line('p', 'story-small', 'A fan-made guide, not an official Porsche page.')
   );
   canvas.append(card);
