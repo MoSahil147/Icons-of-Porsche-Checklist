@@ -13,6 +13,8 @@
 /* Hallmark · dropped engineDark, engineMetal, enginePipe, engineRed, left-cylinder, right-cylinder · internal SVG defs of the old engine drawing, which the new drawing replaces */
 
 html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* Anchor links glide to their section. Reduced motion keeps the instant jump (base.css sets auto). */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body { font-size: 1.0625rem; }
 /* viewport-fit=cover paints edge to edge; content keeps clear of the notch in landscape. */
 .container { padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)) max(var(--gutter), env(safe-area-inset-right, 0px)); }
