@@ -33,6 +33,34 @@ button { user-select: none; -webkit-user-select: none; }
 .text-button:active { transform: translateY(1px); }
 .text-link, .footer-brand { display: inline-flex; align-items: center; min-height: 44px; }
 .text-link { font-weight: 600; color: var(--color-accent-deep); }
+/* Links that take you somewhere leave a tyre mark: a V tread pointing the way the car drives. Each chevron is
+   hand-roughed (its own angles, tip and thickness), so it reads as rubber, not a ruled pattern; none is erased.
+   Buttons keep a straight underline, so the mark always means "this goes somewhere". A background, not a
+   pseudo-element, so the mark follows a link that wraps. The tile holds 7 chevrons on a 0.26em pitch. An image
+   cannot use currentColor, so there is one tile per link colour: ink #162232 and accent-deep #9e0019. */
+.track {
+  --track-h: 0.3em;
+  --roll: 0em;
+  --tread: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 182 30' preserveAspectRatio='none'><g fill='%23162232'><polygon points='4.1,0.9 9.4,1.6 13.9,-0.3 20.3,8.9 25.6,17.5 18.1,24.9 11.8,29.9 8.8,28.8 3.6,29.2 10.3,24.1 16.9,18.2 10.6,9.2'/><polygon points='28.2,0.3 31.5,-1.5 36.7,-0.8 42.4,8.3 47.4,17.7 42.5,24.6 37.0,30.8 34.2,29.0 29.5,29.6 33.9,23.1 40.2,18.5 35.1,10.5'/><polygon points='56.7,0.4 60.5,1.3 64.8,0.2 70.3,7.9 76.8,13.3 69.5,22.5 64.0,29.5 61.0,29.2 56.3,30.3 61.5,21.5 68.1,13.0 62.2,6.5'/><polygon points='81.9,0.1 87.2,-0.5 91.2,-0.7 94.8,6.5 99.7,14.5 96.6,23.3 91.9,30.6 88.1,31.1 82.6,29.4 87.2,23.2 90.2,14.3 85.4,6.4'/><polygon points='108.7,0.8 112.8,0.9 115.6,0.1 119.7,6.4 126.5,14.4 121.3,20.9 117.9,29.2 112.9,29.7 108.8,29.5 112.8,20.9 118.0,14.3 112.5,7.5'/><polygon points='131.1,-0.2 135.1,0.5 141.5,0.7 146.6,9.7 151.6,17.4 145.1,22.4 141.2,30.0 135.5,30.8 131.7,29.7 137.0,23.2 141.9,16.5 137.4,9.3'/><polygon points='159.5,-0.5 164.0,0.5 167.8,-0.6 174.6,6.2 179.5,13.2 172.3,21.6 167.5,29.6 163.1,31.0 160.1,29.7 165.4,20.3 171.9,13.5 166.7,5.5'/></g></svg>");
+  text-decoration: none;
+  padding-bottom: calc(var(--track-h) + 0.05em);
+  /* In a flex link the span is a block: this keeps its text centred where it was. No effect on inline links. */
+  margin-bottom: calc(-1 * (var(--track-h) + 0.05em));
+  background-image: var(--tread);
+  background-size: 1.82em var(--track-h);
+  background-position: var(--roll) 100%;
+  background-repeat: round no-repeat; /* whole tiles only, so no link ends on half a chevron */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+a.track, .text-link .track { --tread: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 182 30' preserveAspectRatio='none'><g fill='%239e0019'><polygon points='4.1,0.9 9.4,1.6 13.9,-0.3 20.3,8.9 25.6,17.5 18.1,24.9 11.8,29.9 8.8,28.8 3.6,29.2 10.3,24.1 16.9,18.2 10.6,9.2'/><polygon points='28.2,0.3 31.5,-1.5 36.7,-0.8 42.4,8.3 47.4,17.7 42.5,24.6 37.0,30.8 34.2,29.0 29.5,29.6 33.9,23.1 40.2,18.5 35.1,10.5'/><polygon points='56.7,0.4 60.5,1.3 64.8,0.2 70.3,7.9 76.8,13.3 69.5,22.5 64.0,29.5 61.0,29.2 56.3,30.3 61.5,21.5 68.1,13.0 62.2,6.5'/><polygon points='81.9,0.1 87.2,-0.5 91.2,-0.7 94.8,6.5 99.7,14.5 96.6,23.3 91.9,30.6 88.1,31.1 82.6,29.4 87.2,23.2 90.2,14.3 85.4,6.4'/><polygon points='108.7,0.8 112.8,0.9 115.6,0.1 119.7,6.4 126.5,14.4 121.3,20.9 117.9,29.2 112.9,29.7 108.8,29.5 112.8,20.9 118.0,14.3 112.5,7.5'/><polygon points='131.1,-0.2 135.1,0.5 141.5,0.7 146.6,9.7 151.6,17.4 145.1,22.4 141.2,30.0 135.5,30.8 131.7,29.7 137.0,23.2 141.9,16.5 137.4,9.3'/><polygon points='159.5,-0.5 164.0,0.5 167.8,-0.6 174.6,6.2 179.5,13.2 172.3,21.6 167.5,29.6 163.1,31.0 160.1,29.7 165.4,20.3 171.9,13.5 166.7,5.5'/></g></svg>"); }
+/* The outer link of a track span must not also draw the straight underline. A track span in a flex link is a
+   block, so it draws under its last line only: keep these short labels on one line. */
+.ticket-link, .text-link, .source-link { text-decoration: none; white-space: nowrap; }
+/* Forced colours remove gradient backgrounds, so bring back a plain underline there. */
+@media (forced-colors: active) {
+  .track { background: none; text-decoration: underline; }
+}
 
 /* Header */
 .topbar { display: flex; align-items: center; gap: var(--space-xl); min-height: 72px; border-bottom: var(--rule-hair) solid var(--color-rule); }
@@ -43,7 +71,7 @@ button { user-select: none; -webkit-user-select: none; }
 .main-nav { display: flex; gap: var(--space-md); margin-left: auto; }
 .main-nav a { padding-inline: var(--space-2xs); }
 .main-nav a, .ticket-link { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; font-size: var(--text-sm); font-weight: 400; color: var(--color-ink-2); text-decoration: none; transition: color 150ms ease; }
-.ticket-link { gap: var(--space-2xs); font-weight: 600; color: var(--color-ink); text-decoration: underline; text-underline-offset: 0.2em; }
+.ticket-link { gap: var(--space-2xs); font-weight: 600; color: var(--color-ink); }
 .external-icon { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Hero: the headline over the finished model. */
@@ -283,6 +311,9 @@ html:not(.js) .spec { display: none; }
   .button:hover { background: var(--color-accent-deep); }
   .button-quiet:hover { background: var(--color-paper-3); }
   .main-nav a:hover { color: var(--color-ink); }
+  /* The tread rolls two chevrons forward, left to right like the car, as the pointer arrives. Paint-only, on a 5px strip. */
+  .track { transition: background-position 240ms cubic-bezier(0.23, 1, 0.32, 1); }
+  a:hover .track, a.track:hover { --roll: 0.52em; }
   .day-button:not(.is-active):hover { background: var(--color-paper-2); }
   .check-row:hover .check-box { border-color: var(--color-ink); }
   .day-item-button:not([aria-pressed="true"]):hover { border-color: var(--color-ink-2); }
@@ -314,6 +345,8 @@ html:not(.js) .spec { display: none; }
   .ticket-link { margin-left: auto; }
 }
 @media (max-width: 40rem) {
+  /* Two-line lockup (Icons of Porsche / Checklist) so the ticket link fits beside it and the header stays two rows. */
+  .brand span { max-width: 8em; }
   .hero { padding-top: var(--space-lg); }
   .hero-model { margin-top: var(--space-lg); }
   .dimension-label { font-size: var(--text-xs); }
