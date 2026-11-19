@@ -11,8 +11,6 @@
 /* Hallmark · reworded "Small details. Big stories." to "Four Porsche stories for the paddock." · 38iii and 69 */
 /* Hallmark · reworded "The flat-six. Six, laid flat." to "Six cylinders, laid flat, behind the rear axle." · 38iii and 69 */
 /* Hallmark · dropped engineDark, engineMetal, enginePipe, engineRed, left-cylinder, right-cylinder · internal SVG defs of the old engine drawing, which the new drawing replaces */
-@import url("./tokens.css");
-@import url("./base.css");
 
 html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { font-size: 1.0625rem; }

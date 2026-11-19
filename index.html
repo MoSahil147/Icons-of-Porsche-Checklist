@@ -32,6 +32,9 @@
   <link rel="preload" href="fonts/league-spartan-800-latin.woff2" as="font" type="font/woff2" crossorigin>
   <!-- Before the first paint: mark scripts as on, and paint the car in the saved colour (no red flash). Order matches PAINTS in app.js. -->
   <script>document.documentElement.classList.add("js");try{var s=JSON.parse(localStorage.getItem("brick-by-brick-iop26-v1")),p=["guards-red","racing-yellow","irish-green","miami-blue","lava-orange","chalk","carrara-white","carmine-red"][s&&s.paint];if(p)document.documentElement.style.setProperty("--car-paint","var(--paint-"+p+")")}catch(e){}</script>
+  <!-- Three parallel requests instead of an @import chain: faster first paint on weak signal. -->
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles.css">
   <script src="plan.js" defer></script>
   <script src="app.js" defer></script>
