@@ -422,7 +422,11 @@ if ('IntersectionObserver' in window) {
 
 // Your 911: paint, name, story image and the plan link.
 const root = document.documentElement;
-const heroRows = [...document.querySelectorAll('.hero-car .hr')];
+// Rows and the parts fixed to them (.hd) share a row index (--i), so they lift together.
+const heroLifts = [...document.querySelectorAll('.hero-car .hr, .hero-car .hd')];
+const heroBody = document.querySelector('.hero-car .hc-body');
+const heroWheels = [...document.querySelectorAll('.hero-car .hc-wheel')];
+const SWAY = 36; // SVG units, which are mm on the real car: under 1% of its length
 const paintedCars = [...document.querySelectorAll('.hero-car, .build-model')];
 const heroDesc = document.querySelector('#hc-d');
 const heroDescText = heroDesc?.textContent || '';
@@ -478,11 +482,21 @@ function applyPaint(animate = false) {
 function liftRows() {
   if (reducedMotion.matches) return;
   rowLifts.forEach(lift => lift.cancel());
-  rowLifts = heroRows.map((row, i) => row.animate([
+  const lift = [
     { transform: 'none', easing: 'cubic-bezier(0.23, 1, 0.32, 1)' },
     { transform: 'translateY(-36px)', offset: 0.35, easing: 'cubic-bezier(0.77, 0, 0.175, 1)' },
     { transform: 'none' }
-  ], { duration: 300, delay: i * 16 }));
+  ];
+  rowLifts = heroLifts.map(part => part.animate(lift, { duration: 300, delay: Number(part.style.getPropertyValue('--i')) * 16 }));
+  // One animation each, never nested: the body rocks forward and back (weight shift) while it dips and settles
+  // on its springs. The wheels move with the rock and turn by distance / radius, so they roll and never slide.
+  const keys = [[0, 0, 0], [0.28, SWAY, 14], [0.62, -SWAY * 0.4, -6], [1, 0, 0]];
+  const timing = { duration: 600, easing: 'cubic-bezier(0.37, 0, 0.63, 1)' };
+  rowLifts.push(heroBody.animate(keys.map(([offset, x, y]) => ({ offset, transform: `translate(${x}px, ${y}px)` })), timing));
+  for (const wheel of heroWheels) {
+    const radius = Number(wheel.dataset.r);
+    rowLifts.push(wheel.animate(keys.map(([offset, x]) => ({ offset, transform: `translateX(${x}px) rotate(${(x / radius) * 180 / Math.PI}deg)` })), timing));
+  }
 }
 
 function loadImage(src) {

@@ -67,7 +67,9 @@ button { user-select: none; -webkit-user-select: none; }
 /* Repaint wave: a brick does not fade, it is swapped. Each row lifts (app.js) and snaps to the new paint at the top
    of its lift, 16 ms after the row below it, from the base up. */
 .hero-car .hr > * { transition: fill 0s, stroke 0s; transition-delay: calc(var(--i) * 16ms + 100ms); }
-.hero-car .hc-handle, .hero-car .hc-mirror { transition: fill 0s 260ms, stroke 0s 260ms; }
+.hero-car .hc-handle, .hero-car .hc-mirror { transition: fill 0s, stroke 0s; transition-delay: calc(var(--i) * 16ms + 100ms); }
+/* A wheel turns about its own centre. */
+.hero-car .hc-wheel { transform-box: fill-box; transform-origin: 50% 50%; }
 /* Paint picker on the car itself: a tap repaints the hero, the build model and the story image. */
 html:not(.js) .hero-paint { display: none; }
 .hero-paint { min-width: 0; margin: var(--space-sm) 0 var(--space-md); padding: 0; border: 0; }

@@ -125,11 +125,11 @@ const DETAIL = {
   mirrorArm: P([[394, 125], [404, 124.5], [409, 133.3], [398, 133.3]])
 };
 
-function wheelSVG(w, detailed) {
+function wheelSVG(w, detailed, inline = false) {
   const cx = sx(w.cx), cy = sy(w.cy), r = n => Math.round(n);
   if (!detailed) return `<circle class="pm-tyre" cx="${cx}" cy="${cy}" r="${r(w.tyreR)}"/><circle class="pm-rim" cx="${cx}" cy="${cy}" r="${r(w.rimR)}"/>`;
   const spokes = Array.from({ length: 10 }, (_, k) => `<rect x="${cx - 16}" y="${r(cy - w.rimR * 0.86)}" width="32" height="${r(w.rimR * 0.62)}" rx="10" transform="rotate(${k * 36} ${cx} ${cy})"/>`).join('');
-  return `<g>
+  return `${inline ? `<g class="hc-wheel" data-r="${r(w.tyreR)}">` : '<g>'}
 <circle cx="${cx}" cy="${cy}" r="${r(w.tyreR)}" fill="#1c1d20"/>
 <circle cx="${cx}" cy="${cy}" r="${r((w.tyreR + w.rimR) / 2)}" fill="none" stroke="#2f3135" stroke-width="10"/>
 <circle cx="${cx}" cy="${cy}" r="${r(w.rimR)}" fill="#c6ccd1" stroke="#7f878f" stroke-width="8"/>
@@ -156,10 +156,14 @@ function heroSVG(inline = false) {
   for (let x = bx0 + (STUD - 57.6) / 2; x + 57.6 <= bx1; x += STUD) studs.push(`<rect x="${sx(x)}" y="${sy(20)}" width="58" height="20"/>`);
   out.push(`<g fill="#a7acb1">${studs.join('')}</g><g fill="#c9cdd1">${studs.map(s => s.replace(/width="58"/, 'width="14"')).join('')}</g>`);
   out.push(`<ellipse cx="${sx(CAR.length / 2)}" cy="${sy(0) + 2}" rx="${Math.round(CAR.length * 0.47)}" ry="26" fill="#0d1620" opacity=".28"/>`);
+  // The car moves as one: .hc-car (sway) holds .hc-body (settle) and the planted wheels.
+  if (inline) out.push('<g class="hc-car"><g class="hc-body">');
   // Wheel wells, clipped to the space above the sills.
   for (const w of wheels) {
     const sill = Math.min(botAt(w.cx - w.archR - 8), botAt(w.cx + w.archR + 8));
-    out.push(`<clipPath id="${id('well' + w.cx)}"><rect x="${sx(w.cx - w.archR)}" y="${sy(w.cy + w.archR)}" width="${Math.round(w.archR * 2)}" height="${Math.round(w.cy + w.archR - sill)}"/></clipPath><circle cx="${sx(w.cx)}" cy="${sy(w.cy)}" r="${Math.round(w.archR)}" fill="#14171b" clip-path="url(#${id('well' + w.cx)})"/>`);
+    // In the page copy the well is 60 units larger: the rows hide it at rest, and it fills the arch while rows lift.
+    const wellR = w.archR + (inline ? 60 : 0);
+    out.push(`<clipPath id="${id('well' + w.cx)}"><rect x="${sx(w.cx - wellR)}" y="${sy(w.cy + wellR)}" width="${Math.round(wellR * 2)}" height="${Math.round(w.cy + wellR - sill)}"/></clipPath><circle cx="${sx(w.cx)}" cy="${sy(w.cy)}" r="${Math.round(wellR)}" fill="#14171b" clip-path="url(#${id('well' + w.cx)})"/>`);
   }
   // Plate rows, seams and top highlights.
   const bodies = [], seamPaths = [], highs = [], rowParts = [];
@@ -171,7 +175,7 @@ function heroSVG(inline = false) {
       part.h.push(line(simplify(run.map(([x, t]) => [x, t - 6]), 1.5)));
     }
     bodies.push(...part.b); seamPaths.push(...part.s); highs.push(...part.h);
-    if (part.b.length) rowParts.push(part);
+    if (part.b.length) rowParts.push({ ...part, y0: row.y0, y1: row.y1 });
   }
   if (inline) {
     // Row 0 is the base. The repaint wave climbs the rows in this order.
@@ -181,22 +185,31 @@ function heroSVG(inline = false) {
     out.push(`<path d="${highs.join('')}" fill="none" stroke="#e8435a" stroke-width="5" stroke-linecap="round" opacity=".85"/>`);
     out.push(`<path d="${seamPaths.join('')}" stroke="#5a0613" stroke-width="7"/>`);
   }
+  // Fixed parts lift with the plate row that holds their vertical centre, so nothing comes apart.
+  const rowAt = pts => {
+    const ys = pts.map(([, y]) => y), mid = (Math.min(...ys) + Math.max(...ys)) / 2;
+    const k = rowParts.findIndex(part => mid >= part.y0 && mid < part.y1);
+    return k < 0 ? rowParts.length - 1 : k;
+  };
+  const held = (pts, html) => (inline ? `<g class="hd" style="--i:${rowAt(pts)}">${html}</g>` : html);
   // Glass as single transparent parts.
   out.push(`<clipPath id="${id('glass')}">${glass.map(g => `<path d="${path(g)}"/>`).join('')}</clipPath>`);
-  out.push(`<g fill="#1e2a35" stroke="#0e151c" stroke-width="6">${glass.map(g => `<path d="${path(g)}"/>`).join('')}</g>`);
-  out.push(`<path d="M${sx(1500)} ${sy(1300)}L${sx(1900)} ${sy(1300)}L${sx(1500)} ${sy(800)}L${sx(1100)} ${sy(800)}ZM${sx(2150)} ${sy(1300)}L${sx(2300)} ${sy(1300)}L${sx(1900)} ${sy(800)}L${sx(1750)} ${sy(800)}Z" fill="#9fb3c4" opacity=".22" clip-path="url(#${id('glass')})"/>`);
+  out.push(held(glass.flat(), `<g fill="#1e2a35" stroke="#0e151c" stroke-width="6">${glass.map(g => `<path d="${path(g)}"/>`).join('')}</g>\n` + `<path d="M${sx(1500)} ${sy(1300)}L${sx(1900)} ${sy(1300)}L${sx(1500)} ${sy(800)}L${sx(1100)} ${sy(800)}ZM${sx(2150)} ${sy(1300)}L${sx(2300)} ${sy(1300)}L${sx(1900)} ${sy(800)}L${sx(1750)} ${sy(800)}Z" fill="#9fb3c4" opacity=".22" clip-path="url(#${id('glass')})"/>`));
   // Lights, intakes and handle sit inside the body outline. The mirror stands proud of it.
   out.push(`<clipPath id="${id('body')}"><path d="${bodies.join('')}"/></clipPath><g clip-path="url(#${id('body')})">`);
-  out.push(`<path d="${path(DETAIL.tail)}" fill="#8e0d1d" stroke="#5a0611" stroke-width="5"/><path d="${line(DETAIL.tail.slice(0, 3))}" fill="none" stroke="#ff6b78" stroke-width="6" stroke-linecap="round"/>`);
-  out.push(`<path d="${path(DETAIL.head)}" fill="#dde6ec" stroke="#8796a2" stroke-width="5"/>`);
+  out.push(held(DETAIL.tail, `<path d="${path(DETAIL.tail)}" fill="#8e0d1d" stroke="#5a0611" stroke-width="5"/><path d="${line(DETAIL.tail.slice(0, 3))}" fill="none" stroke="#ff6b78" stroke-width="6" stroke-linecap="round"/>`));
+  out.push(held(DETAIL.head, `<path d="${path(DETAIL.head)}" fill="#dde6ec" stroke="#8796a2" stroke-width="5"/>`));
   for (const k of ['intakeFront', 'intakeRear']) {
     const pts = DETAIL[k], ys = pts.map(p => p[1]), xs = pts.map(p => p[0]);
     const slats = [1, 2, 3].map(n => { const y = Math.min(...ys) + (Math.max(...ys) - Math.min(...ys)) * n / 4; return `M${sx(Math.min(...xs) + 20)} ${sy(y)}H${sx(Math.max(...xs) - 20)}`; }).join('');
-    out.push(`<path d="${path(pts)}" fill="#24292f" stroke="#111418" stroke-width="5"/><path d="${slats}" stroke="#4a525b" stroke-width="7"/>`);
+    out.push(held(pts, `<path d="${path(pts)}" fill="#24292f" stroke="#111418" stroke-width="5"/><path d="${slats}" stroke="#4a525b" stroke-width="7"/>`));
   }
-  out.push(inline ? `<path class="hc-handle" d="${path(DETAIL.handle)}"/></g>` : `<path d="${path(DETAIL.handle)}" fill="#a50c24" stroke="#6e0818" stroke-width="4"/></g>`);
-  out.push(`<path d="${path(DETAIL.mirrorArm)}" fill="#24292f"/>` + (inline ? `<path class="hc-mirror" d="${path(DETAIL.mirror)}"/>` : `<path d="${path(DETAIL.mirror)}" fill="#c8102e" stroke="#7d0a1c" stroke-width="5"/>`));
-  for (const w of wheels) out.push(wheelSVG(w, true));
+  out.push(inline ? `${held(DETAIL.handle, `<path class="hc-handle" d="${path(DETAIL.handle)}"/>`)}</g>` : `<path d="${path(DETAIL.handle)}" fill="#a50c24" stroke="#6e0818" stroke-width="4"/></g>`);
+  out.push(inline
+    ? held(DETAIL.mirror, `<path d="${path(DETAIL.mirrorArm)}" fill="#24292f"/><path class="hc-mirror" d="${path(DETAIL.mirror)}"/>`) + '</g>'
+    : `<path d="${path(DETAIL.mirrorArm)}" fill="#24292f"/><path d="${path(DETAIL.mirror)}" fill="#c8102e" stroke="#7d0a1c" stroke-width="5"/>`);
+  for (const w of wheels) out.push(wheelSVG(w, true, inline));
+  if (inline) out.push('</g>');
   out.push('</svg>');
   return out.join('\n');
 }
