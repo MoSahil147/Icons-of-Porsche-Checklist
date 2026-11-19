@@ -28,4 +28,12 @@ export default async function ({ browser, url }) {
     }
     await page.done();
   }
+
+  // The console greeting: one log on load, at most 8 lines, plain ASCII, with the source link.
+  const page = await open(browser, url, { setup: () => { window.__logs = []; const log = console.log; console.log = (...args) => { window.__logs.push(args.join(' ')); log(...args); }; } });
+  const logs = await page.evaluate(() => window.__logs);
+  assert.equal(logs.length, 1);
+  assert.ok(logs[0].trim().split('\n').length <= 8 && /^[\x20-\x7e\n]*$/.test(logs[0]), 'short plain ASCII');
+  assert.match(logs[0], /github\.com\/MoSahil147\/Icons-of-Porsche-Checklist/);
+  await page.done();
 }

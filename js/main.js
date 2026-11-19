@@ -19,3 +19,11 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     .then(() => { state.offlineReady = true; updateStorageStatus(); })
     .catch(() => {}));
 }
+
+console.log(String.raw`
+            _________
+       __.-'   |     '-.____
+     /'  ___   |   911  ___ '-.
+    |___/   \__|_______/   \__]
+        \___/          \___/
+Built brick by brick. Source: https://github.com/MoSahil147/Icons-of-Porsche-Checklist`);
