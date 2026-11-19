@@ -560,7 +560,13 @@ async function renderStory() {
     new Promise(resolve => setTimeout(resolve, 1500))
   ]);
   if ('drawElementImage' in CanvasRenderingContext2D.prototype) {
-    try { return await renderStoryHTML(svg, done, total, complete, hex); } catch { /* fall back to the drawn version */ }
+    // Experimental path: if it fails, draws a blank card, or never finishes, use the drawn version.
+    try {
+      return await Promise.race([
+        renderStoryHTML(svg, done, total, complete, hex),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('html story timed out')), 2500))
+      ]);
+    } catch { /* fall back to the drawn version */ }
   }
   const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
   const car = await loadImage(url).finally(() => setTimeout(() => URL.revokeObjectURL(url), 1000));
@@ -574,8 +580,8 @@ async function renderStory() {
   c.fillStyle = ink;
   c.textBaseline = 'alphabetic';
   // Layout bands, all inside y 270 to 1536 (Instagram covers the top and bottom).
-  fitText(c, `${done} / ${total}`, '800', width, 210);
-  c.fillText(`${done} / ${total}`, left, 435);
+  fitText(c, `${done}/${total}`, '800', width, 210);
+  c.fillText(`${done}/${total}`, left, 435);
   const dayText = activeDay === 'both' ? 'Saturday and Sunday' : dayNames[activeDay];
   const countLine = complete ? `items ready. ${dayText}'s 911 is complete.` : `items ready for ${dayText}.`;
   fitText(c, countLine, '600', width, 52);
@@ -656,7 +662,7 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
   callout.append(line('span', 'story-plate', ''), line('b', '', `1x ${PAINTS[paintIndex][1]}`), line('small', '', '911 Carrera (992), 1:12, brick-built'));
   const address = (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
   card.append(
-    line('div', 'story-count', `${done} / ${total}`),
+    line('div', 'story-count', `${done}/${total}`),
     line('p', 'story-line', complete ? `items ready. ${dayText}'s 911 is complete.` : `items ready for ${dayText}.`),
     img, callout,
     ...(builderName ? [line('p', 'story-name', `Built by ${builderName}`)] : []),
