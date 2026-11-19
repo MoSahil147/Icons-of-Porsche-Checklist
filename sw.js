@@ -1,6 +1,6 @@
 // Offline cache for the festival. og-v3.png is left out: only link previews use it, never the page.
 // Network first, so a new deploy shows at once; the cache answers when the signal drops.
-const CACHE = 'iop26-v4';
+const CACHE = 'iop26-v14';
 const PRECACHE = ['./', 'index.html', 'styles.css', 'tokens.css', 'base.css', 'plan.js', 'app.js', 'sports-car.svg',
   'fonts/league-spartan-800-latin.woff2', 'fonts/onest-latin.woff2',
   'manifest.webmanifest', 'icons/favicon.svg', 'icons/favicon-32.png', 'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png'];

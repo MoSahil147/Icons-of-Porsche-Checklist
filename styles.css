@@ -342,14 +342,14 @@ html:not(.js) .spec { display: none; }
 /* Story card for HTML-in-Canvas (Chrome and Edge 157+). Kept off screen; only the canvas export uses it. */
 .story-canvas { position: fixed; left: -12000px; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
 .story-card { width: 1080px; height: 1920px; box-sizing: border-box; padding: 272px 88px 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); }
-.story-count { font: 800 230px/0.9 var(--font-display); letter-spacing: -0.03em; }
+.story-count { font: 800 210px/0.9 var(--font-display); letter-spacing: -0.03em; }
 .story-line { margin: var(--space-md) 0 0; font: 600 50px/1.15 var(--font-body); }
-.story-card img { display: block; width: 1000px; height: auto; margin: var(--space-xl) -48px var(--space-lg); }
+.story-card img { display: block; width: 940px; height: auto; margin: calc(var(--space-xl) * 1.4) -18px calc(var(--space-xl) * 1.4); }
 .story-callout { display: grid; grid-template-columns: 150px 1fr; gap: var(--space-2xs) var(--space-xl); align-items: center; padding: var(--space-xl); border: 6px solid var(--color-ink); border-radius: 18px; }
 .story-plate { grid-row: span 2; width: 150px; height: 76px; border-radius: 8px; background: var(--paint); box-shadow: inset 0 -10px 0 var(--paint-edge); }
 .story-callout b { font: 800 60px/1 var(--font-display); overflow-wrap: anywhere; }
 .story-callout small { font: 400 34px var(--font-body); color: var(--color-ink-2); }
-.story-name { margin: var(--space-lg) 0 0; font: 800 64px/1.05 var(--font-display); overflow-wrap: anywhere; }
-.story-link { box-sizing: border-box; width: 720px; height: 132px; margin: var(--space-lg) 0 0; padding: 0 48px; border: 4px dashed var(--color-ink-2); border-radius: 66px; display: flex; align-items: center; font: 600 34px var(--font-body); overflow-wrap: anywhere; }
-.story-event { margin: var(--space-xl) 0 0; font: 600 38px var(--font-body); }
+.story-name { margin: calc(var(--space-xl) * 1.3) 0 0; font: 800 64px/1.05 var(--font-display); overflow-wrap: anywhere; }
+.story-link { box-sizing: border-box; width: 720px; height: 116px; margin: calc(var(--space-xl) * 1.3) 0 0; padding: 0 48px; border: 4px dashed var(--color-ink-2); border-radius: 66px; display: flex; align-items: center; font: 600 34px var(--font-body); overflow-wrap: anywhere; }
+.story-event { margin: calc(var(--space-xl) * 1.3) 0 0; font: 600 38px var(--font-body); }
 .story-small { margin: var(--space-sm) 0 0; font: 400 30px var(--font-body); color: var(--color-ink-2); }

@@ -1,7 +1,7 @@
 // Run with: bun test
 import { describe, expect, test } from 'bun:test';
 import { existsSync, readFileSync } from 'node:fs';
-const { PLAN_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, paintedSVG } = require('../plan.js');
+const { PLAN_ITEMS, RETIRED_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, paintedSVG } = require('../plan.js');
 
 const root = new URL('..', import.meta.url).pathname;
 const read = path => readFileSync(root + path, 'utf8');
@@ -10,8 +10,9 @@ const html = read('index.html');
 describe('plan link', () => {
   test('the item order matches the checklist, with no gaps or extras', () => {
     const ids = [...html.matchAll(/data-item="([a-z-]+)"/g)].map(match => match[1]);
-    expect(new Set(PLAN_ITEMS)).toEqual(new Set(ids));
-    expect(PLAN_ITEMS.length).toBe(ids.length);
+    const live = PLAN_ITEMS.filter(id => !RETIRED_ITEMS.has(id));
+    expect(new Set(live)).toEqual(new Set(ids));
+    expect(live.length).toBe(ids.length);
     // Shared links depend on this order. Append new items only.
     expect(PLAN_ITEMS.slice(0, 3)).toEqual(['ticket', 'phone', 'power']);
   });
@@ -27,7 +28,7 @@ describe('plan link', () => {
   test('both days carry two masks', () => {
     const all = Object.fromEntries(PLAN_ITEMS.map(id => [id, true]));
     const plan = decodePlan(`?plan=1.both.${encodeMask(all)}.${encodeMask({})}`);
-    expect(plan.days.sat.length).toBe(PLAN_ITEMS.length);
+    expect(plan.days.sat.length).toBe(PLAN_ITEMS.length - RETIRED_ITEMS.size);
     expect(plan.days.sun).toEqual([]);
   });
 
