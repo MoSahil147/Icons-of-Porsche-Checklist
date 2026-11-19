@@ -142,7 +142,7 @@ function wheelSVG(w, detailed) {
 
 function heroSVG() {
   const out = [];
-  out.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-labelledby="t d">`);
+  out.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${VB.w}" height="${VB.h}" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-labelledby="t d">`);
   out.push(`<title id="t">Brick-built Porsche 911 Carrera (992), side view, scale 1:12</title>`);
   out.push(`<desc id="d">Original fan art. A red 911 coupe built from plates, about 47 studs long and 34 plates high, on a grey studded baseplate. Each plate row ends on the real outline of the car, traced from a scaled side elevation.</desc>`);
   // Baseplate and studs.
