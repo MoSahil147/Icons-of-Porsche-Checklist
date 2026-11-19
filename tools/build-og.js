@@ -3,8 +3,8 @@
 //   bun tools/build-og.js
 //   chromium --headless --hide-scrollbars --virtual-time-budget=5000 --window-size=1200,630 --screenshot=og-v3.png "file://$PWD/tools/og.html"
 // Give the image a new name when the design changes: WhatsApp keeps a preview per image address for days.
-const { readFileSync, writeFileSync } = require('node:fs');
-const { paintedSVG } = require('../plan.js');
+import { readFileSync, writeFileSync } from 'node:fs';
+import { paintedSVG } from '../plan.js';
 
 const car = readFileSync('sports-car.svg', 'utf8');
 const tokens = readFileSync('tokens.css', 'utf8');

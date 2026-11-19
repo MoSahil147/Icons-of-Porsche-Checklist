@@ -1,0 +1,21 @@
+import { state, updateStorageStatus } from './state.js?v=20';
+import { renderCategories, renderChecklist, renderDayButtons, withoutModelMotion } from './checklist.js?v=20';
+import { applyPaint } from './paint.js?v=20';
+import { openSharedPlan } from './link.js?v=20';
+import './engine.js?v=20';
+import './rail.js?v=20';
+
+renderDayButtons();
+renderCategories();
+withoutModelMotion(renderChecklist);
+updateStorageStatus();
+applyPaint();
+openSharedPlan();
+
+// Offline after one visit, where the browser allows a service worker (not in every in-app browser).
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js')
+    .then(() => navigator.serviceWorker.ready)
+    .then(() => { state.offlineReady = true; updateStorageStatus(); })
+    .catch(() => {}));
+}

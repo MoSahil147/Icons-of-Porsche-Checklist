@@ -30,14 +30,13 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="preload" href="fonts/league-spartan-800-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <!-- Before the first paint: mark scripts as on, and paint the car in the saved colour (no red flash). Order matches PAINTS in app.js. -->
+  <!-- Before the first paint: mark scripts as on, and paint the car in the saved colour (no red flash). Order matches PAINTS in js/state.js. -->
   <script>document.documentElement.classList.add("js");try{var s=JSON.parse(localStorage.getItem("brick-by-brick-iop26-v1")),p=["guards-red","racing-yellow","irish-green","miami-blue","lava-orange","chalk","carrara-white","carmine-red"][s&&s.paint];if(p)document.documentElement.style.setProperty("--car-paint","var(--paint-"+p+")")}catch(e){}</script>
   <!-- Three parallel requests instead of an @import chain: faster first paint on weak signal. -->
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="base.css">
-  <link rel="stylesheet" href="styles.css?v=19">
-  <script src="plan.js?v=19" defer></script>
-  <script src="app.js?v=19" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20">
+  <script type="module" src="js/main.js?v=20"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to the guide</a>

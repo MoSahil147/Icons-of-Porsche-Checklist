@@ -1,7 +1,7 @@
 // Run with: bun test
 import { describe, expect, test } from 'bun:test';
-import { existsSync, readFileSync } from 'node:fs';
-const { PLAN_ITEMS, RETIRED_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, paintedSVG } = require('../plan.js');
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { PLAN_ITEMS, RETIRED_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, paintedSVG } from '../plan.js';
 
 const root = new URL('..', import.meta.url).pathname;
 const read = path => readFileSync(root + path, 'utf8');
@@ -83,6 +83,19 @@ describe('paint picker', () => {
 
 describe('site files', () => {
   const precache = [...read('sw.js').matchAll(/'([^']+\.[a-z0-9]+|\.\/)'/g)].map(match => match[1]).filter(path => path !== './');
+
+  // A deploy must bump the cache name and every ?v= together, or a phone can mix old and new modules.
+  test('every asset version matches the cache name', () => {
+    const cache = read('sw.js').match(/const CACHE = 'iop26-v(\d+)'/)[1];
+    const sources = ['index.html', ...readdirSync(root + 'js').map(file => `js/${file}`)];
+    const versions = sources.flatMap(path => [...read(path).matchAll(/\?v=(\d+)/g)].map(match => `${path} v${match[1]}`));
+    expect(versions.length).toBeGreaterThan(10);
+    expect(versions.filter(entry => !entry.endsWith(` v${cache}`))).toEqual([]);
+  });
+
+  test('every module is precached', () => {
+    for (const file of readdirSync(root + 'js')) expect(precache).toContain(`js/${file}`);
+  });
 
   test('every precached file exists', () => {
     for (const path of precache) expect(existsSync(root + path), path).toBe(true);

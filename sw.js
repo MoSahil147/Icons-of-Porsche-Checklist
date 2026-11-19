@@ -1,7 +1,8 @@
 // Offline cache for the festival. og-v3.png is left out: only link previews use it, never the page.
 // Network first, so a new deploy shows at once; the cache answers when the signal drops.
-const CACHE = 'iop26-v19'; // v18 is live; a new name clears it on activate
-const PRECACHE = ['./', 'index.html', 'styles.css', 'tokens.css', 'base.css', 'plan.js', 'app.js', 'sports-car.svg',
+const CACHE = 'iop26-v20'; // a new name clears the old cache on activate
+const PRECACHE = ['./', 'index.html', 'styles.css', 'tokens.css', 'base.css', 'plan.js', 'sports-car.svg',
+  'js/main.js', 'js/state.js', 'js/checklist.js', 'js/story.js', 'js/paint.js', 'js/link.js', 'js/engine.js', 'js/rail.js',
   'fonts/league-spartan-800-latin.woff2', 'fonts/onest-latin.woff2',
   'manifest.webmanifest', 'icons/favicon.svg', 'icons/favicon-32.png', 'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png',
   'icons/cursor-911.png', 'icons/cursor-911-go.png'];

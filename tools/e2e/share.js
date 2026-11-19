@@ -10,6 +10,10 @@ export default async function ({ browser, url }) {
   await page.type('#builder-name', 'Aleksandra Wiśniewska-Kowalczyk');
   await page.waitForFunction(() => document.querySelector('#story-figure img')?.naturalWidth === 1080, { timeout: 8000 });
   assert.equal(JSON.parse(await page.evaluate(key => localStorage.getItem(key), STORAGE_KEY)).name.length, 24, 'name is cut to 24 characters');
+  await page.reload({ waitUntil: 'networkidle0' });
+  assert.equal(await page.$eval('#builder-name', el => el.value), 'Aleksandra Wiśniewska-Ko', 'the saved name is back in the field');
+  await page.evaluate(() => document.querySelector('#your-911').scrollIntoView());
+  await page.waitForFunction(() => document.querySelector('#story-figure img')?.naturalWidth === 1080, { timeout: 8000 });
 
   // Headless Chrome cannot share files, so the page offers the image to save.
   await page.click('#share-story');

@@ -25,7 +25,7 @@ jobs:
 
       - name: Check that the scripts parse
         run: |
-          bun build ./plan.js ./app.js ./sw.js --outdir "$RUNNER_TEMP/script-check"
+          bun build --no-bundle ./plan.js ./sw.js ./js/*.js --outdir "$RUNNER_TEMP/script-check"
 
       - name: Test the plan link, paint swap and site files
         run: bun test
@@ -41,8 +41,8 @@ jobs:
       - name: Stage the site files only
         run: |
           mkdir _site
-          cp index.html styles.css tokens.css base.css plan.js app.js sw.js sports-car.svg og-v3.png manifest.webmanifest _site/
-          cp -r icons fonts _site/
+          cp index.html styles.css tokens.css base.css plan.js sw.js sports-car.svg og-v3.png manifest.webmanifest _site/
+          cp -r icons fonts js _site/
 
       - uses: actions/upload-pages-artifact@v5
         with:
