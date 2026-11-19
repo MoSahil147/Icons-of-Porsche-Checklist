@@ -41,7 +41,7 @@ jobs:
       - name: Stage the site files only
         run: |
           mkdir _site
-          cp index.html styles.css tokens.css base.css plan.js app.js sw.js sports-car.svg og.png manifest.webmanifest _site/
+          cp index.html styles.css tokens.css base.css plan.js app.js sw.js sports-car.svg og-v2.png manifest.webmanifest _site/
           cp -r icons fonts _site/
 
       - uses: actions/upload-pages-artifact@v5

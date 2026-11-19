@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<!-- Source of og.png (1200 x 630). Regenerate from the repo root:
-     chromium --headless --hide-scrollbars --virtual-time-budget=5000 --window-size=1200,630 --screenshot=og.png "file://$PWD/tools/og.html" -->
+<!-- Source of og-v2.png (1200 x 630). Regenerate from the repo root:
+     chromium --headless --hide-scrollbars --virtual-time-budget=5000 --window-size=1200,630 --screenshot=og-v2.png "file://$PWD/tools/og.html"
+     Give the file a new name when the design changes: WhatsApp keeps a preview per image address for days. -->
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
@@ -10,15 +11,39 @@
     html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--color-paper); color: var(--color-ink); }
     .card { position: relative; width: 1200px; height: 630px; box-sizing: border-box; padding: 64px 72px; }
     h1 { margin: 0; max-width: 760px; font: 800 92px/0.95 var(--font-display); letter-spacing: -0.03em; }
-    p { margin: 24px 0 0; font: 600 30px/1.3 var(--font-body); color: var(--color-ink-2); }
-    img { position: absolute; left: 110px; bottom: 30px; width: 980px; height: auto; }
+    p { margin: 24px 0 0; max-width: 600px; font: 600 30px/1.3 var(--font-body); color: var(--color-ink-2); }
+    .car { position: absolute; left: 110px; bottom: 18px; width: 980px; height: auto; }
+    /* Exploded view, as in building instructions: tick, pick a paint, build. */
+    .guide { position: absolute; inset: 0; }
+    .guide path { fill: none; stroke: var(--color-ink-2); stroke-width: 2.5; stroke-dasharray: 8 7; stroke-linecap: round; }
+    .guide .tip { fill: var(--color-ink-2); stroke: none; }
+    .chip { position: absolute; left: 818px; top: 58px; display: flex; align-items: center; gap: 12px; padding: 10px 18px 10px 12px; border-radius: 12px; background: var(--color-paper-2); box-shadow: 0 0 0 2px var(--color-ink); font: 600 22px/1 var(--font-body); }
+    .box { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 6px; background: var(--color-accent); }
+    .box::after { content: ""; width: 12px; height: 7px; margin-top: -4px; border-left: 3px solid var(--color-accent-ink); border-bottom: 3px solid var(--color-accent-ink); transform: rotate(-45deg); }
+    .plate { position: absolute; width: 56px; height: 22px; border-radius: 3px; background: var(--paint); box-shadow: inset 0 -5px 0 color-mix(in oklab, var(--paint) 70%, var(--color-ink)), 0 0 0 1.5px color-mix(in oklab, var(--paint) 45%, var(--color-ink)); }
+    .plate::before, .plate::after { content: ""; position: absolute; top: -8px; width: 17px; height: 8px; border-radius: 3px 3px 0 0; background: var(--paint); box-shadow: 0 0 0 1.5px color-mix(in oklab, var(--paint) 45%, var(--color-ink)); }
+    .plate::before { left: 7px; }
+    .plate::after { right: 7px; }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>Every tick builds your 911.</h1>
     <p>A fan-made guide for Icons of Porsche Dubai, 21 and 22 November</p>
-    <img src="../sports-car.svg" alt="">
+    <img class="car" src="../sports-car.svg" alt="">
+    <svg class="guide" viewBox="0 0 1200 630" aria-hidden="true">
+      <path d="M1058 104 L1086 140 L946 404"/>
+      <path class="tip" d="M940 416 l-4 -16 l14 6 Z"/>
+    </svg>
+    <div class="chip"><span class="box"></span>Ticket ready on your phone</div>
+    <span class="plate" style="--paint: var(--paint-guards-red); left: 1080px; top: 158px;"></span>
+    <span class="plate" style="--paint: var(--paint-racing-yellow); left: 1062px; top: 186px;"></span>
+    <span class="plate" style="--paint: var(--paint-irish-green); left: 1044px; top: 214px;"></span>
+    <span class="plate" style="--paint: var(--paint-miami-blue); left: 1026px; top: 242px;"></span>
+    <span class="plate" style="--paint: var(--paint-lava-orange); left: 1008px; top: 270px;"></span>
+    <span class="plate" style="--paint: var(--paint-chalk); left: 990px; top: 298px;"></span>
+    <span class="plate" style="--paint: var(--paint-carrara-white); left: 972px; top: 326px;"></span>
+    <span class="plate" style="--paint: var(--paint-carmine-red); left: 954px; top: 354px;"></span>
   </div>
 </body>
 </html>
