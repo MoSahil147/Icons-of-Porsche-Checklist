@@ -84,7 +84,7 @@ describe('site files', () => {
   });
 
   test('link preview image fits WhatsApp limits', () => {
-    const png = readFileSync(root + 'og-v2.png');
+    const png = readFileSync(root + 'og-v3.png');
     expect(png.length).toBeLessThan(300 * 1024);
     expect(png.readUInt32BE(16)).toBe(1200);
     expect(png.readUInt32BE(20)).toBe(630);
