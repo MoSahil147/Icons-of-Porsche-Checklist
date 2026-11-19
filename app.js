@@ -125,6 +125,7 @@ function addDayControls(input) {
     button.setAttribute('aria-pressed', 'false');
     button.addEventListener('click', () => {
       progress[day][input.dataset.item] = !progress[day][input.dataset.item];
+      flightSource = progress[day][input.dataset.item] ? button : null;
       saveState();
       renderChecklist();
     });
@@ -212,6 +213,51 @@ function renderProgress() {
 function renderModel(done, total) {
   const built = total ? Math.round(done / total * modelParts.length) : 0;
   modelParts.forEach((part, index) => part.classList.toggle('is-built', index < built));
+  if (built < lastBuilt || buildModel?.classList.contains('no-anim')) cancelFlights();
+  // Only plate rows fly: they are bricks. Wheels and glass just fade in.
+  else if (flightSource && built > lastBuilt) modelParts.slice(lastBuilt, built).filter(part => part.querySelector('.pm-plate')).forEach(part => flyPart(part, flightSource));
+  flightSource = null;
+  lastBuilt = built;
+}
+
+// Part flight: a tick sends one plate from the tapped box to its slot in the model.
+// The count updates at once; only the part waits for the landing. Untick or a day switch cancels it.
+let flightSource = null;
+let lastBuilt = 0;
+const flights = new Set();
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const inView = rect => rect.width > 0 && rect.bottom > 0 && rect.top < innerHeight;
+
+function cancelFlights() {
+  for (const flight of flights) flight.cancel();
+  flights.clear();
+}
+
+function flyPart(part, source) {
+  const from = source.getBoundingClientRect();
+  const to = part.getBoundingClientRect();
+  if (reducedMotion.matches || !inView(from) || !inView(to)) return; // the 150 ms fade covers it
+  part.classList.add('is-landing');
+  const flyer = document.createElement('span');
+  flyer.className = 'flyer';
+  flyer.style.setProperty('--paint', paintHex());
+  Object.assign(flyer.style, { left: `${to.left}px`, top: `${to.top}px`, width: `${to.width}px`, height: `${to.height}px` });
+  document.body.append(flyer);
+  const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+  const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+  const animation = flyer.animate(
+    [{ transform: `translate(${dx}px, ${dy}px) scale(${from.width / to.width}, ${from.height / to.height})` }, { transform: 'none' }],
+    { duration: 340, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)' }
+  );
+  const flight = { cancel() { animation.cancel(); flyer.remove(); part.classList.remove('is-landing'); } };
+  flights.add(flight);
+  animation.finished.then(() => {
+    flights.delete(flight);
+    flyer.remove();
+    part.classList.remove('is-landing');
+    part.classList.add('is-seating');
+    setTimeout(() => part.classList.remove('is-seating'), 120);
+  }, () => {});
 }
 
 // Day switches and page load show the new state at once. Only a tick animates.
@@ -259,6 +305,7 @@ categoryButtons.forEach(button => button.addEventListener('click', () => {
 checkboxes.forEach(input => input.addEventListener('change', () => {
   if (activeDay === 'both') return;
   progress[activeDay][input.dataset.item] = input.checked;
+  flightSource = input.checked ? input.nextElementSibling : null;
   saveState();
   renderChecklist();
 }));
@@ -488,6 +535,9 @@ async function renderStory() {
     Promise.all(['800 120px "League Spartan"', '600 40px "Onest"', '400 34px "Onest"'].map(font => document.fonts.load(font))),
     new Promise(resolve => setTimeout(resolve, 1500))
   ]);
+  if ('content' in HTMLCanvasElement.prototype) {
+    try { return await renderStoryHTML(svg, done, total, complete, hex); } catch { /* fall back to the drawn version */ }
+  }
   const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
   const car = await loadImage(url).finally(() => setTimeout(() => URL.revokeObjectURL(url), 1000));
   const canvas = document.createElement('canvas');
@@ -543,6 +593,61 @@ async function renderStory() {
   const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
   if (!blob) throw new Error('The story image could not be exported.');
   return blob;
+}
+
+// The same card laid out in HTML and CSS, drawn with drawElementImage (HTML-in-Canvas, Chrome and Edge 157+).
+// Real text layout: wrapping, any script and the page fonts. Times out to the drawn fallback.
+async function renderStoryHTML(svg, done, total, complete, hex) {
+  const dayText = activeDay === 'both' ? 'Saturday and Sunday' : dayNames[activeDay];
+  const carUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+  const canvas = document.createElement('canvas');
+  canvas.setAttribute('content', 'drawable');
+  canvas.width = 1080;
+  canvas.height = 1920;
+  canvas.className = 'story-canvas';
+  const card = document.createElement('div');
+  card.className = 'story-card';
+  card.setAttribute('drawable', '');
+  card.style.setProperty('--paint', hex);
+  card.style.setProperty('--paint-edge', shade(hex, -0.45));
+  const line = (tag, cls, text) => { const el = document.createElement(tag); el.className = cls; el.textContent = text; return el; };
+  const img = new Image();
+  img.src = carUrl;
+  img.alt = '';
+  const callout = line('div', 'story-callout', '');
+  callout.append(line('span', 'story-plate', ''), line('b', '', `1x ${PAINTS[paintIndex][1]}`), line('small', '', '911 Carrera (992), 1:12, brick-built'));
+  const address = (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
+  card.append(
+    line('div', 'story-count', `${done} / ${total}`),
+    line('p', 'story-line', complete ? `items ready. ${dayText}'s 911 is complete.` : `items ready for ${dayText}.`),
+    img, callout,
+    ...(builderName ? [line('p', 'story-name', `Built by ${builderName}`)] : []),
+    line('p', 'story-event', 'Icons of Porsche, Dubai, 21 to 22 November 2026'),
+    line('p', 'story-small', address),
+    line('p', 'story-small', 'A fan-made guide, not an official Porsche page.')
+  );
+  canvas.append(card);
+  document.body.append(canvas);
+  try {
+    await img.decode();
+    await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error('no paint')), 2000);
+      canvas.onpaint = () => {
+        clearTimeout(timer);
+        const context = canvas.getContext('2d');
+        context.reset();
+        context.drawElementImage(card, 0, 0);
+        resolve();
+      };
+      canvas.requestPaint?.();
+    });
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    if (!blob) throw new Error('no blob');
+    return blob;
+  } finally {
+    canvas.remove();
+    URL.revokeObjectURL(carUrl);
+  }
 }
 
 function scheduleStory() {

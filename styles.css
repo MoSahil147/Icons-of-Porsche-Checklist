@@ -88,8 +88,13 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
 .pm-solid .pm-tyre { fill: var(--color-tyre); }
 .pm-solid .pm-rim { fill: var(--color-rim); }
 html:not(.js) .pm-solid { display: none; }
-.js .pm-solid .pm-part { opacity: 0; transform: translateY(-180px); transition: opacity 120ms ease, transform 120ms ease; }
-.js .pm-solid .pm-part.is-built { opacity: 1; transform: none; transition: opacity 200ms var(--ease-out), transform 260ms var(--ease-out); }
+.js .pm-solid .pm-part { opacity: 0; transition: opacity 150ms ease; }
+.js .pm-solid .pm-part.is-built { opacity: 1; }
+.js .pm-solid .pm-part.is-landing { opacity: 0; transition: none; }
+/* The part seats like a brick: a 90 ms press down, no rebound above its slot. */
+.pm-solid .pm-part.is-seating { transform-box: fill-box; transform-origin: 50% 100%; animation: seat 90ms var(--ease-out); }
+@keyframes seat { 50% { transform: translateY(16px) scaleY(0.94); } }
+.flyer { position: fixed; z-index: var(--z-toast); border-radius: 3px; background: var(--paint); box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--paint) 70%, var(--color-ink)); pointer-events: none; transform-origin: 50% 50%; }
 .build-model.no-anim .pm-part { transition: none; }
 .progress-copy { font: 800 clamp(1.125rem, 1vw + 0.75rem, 1.5rem)/1.2 var(--font-display); }
 
@@ -292,3 +297,17 @@ html:not(.js) .spec { display: none; }
   .pm-solid .pm-part, .pm-solid .pm-part.is-built { transform: none; }
   .build-model.is-done, .make-it-yours:not([hidden]) { animation: none; }
 }
+
+/* Story card for HTML-in-Canvas (Chrome and Edge 157+). Kept off screen; only the canvas export uses it. */
+.story-canvas { position: fixed; left: -12000px; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+.story-card { width: 1080px; height: 1920px; box-sizing: border-box; padding: 272px 88px 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); }
+.story-count { font: 800 230px/0.9 var(--font-display); letter-spacing: -0.03em; }
+.story-line { margin: var(--space-lg) 0 0; font: 600 50px/1.15 var(--font-body); }
+.story-card img { display: block; width: 1000px; height: auto; margin: var(--space-2xl) -48px var(--space-xl); }
+.story-callout { display: grid; grid-template-columns: 150px 1fr; gap: var(--space-2xs) var(--space-xl); align-items: center; padding: var(--space-xl); border: 6px solid var(--color-ink); border-radius: 18px; }
+.story-plate { grid-row: span 2; width: 150px; height: 76px; border-radius: 8px; background: var(--paint); box-shadow: inset 0 -10px 0 var(--paint-edge); }
+.story-callout b { font: 800 60px/1 var(--font-display); overflow-wrap: anywhere; }
+.story-callout small { font: 400 34px var(--font-body); color: var(--color-ink-2); }
+.story-name { margin: var(--space-2xl) 0 0; font: 800 72px/1.05 var(--font-display); overflow-wrap: anywhere; }
+.story-event { margin: var(--space-xl) 0 0; font: 600 38px var(--font-body); }
+.story-small { margin: var(--space-sm) 0 0; font: 400 30px var(--font-body); color: var(--color-ink-2); }
