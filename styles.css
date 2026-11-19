@@ -371,3 +371,12 @@ html:not(.js) .spec { display: none; }
 @keyframes rail-paint { from, to { opacity: 1; } }
 @keyframes rail-puff { from { opacity: 0.6; transform: none; } to { opacity: 0; transform: translateY(-16px) scale(1.8); } }
 
+/* Car cursor (experiment). Hotspot: the nose pixel of each image. A dev switch on <html> picks the scope in DevTools:
+   no attribute = the hero car and the swatches; data-cursor="all" = all but text and controls; "links" = links and buttons; "off". */
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-cursor]) .hero-car { cursor: url("icons/cursor-911.png") 31 18, auto; }
+  :root:not([data-cursor]) .swatch { cursor: url("icons/cursor-911-go.png") 30 12, pointer; }
+  :where([data-cursor="all"]) body { cursor: url("icons/cursor-911.png") 31 18, auto; }
+  :where([data-cursor="all"] :is(p, h1, h2, h3, li, dd, dt, td, th, figcaption, legend, label, select, button, :is(span, b, small, strong, em):not(a *, button *, label *))) { cursor: auto; }
+  [data-cursor="links"] :is(a[href], button:not(:disabled), .swatch, .check-row) { cursor: url("icons/cursor-911-go.png") 30 12, pointer; }
+}
