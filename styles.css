@@ -386,3 +386,44 @@ html:not(.js) .spec { display: none; }
 .story-link { box-sizing: border-box; width: 720px; height: 116px; margin: calc(var(--space-xl) * 1.3) 0 0; padding: 0 48px; border: 4px dashed var(--color-ink-2); border-radius: 66px; display: flex; align-items: center; font: 600 34px var(--font-body); overflow-wrap: anywhere; }
 .story-event { margin: calc(var(--space-xl) * 1.3) 0 0; font: 600 38px var(--font-body); }
 .story-small { margin: var(--space-sm) 0 0; font: 400 30px var(--font-body); color: var(--color-ink-2); }
+
+/* Scroll rail, desktop only. Scroll-driven animations move it on the compositor (transform and opacity), so no script runs per frame. */
+.scroll-rail { display: none; }
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 53.75rem) and (prefers-reduced-motion: no-preference) {
+    .scroll-rail { display: block; position: fixed; z-index: var(--z-sticky); inset: var(--space-lg) 2px var(--space-xs) auto; width: 20px; pointer-events: none; background: linear-gradient(var(--color-rule), var(--color-rule)) 50% 0 / 2px 100% no-repeat; }
+    /* A 1px dark ring, then a 1px light ring: one of the two reads on any page colour (WCAG 1.4.11). */
+    .rail-car { position: absolute; top: 0; left: 0; width: 20px; height: 69px; --ring: var(--color-ink); --halo: var(--color-paper-2); filter: drop-shadow(1px 0 var(--ring)) drop-shadow(-1px 0 var(--ring)) drop-shadow(0 1px var(--ring)) drop-shadow(0 -1px var(--ring)) drop-shadow(1px 0 var(--halo)) drop-shadow(-1px 0 var(--halo)) drop-shadow(0 1px var(--halo)) drop-shadow(0 -1px var(--halo)); animation: rail-drive linear both; animation-timeline: scroll(root); }
+    /* Each paint wipes on over the one below it, from the wheels (the car base) to the roof, in brick-row steps.
+       The wipe takes 3% of the page, centred on each eighth. The coat slides in and its car slides back the same
+       distance, so the car stands still while the coat's edge sweeps across it: a wipe with transforms only. */
+    .rail-coat, .rail-coat svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .rail-coat { overflow: hidden; }
+    .rail-coat + .rail-coat, .rail-coat + .rail-coat svg { animation: rail-wipe steps(10) both; animation-timeline: scroll(root); animation-range: calc(var(--n) * 12.5% - 1.5%) calc(var(--n) * 12.5% + 1.5%); }
+    .rail-coat + .rail-coat svg { animation-name: rail-wipe-back; }
+    /* A dark core reads on pale paper and white cards; the light ring reads on the dark engine bay. */
+    .rail-puff { position: absolute; top: -7px; left: 5px; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle, var(--color-ink) 0 40%, var(--color-ink-2) 65%); box-shadow: 0 0 0 2px var(--color-paper-2); opacity: 0; }
+    .scroll-rail.is-fling .rail-puff { animation: rail-puff 700ms linear; }
+    .scroll-rail.is-fling .rail-puff:nth-of-type(2) { animation-delay: 90ms; left: 0; }
+    .scroll-rail.is-fling .rail-puff:nth-of-type(3) { animation-delay: 180ms; left: 10px; }
+  }
+}
+@keyframes rail-drive { to { transform: translateY(calc(100vh - var(--space-lg) - var(--space-xs) - 100%)); } }
+@keyframes rail-wipe { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes rail-wipe-back { from { transform: translateX(100%); } to { transform: none; } }
+/* A puff swells out of the tail with a fast ease-out, holds its tone, then thins away on a linear fade. */
+@keyframes rail-puff {
+  from { opacity: 1; transform: scale(0.6); animation-timing-function: var(--ease-out); }
+  50% { opacity: 0.85; transform: translateY(-10px) scale(1.15); animation-timing-function: linear; }
+  to { opacity: 0; transform: translateY(-18px) scale(1.4); }
+}
+
+/* Car cursor (experiment). Hotspot: the nose pixel of each image. A dev switch on <html> picks the scope in DevTools:
+   no attribute = the hero car and the swatches; data-cursor="all" = all but text and controls; "links" = links and buttons; "off". */
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-cursor]) .hero-car { cursor: url("icons/cursor-911.png") 31 18, auto; }
+  :root:not([data-cursor]) .swatch { cursor: url("icons/cursor-911-go.png") 30 12, pointer; }
+  :where([data-cursor="all"]) body { cursor: url("icons/cursor-911.png") 31 18, auto; }
+  :where([data-cursor="all"] :is(p, h1, h2, h3, li, dd, dt, td, th, figcaption, legend, label, select, button, :is(span, b, small, strong, em):not(a *, button *, label *))) { cursor: auto; }
+  [data-cursor="links"] :is(a[href], button:not(:disabled), .swatch, .check-row) { cursor: url("icons/cursor-911-go.png") 30 12, pointer; }
+}
