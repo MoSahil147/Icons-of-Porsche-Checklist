@@ -1,0 +1,12 @@
+{
+  "name": "icons-of-porsche-checklist",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "e2e": "bun tools/e2e/run.js"
+  },
+  "devDependencies": {
+    "axe-core": "^4.14.1",
+    "puppeteer-core": "^25.18.1"
+  }
+}

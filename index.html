@@ -30,14 +30,13 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="preload" href="fonts/league-spartan-800-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <!-- Before the first paint: mark scripts as on, and paint the car in the saved colour (no red flash). Order matches PAINTS in app.js. -->
+  <!-- Before the first paint: mark scripts as on, and paint the car in the saved colour (no red flash). Order matches PAINTS in js/state.js. -->
   <script>document.documentElement.classList.add("js");try{var s=JSON.parse(localStorage.getItem("brick-by-brick-iop26-v1")),p=["guards-red","racing-yellow","irish-green","miami-blue","lava-orange","chalk","carrara-white","carmine-red"][s&&s.paint];if(p)document.documentElement.style.setProperty("--car-paint","var(--paint-"+p+")")}catch(e){}</script>
   <!-- Three parallel requests instead of an @import chain: faster first paint on weak signal. -->
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="base.css">
-  <link rel="stylesheet" href="styles.css?v=18">
-  <script src="plan.js?v=18" defer></script>
-  <script src="app.js?v=18" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20">
+  <script type="module" src="js/main.js?v=20"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to the guide</a>
@@ -370,6 +369,32 @@
       <a class="source-link" href="https://github.com/MoSahil147/Icons-of-Porsche-Checklist" target="_blank" rel="noopener noreferrer"><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span class="track">Source on GitHub</span><span class="visually-hidden"> Opens in a new tab.</span></a>
     </div>
   </footer>
+
+  <!-- Scroll rail: the car drives down as the page scrolls and takes Porsche's eight paints in turn. It reuses the hero's body and glass clip paths. -->
+  <div class="scroll-rail" id="scroll-rail" aria-hidden="true">
+    <svg width="0" height="0" focusable="false"><defs>
+      <pattern id="rail-rows" width="576" height="230" patternUnits="userSpaceOnUse"><path d="M0 0H576M0 0V230" stroke="#000" stroke-opacity=".3" stroke-width="30"/></pattern>
+      <symbol id="rail-911" viewBox="-1350 290 1320 4560"><g transform="rotate(90)">
+        <rect x="300" y="40" width="4560" height="1310" style="fill: var(--paint)" clip-path="url(#hc-body)"/>
+        <rect x="300" y="40" width="4560" height="1310" fill="url(#rail-rows)" clip-path="url(#hc-body)"/>
+        <rect x="1400" y="150" width="1500" height="320" fill="#1e2a35" clip-path="url(#hc-glass)"/>
+        <path d="M328 548L732 555L945 581L830 624L438 630L328 601Z" fill="#8e0d1d"/><path d="M4121 532L4301 598L4448 761L4400 777L4219 663Z" fill="#dde6ec"/>
+        <g fill="#1c1d20"><circle cx="1377" cy="985" r="357"/><circle cx="3827" cy="1007" r="335"/></g>
+        <g fill="#c6ccd1"><circle cx="1377" cy="985" r="254"/><circle cx="3827" cy="1007" r="241"/></g>
+      </g></symbol>
+    </defs></svg>
+    <div class="rail-car">
+      <span class="rail-coat" data-paint="guards-red" style="--n:0"><svg><use href="#rail-911"/></svg></span>
+      <span class="rail-coat" data-paint="racing-yellow" style="--n:1"><svg><use href="#rail-911"/></svg></span>
+      <span class="rail-coat" data-paint="irish-green" style="--n:2"><svg><use href="#rail-911"/></svg></span>
+      <span class="rail-coat" data-paint="miami-blue" style="--n:3"><svg><use href="#rail-911"/></svg></span>
+      <span class="rail-coat" data-paint="lava-orange" style="--n:4"><svg><use href="#rail-911"/></svg></span>
+      <span class="rail-coat" data-paint="chalk" style="--n:5"><svg><use href="#rail-911"/></svg></span>
+      <span class="rail-coat" data-paint="carrara-white" style="--n:6"><svg><use href="#rail-911"/></svg></span>
+      <span class="rail-coat" data-paint="carmine-red" style="--n:7"><svg><use href="#rail-911"/></svg></span>
+      <i class="rail-puff"></i><i class="rail-puff"></i><i class="rail-puff"></i>
+    </div>
+  </div>
 
   <dialog class="confirm-dialog" id="confirm-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-copy">
     <h2 id="dialog-title">Reset your checklist?</h2>

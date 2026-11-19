@@ -1,19 +1,4 @@
-/* Hallmark · shape: build sheet, the checklist as two instruction steps beside a model that grows · genre: editorial · theme: custom · redesign: full · job: attend · idea: "Every tick adds a part to a brick-built 911 traced from the real car" · vibe: "building instructions, true scale, Guards Red, legible outdoors"
- * paper: oklch(93% 0.022 236), the pale blue of a building-instruction sheet · accent: oklch(53% 0.205 25), the car's red · display: League Spartan · body: Onest · hero: headline over the full-width 1:12 brick model with its wheelbase dimension · nav: wordmark, three anchors, ticket link · footer: closing line over the fan disclaimer · imagery: the product built (brick model, engine) · signature: the 992 built from 20 brick rows that end on the real outline
- * axes: light/geometric-sans/warm · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, the checklist screen carries the owner's 21 items, so it runs past 80 words */
-/* Hallmark · finish-review: subagent · 8 findings · 4 resolved (model size, every tick adds a part, sub-line legibility, gate-time wording) · 2 partial (seams darker but no roof studs, travel line trimmed) · 2 unresolved (facts row composition, brick language stops at facts and footer) · gap: none */
-/* Hallmark · waive 80 · user request: mimic a brick-built style, close to the real car · the car is the subject of the page, and every row ends on the traced 992 outline */
-/* Hallmark · waive 79 · the hero figure (sports-car.svg, 5142 by 1448) fills the space under the head at every width · the space is the model, not empty paper */
-/* Hallmark · waive 82 · .e-stud marks are the studs of the brick crankcase · they are the build material, not a count */
-/* Hallmark · reworded "The 911. Rebuilt." to "Every tick builds your 911." · 38iii and 69 name the coloured word and the clipped pair */
-/* Hallmark · reworded "A few things before the good stuff." to "11 things to pack, 10 to find." · 38iii names the coloured word */
-/* Hallmark · reworded "Small details. Big stories." to "Four Porsche stories for the paddock." · 38iii and 69 */
-/* Hallmark · reworded "The flat-six. Six, laid flat." to "Six cylinders, laid flat, behind the rear axle." · 38iii and 69 */
-/* Hallmark · dropped engineDark, engineMetal, enginePipe, engineRed, left-cylinder, right-cylinder · internal SVG defs of the old engine drawing, which the new drawing replaces */
-
 html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-/* Anchor links glide to their section. Reduced motion keeps the instant jump (base.css sets auto). */
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body { font-size: 1.0625rem; }
 /* viewport-fit=cover paints edge to edge; content keeps clear of the notch in landscape. */
@@ -23,11 +8,9 @@ button { user-select: none; -webkit-user-select: none; }
 .skip-link { position: absolute; z-index: var(--z-modal); left: var(--space-md); top: var(--space-xs); padding: var(--space-sm) var(--space-md); background: var(--color-ink); color: var(--color-paper-2); transform: translateY(-200%); }
 .skip-link:focus { transform: none; }
 
-/* Buttons: one primary style across the page. */
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: var(--space-sm) var(--space-lg); border: 0; border-radius: 8px; background: var(--color-accent); color: var(--color-accent-ink); font-weight: 600; font-size: var(--text-md); text-decoration: none; cursor: pointer; transition: transform 160ms var(--ease-out), background-color 150ms ease; }
 .button:active { transform: scale(0.97); }
 .button-quiet { background: transparent; color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--color-rule); }
-.button:disabled { background: var(--color-paper-3); color: var(--color-muted); cursor: not-allowed; }
 .text-button { min-height: 44px; padding: 0; border: 0; background: none; color: var(--color-ink-2); font-size: var(--text-sm); text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
 .text-button-red { color: var(--color-accent-deep); }
 .text-button:active { transform: translateY(1px); }
@@ -62,7 +45,6 @@ a.track, .text-link .track { --tread: url("data:image/svg+xml,<svg xmlns='http:/
   .track { background: none; text-decoration: underline; }
 }
 
-/* Header */
 .topbar { display: flex; align-items: center; gap: var(--space-xl); min-height: 72px; border-bottom: var(--rule-hair) solid var(--color-rule); }
 .brand { display: inline-flex; align-items: center; min-height: 44px; gap: var(--space-sm); font: 800 1.25rem/1 var(--font-display); letter-spacing: -0.01em; text-decoration: none; }
 .brand-mark { width: 28px; height: 28px; }
@@ -74,7 +56,6 @@ a.track, .text-link .track { --tread: url("data:image/svg+xml,<svg xmlns='http:/
 .ticket-link { gap: var(--space-2xs); font-weight: 600; color: var(--color-ink); }
 .external-icon { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
-/* Hero: the headline over the finished model. */
 .hero { padding-top: var(--space-2xl); }
 .hero-text { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); align-items: end; }
 .hero h1 { grid-column: 1 / span 8; font-size: var(--text-display); font-weight: 800; line-height: 0.95; letter-spacing: var(--tracking-display); }
@@ -98,9 +79,7 @@ a.track, .text-link .track { --tread: url("data:image/svg+xml,<svg xmlns='http:/
    of its lift, 16 ms after the row below it, from the base up. */
 .hero-car .hr > * { transition: fill 0s, stroke 0s; transition-delay: calc(var(--i) * 16ms + 100ms); }
 .hero-car .hc-handle, .hero-car .hc-mirror { transition: fill 0s, stroke 0s; transition-delay: calc(var(--i) * 16ms + 100ms); }
-/* A wheel turns about its own centre. */
 .hero-car .hc-wheel { transform-box: fill-box; transform-origin: 50% 50%; }
-/* Paint picker on the car itself: a tap repaints the hero, the build model and the story image. */
 html:not(.js) .hero-paint { display: none; }
 .hero-paint { min-width: 0; margin: var(--space-sm) 0 var(--space-md); padding: 0; border: 0; }
 .hero-paint legend { margin-bottom: var(--space-xs); padding: 0; font-weight: 600; }
@@ -130,7 +109,6 @@ html:not(.js) .hero-paint { display: none; }
 .dimension-label { white-space: nowrap; font-size: var(--text-sm); font-weight: 600; }
 .hero-model figcaption { max-width: 62ch; font-size: var(--text-sm); color: var(--color-muted); }
 
-/* Checklist */
 .checklist { margin-top: var(--section-gap-s); }
 .section-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); align-items: end; margin-bottom: var(--space-xl); }
 .section-head h2 { grid-column: 1 / span 7; }
@@ -147,7 +125,6 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
 .day-button:active { transform: scale(0.97); }
 .day-note { max-width: 52ch; font-size: 0.9375rem; color: var(--color-ink-2); }
 
-/* The model that grows with each tick. It stays in view while the lists scroll. */
 .build-bar { position: sticky; top: 0; z-index: var(--z-sticky); display: flex; align-items: center; gap: var(--space-lg); margin-bottom: var(--space-lg); padding: var(--space-sm) 0; background: var(--color-paper); border-bottom: var(--rule-hair) solid var(--color-rule); }
 .build-model { flex: 0 1 540px; min-width: 0; height: auto; overflow: visible; }
 .pm-ghost .pm-plate { fill: color-mix(in oklab, var(--color-brick) 16%, var(--color-ghost)); stroke: var(--color-ghost-edge); stroke-width: 10; }
@@ -174,7 +151,6 @@ html:not(.js) .pm-solid { display: none; }
 .step-num { font: 800 var(--text-step)/0.8 var(--font-display); font-variant-numeric: tabular-nums; color: var(--color-ink); }
 .list-heading h3 { font-size: var(--text-title); }
 .list-heading p { font-size: var(--text-sm); color: var(--color-muted); }
-.availability-note { margin-top: var(--space-md); padding: var(--space-sm) var(--space-md); border-radius: 6px; background: var(--color-paper); font-size: var(--text-sm); color: var(--color-ink-2); }
 .check-list { margin: 0; padding: 0; list-style: none; }
 .check-list > li { border-bottom: var(--rule-hair) solid var(--color-rule); }
 .check-list > li:last-child { border-bottom: 0; }
@@ -203,7 +179,6 @@ html:not(.js) .pm-solid { display: none; }
 .save-note { font-size: var(--text-sm); color: var(--color-muted); }
 .check-actions { display: flex; gap: var(--space-lg); }
 
-/* A list shared by a friend. */
 .plan-banner { display: flex; margin-top: var(--space-lg); flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-sm) var(--space-lg); margin-bottom: var(--space-lg); padding: var(--space-md) var(--space-lg); border-radius: 10px; background: var(--color-paper-2); box-shadow: inset 0 0 0 2px var(--color-ink); }
 .plan-banner p { font-weight: 600; }
 .plan-actions { display: flex; align-items: center; gap: var(--space-md); }
@@ -213,7 +188,6 @@ html:not(.js) .pm-solid { display: none; }
 .build-model.is-done { transform-origin: 50% 100%; animation: model-done 420ms var(--ease-out); }
 @keyframes model-done { 40% { transform: scale(1.04); } }
 
-/* Your 911: paint, name and the story image. */
 html:not(.js) .spec { display: none; }
 .spec { margin-top: var(--section-gap-s); padding-top: var(--space-xl); border-top: 2px solid var(--color-ink); }
 .spec-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); align-items: end; margin-bottom: var(--space-xl); }
@@ -243,7 +217,6 @@ html:not(.js) .spec { display: none; }
 .swap-done, .copy-plan.is-copied .swap-idle { opacity: 0; filter: blur(2px); }
 .copy-plan.is-copied .swap-done { opacity: 1; filter: none; transition-delay: 40ms; }
 
-/* Engine */
 .engine { margin-top: var(--section-gap); padding-block: var(--section-gap-s); background: var(--color-night); color: var(--color-night-ink); }
 .engine :focus-visible { outline-color: var(--color-night-focus); }
 .engine-inner { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 var(--gap-columns); }
@@ -276,7 +249,6 @@ html:not(.js) .spec { display: none; }
 .cyl.is-firing .e-head { fill: var(--color-accent); }
 .e-label { fill: var(--color-night-ink); font: 800 22px var(--font-display); }
 
-/* Facts */
 .facts { margin-top: var(--section-gap); }
 .fact-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap-columns); margin: var(--space-xl) 0 0; padding: 0; list-style: none; }
 .fact-list li { display: grid; align-content: start; gap: var(--space-sm); padding-top: var(--space-md); border-top: 2px solid var(--color-ink); }
@@ -285,7 +257,6 @@ html:not(.js) .spec { display: none; }
 .fact-list p { color: var(--color-ink-2); }
 .facts-footnote { margin-top: var(--space-xl); font-size: var(--text-sm); color: var(--color-muted); }
 
-/* Footer */
 .site-footer { margin-top: var(--section-gap); padding-block: var(--space-2xl) var(--space-xl); border-top: 2px solid var(--color-ink); }
 .footer-close { display: grid; gap: var(--space-sm); justify-items: start; }
 .footer-close h2 { font-size: var(--text-3xl); }
@@ -372,7 +343,7 @@ html:not(.js) .spec { display: none; }
   .hero-car .hr > *, .hero-car .hc-handle, .hero-car .hc-mirror { transition: none; }
 }
 
-/* Story card for HTML-in-Canvas (Chrome and Edge 157+). Kept off screen; only the canvas export uses it. */
+/* Kept off screen: only the HTML-in-Canvas story export draws it. */
 .story-canvas { position: fixed; left: -12000px; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
 .story-card { width: 1080px; height: 1920px; box-sizing: border-box; padding: 272px 88px 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); }
 .story-count { font: 800 210px/0.9 var(--font-display); letter-spacing: -0.03em; }
@@ -386,3 +357,41 @@ html:not(.js) .spec { display: none; }
 .story-link { box-sizing: border-box; width: 720px; height: 116px; margin: calc(var(--space-xl) * 1.3) 0 0; padding: 0 48px; border: 4px dashed var(--color-ink-2); border-radius: 66px; display: flex; align-items: center; font: 600 34px var(--font-body); overflow-wrap: anywhere; }
 .story-event { margin: calc(var(--space-xl) * 1.3) 0 0; font: 600 38px var(--font-body); }
 .story-small { margin: var(--space-sm) 0 0; font: 400 30px var(--font-body); color: var(--color-ink-2); }
+
+.scroll-rail { display: none; }
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 53.75rem) and (prefers-reduced-motion: no-preference) {
+    .scroll-rail { display: block; position: fixed; z-index: var(--z-sticky); inset: var(--space-lg) 2px var(--space-xs) auto; width: 20px; pointer-events: none; background: linear-gradient(var(--color-rule), var(--color-rule)) 50% 0 / 2px 100% no-repeat; }
+    /* A 1px dark ring, then a 1px light ring: one of the two reads on any page colour (WCAG 1.4.11). */
+    .rail-car { position: absolute; top: 0; left: 0; width: 20px; height: 69px; --ring: var(--color-ink); --halo: var(--color-paper-2); filter: drop-shadow(1px 0 var(--ring)) drop-shadow(-1px 0 var(--ring)) drop-shadow(0 1px var(--ring)) drop-shadow(0 -1px var(--ring)) drop-shadow(1px 0 var(--halo)) drop-shadow(-1px 0 var(--halo)) drop-shadow(0 1px var(--halo)) drop-shadow(0 -1px var(--halo)); animation: rail-drive linear both; animation-timeline: scroll(root); }
+    /* The coat slides in and its car slides back the same distance, so the car stands still while the coat's edge
+       sweeps across it: a wipe with transforms only. A clip-path wipe repaints on the main thread. */
+    .rail-coat, .rail-coat svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .rail-coat { overflow: hidden; }
+    .rail-coat + .rail-coat, .rail-coat + .rail-coat svg { animation: rail-wipe steps(10) both; animation-timeline: scroll(root); animation-range: calc(var(--n) * 12.5% - 1.5%) calc(var(--n) * 12.5% + 1.5%); }
+    .rail-coat + .rail-coat svg { animation-name: rail-wipe-back; }
+    /* A dark core reads on pale paper and white cards; the light ring reads on the dark engine bay. */
+    .rail-puff { position: absolute; top: -7px; left: 5px; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle, var(--color-ink) 0 40%, var(--color-ink-2) 65%); box-shadow: 0 0 0 2px var(--color-paper-2); opacity: 0; }
+    .scroll-rail.is-fling .rail-puff { animation: rail-puff 700ms linear; }
+    .scroll-rail.is-fling .rail-puff:nth-of-type(2) { animation-delay: 90ms; left: 0; }
+    .scroll-rail.is-fling .rail-puff:nth-of-type(3) { animation-delay: 180ms; left: 10px; }
+  }
+}
+@keyframes rail-drive { to { transform: translateY(calc(100vh - var(--space-lg) - var(--space-xs) - 100%)); } }
+@keyframes rail-wipe { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes rail-wipe-back { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes rail-puff {
+  from { opacity: 1; transform: scale(0.6); animation-timing-function: var(--ease-out); }
+  50% { opacity: 0.85; transform: translateY(-10px) scale(1.15); animation-timing-function: linear; }
+  to { opacity: 0; transform: translateY(-18px) scale(1.4); }
+}
+
+/* Car cursor (experiment). Hotspot: the nose pixel of each image. A dev switch on <html> picks the scope in DevTools:
+   no attribute = the hero car and the swatches; data-cursor="all" = all but text and controls; "links" = links and buttons; "off". */
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-cursor]) .hero-car { cursor: url("icons/cursor-911.png") 31 18, auto; }
+  :root:not([data-cursor]) .swatch { cursor: url("icons/cursor-911-go.png") 30 12, pointer; }
+  :where([data-cursor="all"]) body { cursor: url("icons/cursor-911.png") 31 18, auto; }
+  :where([data-cursor="all"] :is(p, h1, h2, h3, li, dd, dt, td, th, figcaption, legend, label, select, button, :is(span, b, small, strong, em):not(a *, button *, label *))) { cursor: auto; }
+  [data-cursor="links"] :is(a[href], button:not(:disabled), .swatch, .check-row) { cursor: url("icons/cursor-911-go.png") 30 12, pointer; }
+}
