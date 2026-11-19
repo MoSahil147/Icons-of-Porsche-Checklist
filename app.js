@@ -422,10 +422,13 @@ if ('IntersectionObserver' in window) {
 
 // Your 911: paint, name, story image and the plan link.
 const root = document.documentElement;
-const heroImage = document.querySelector('.hero-model img');
+const heroRows = [...document.querySelectorAll('.hero-car .hr')];
+const paintedCars = [...document.querySelectorAll('.hero-car, .build-model')];
+const heroDesc = document.querySelector('#hc-d');
+const heroDescText = heroDesc?.textContent || '';
+let rowLifts = [];
 const paintInputs = [...document.querySelectorAll('input[name="paint"]')];
 const paintNames = [...document.querySelectorAll('#paint-name, #paint-summary-name')];
-let paintTicket = 0;
 const nameInput = document.querySelector('#builder-name');
 const storyFigure = document.querySelector('#story-figure');
 const storyHint = document.querySelector('#story-hint');
@@ -444,7 +447,6 @@ storyImage.height = 1920;
 storyImage.alt = 'Your story image: your 911 in the paint you chose, with your progress and the event details.';
 let storyFile = null;
 let storyUrl = '';
-let heroUrl = '';
 let heroSource = null;
 let storyTimer = 0;
 let storyVisible = false;
@@ -456,36 +458,31 @@ function paintHex(index = paintIndex) {
 
 async function heroSVGText() {
   // A failed download is not kept, so the next tap tries again when the signal comes back.
-  heroSource ??= fetch(heroImage.currentSrc || heroImage.src)
+  heroSource ??= fetch('sports-car.svg')
     .then(response => response.ok ? response.text() : Promise.reject(new Error(String(response.status))))
     .catch(error => { heroSource = null; throw error; });
   return heroSource;
 }
 
-async function applyPaint() {
-  const hex = paintHex();
-  buildModel?.style.setProperty('--color-brick', hex);
-  buildModel?.style.setProperty('--color-brick-edge', shade(hex, -0.45));
+// One variable paints the hero, the build model and the ghost tint. It is set on those two only (see styles.css).
+function applyPaint(animate = false) {
+  for (const car of paintedCars) car.style.setProperty('--car-paint', `var(--paint-${PAINTS[paintIndex][0]})`);
   paintInputs.forEach(input => { input.checked = Number(input.value) === paintIndex; });
   paintNames.forEach(name => { name.textContent = PAINTS[paintIndex][1]; });
-  // Fast taps can finish out of order: only the latest tap may change the hero.
-  const ticket = ++paintTicket;
-  if (paintIndex === 0 && !heroUrl) return;
-  try {
-    const svg = paintedSVG(await heroSVGText(), hex);
-    const next = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-    const probe = new Image();
-    probe.src = next;
-    await probe.decode().catch(() => {}); // swap a ready image; some Safari builds reject decode() for SVG
-    if (ticket !== paintTicket) { URL.revokeObjectURL(next); return; }
-    const previous = heroUrl;
-    heroUrl = next;
-    heroImage.src = next;
-    heroImage.alt = `A ${PAINTS[paintIndex][1]} Porsche 911 Carrera of the 992 generation, built from bricks and plates at 1:12 scale, on a grey studded baseplate.`;
-    if (previous) setTimeout(() => URL.revokeObjectURL(previous), 1000);
-  } catch {
-    // The red original stays when the file cannot be read again (for example offline without a cache).
-  }
+  if (heroDesc) heroDesc.textContent = heroDescText.replace('A red 911', `A ${PAINTS[paintIndex][1]} 911`);
+  if (animate) liftRows();
+}
+
+// Each plate row lifts and settles as its colour changes, from the base up: a staggered cascade.
+// A new tap cancels the old lift; the colour transitions retarget on their own.
+function liftRows() {
+  if (reducedMotion.matches) return;
+  rowLifts.forEach(lift => lift.cancel());
+  rowLifts = heroRows.map((row, i) => row.animate([
+    { transform: 'none', easing: 'cubic-bezier(0.23, 1, 0.32, 1)' },
+    { transform: 'translateY(-36px)', offset: 0.35, easing: 'cubic-bezier(0.77, 0, 0.175, 1)' },
+    { transform: 'none' }
+  ], { duration: 300, delay: i * 16 }));
 }
 
 function loadImage(src) {
@@ -867,7 +864,7 @@ window.addEventListener('scroll', () => { if (tipOpen && !paintTip.parentElement
 paintInputs.forEach(input => input.addEventListener('change', () => {
   paintIndex = Number(input.value);
   saveState();
-  applyPaint();
+  applyPaint(true);
   scheduleStory();
 }));
 

@@ -23,7 +23,9 @@
   --color-night: oklch(24% 0.03 252); --color-night-2: oklch(30% 0.03 252); --color-night-ink: oklch(94% 0.01 240); --color-night-muted: oklch(78% 0.02 240); --color-night-rule: oklch(42% 0.03 250); --color-night-focus: oklch(85% 0.13 85);
 
   /* Parts. */
-  --color-brick: var(--color-accent); --color-brick-edge: oklch(36% 0.15 23);
+  /* The car's paint. A script in <head> sets --car-paint from the saved choice before the first paint. */
+  --car-paint: var(--paint-guards-red);
+  --car-black: #000; --car-white: #fff;
   --color-ghost: oklch(88.5% 0.028 236); --color-ghost-edge: oklch(60% 0.04 240);
   --color-tyre: oklch(22% 0.006 260); --color-rim: oklch(84% 0.008 240); --color-glass: oklch(28% 0.03 245);
   --color-part: oklch(74% 0.012 240); --color-part-dark: oklch(47% 0.012 250); --color-part-edge: oklch(18% 0.02 250);

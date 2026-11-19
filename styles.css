@@ -39,7 +39,7 @@ button { user-select: none; -webkit-user-select: none; }
 .brand { display: inline-flex; align-items: center; min-height: 44px; gap: var(--space-sm); font: 800 1.25rem/1 var(--font-display); letter-spacing: -0.01em; text-decoration: none; }
 .brand-mark { width: 28px; height: 28px; }
 .brand-mark rect { fill: var(--color-accent); }
-.brand-mark circle { fill: var(--color-accent); stroke: var(--color-brick-edge); stroke-width: 1.5; }
+.brand-mark circle { fill: var(--color-accent); stroke: var(--color-accent-deep); stroke-width: 1.5; }
 .main-nav { display: flex; gap: var(--space-md); margin-left: auto; }
 .main-nav a { padding-inline: var(--space-2xs); }
 .main-nav a, .ticket-link { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--text-sm); font-weight: 400; color: var(--color-ink-2); text-decoration: none; transition: color 150ms ease; }
@@ -54,7 +54,22 @@ button { user-select: none; -webkit-user-select: none; }
 .hero-lede { font-size: var(--text-lead); color: var(--color-ink-2); }
 .hero-model { margin: var(--space-xl) 0 0; }
 .hero-model { container-type: inline-size; }
-.hero-model img { width: 100%; }
+.hero-car { display: block; width: 100%; height: auto; }
+/* Derived car colours live on the two cars only. A paint change then restyles these two subtrees, not the whole page. */
+.hero-car, .build-model {
+  --car-edge: color-mix(in srgb, var(--car-paint) 45%, var(--car-black)); --car-hi: color-mix(in srgb, var(--car-paint) 75%, var(--car-white));
+  --car-handle: color-mix(in srgb, var(--car-paint) 82%, var(--car-black)); --car-handle-edge: color-mix(in srgb, var(--car-paint) 55%, var(--car-black)); --car-mirror-edge: color-mix(in srgb, var(--car-paint) 60%, var(--car-black));
+  --color-brick: var(--car-paint); --color-brick-edge: color-mix(in srgb, var(--car-paint) 55%, var(--car-black));
+}
+.hero-car .hr-body { fill: var(--car-paint); stroke: var(--car-edge); stroke-width: 6; stroke-linejoin: round; }
+.hero-car .hr-hi { fill: none; stroke: var(--car-hi); stroke-width: 5; stroke-linecap: round; opacity: 0.85; }
+.hero-car .hr-seam { fill: none; stroke: var(--car-edge); stroke-width: 7; }
+.hero-car .hc-handle { fill: var(--car-handle); stroke: var(--car-handle-edge); stroke-width: 4; }
+.hero-car .hc-mirror { fill: var(--car-paint); stroke: var(--car-mirror-edge); stroke-width: 5; }
+/* Repaint wave: a brick does not fade, it is swapped. Each row lifts (app.js) and snaps to the new paint at the top
+   of its lift, 16 ms after the row below it, from the base up. */
+.hero-car .hr > * { transition: fill 0s, stroke 0s; transition-delay: calc(var(--i) * 16ms + 100ms); }
+.hero-car .hc-handle, .hero-car .hc-mirror { transition: fill 0s 260ms, stroke 0s 260ms; }
 /* Paint picker on the car itself: a tap repaints the hero, the build model and the story image. */
 html:not(.js) .hero-paint { display: none; }
 .hero-paint { min-width: 0; margin: var(--space-sm) 0 var(--space-md); padding: 0; border: 0; }
@@ -107,7 +122,7 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
 .build-model { flex: 0 1 540px; min-width: 0; height: auto; overflow: visible; }
 .pm-ghost .pm-plate { fill: color-mix(in oklab, var(--color-brick) 16%, var(--color-ghost)); stroke: var(--color-ghost-edge); stroke-width: 10; }
 .pm-ghost .pm-glass, .pm-ghost .pm-tyre, .pm-ghost .pm-rim { fill: var(--color-ghost); stroke: var(--color-ghost-edge); stroke-width: 10; }
-.pm-solid .pm-plate { fill: var(--color-brick); stroke: var(--color-brick-edge); stroke-width: 10; }
+.pm-solid .pm-plate { fill: var(--color-brick); stroke: var(--color-brick-edge); stroke-width: 10; transition: fill 200ms ease, stroke 200ms ease; }
 .pm-solid .pm-glass { fill: var(--color-glass); }
 .pm-solid .pm-tyre { fill: var(--color-tyre); }
 .pm-solid .pm-rim { fill: var(--color-rim); }
@@ -310,6 +325,8 @@ html:not(.js) .spec { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .pm-solid .pm-part, .pm-solid .pm-part.is-built { transform: none; }
   .build-model.is-done, .make-it-yours:not([hidden]) { animation: none; }
+  /* The base rule shortens transitions but keeps delays: drop the wave delays too, so the repaint is instant. */
+  .hero-car .hr > *, .hero-car .hc-handle, .hero-car .hc-mirror { transition: none; }
 }
 
 /* Story card for HTML-in-Canvas (Chrome and Edge 157+). Kept off screen; only the canvas export uses it. */

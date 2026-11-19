@@ -140,11 +140,15 @@ function wheelSVG(w, detailed) {
 </g>`;
 }
 
-function heroSVG() {
+// inline: the copy inside index.html. One group per plate row, paint from CSS variables, ids prefixed.
+function heroSVG(inline = false) {
   const out = [];
-  out.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${VB.w}" height="${VB.h}" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-labelledby="t d">`);
-  out.push(`<title id="t">Brick-built Porsche 911 Carrera (992), side view, scale 1:12</title>`);
-  out.push(`<desc id="d">Original fan art. A red 911 coupe built from plates, about 47 studs long and 34 plates high, on a grey studded baseplate. Each plate row ends on the real outline of the car, traced from a scaled side elevation.</desc>`);
+  const id = name => (inline ? `hc-${name}` : name);
+  out.push(inline
+    ? `<svg class="hero-car" width="${VB.w}" height="${VB.h}" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-labelledby="${id('t')} ${id('d')}">`
+    : `<svg xmlns="http://www.w3.org/2000/svg" width="${VB.w}" height="${VB.h}" viewBox="0 0 ${VB.w} ${VB.h}" role="img" aria-labelledby="t d">`);
+  out.push(`<title id="${id('t')}">Brick-built Porsche 911 Carrera (992), side view, scale 1:12</title>`);
+  out.push(`<desc id="${id('d')}">Original fan art. A red 911 coupe built from plates, about 47 studs long and 34 plates high, on a grey studded baseplate. Each plate row ends on the real outline of the car, traced from a scaled side elevation.</desc>`);
   // Baseplate and studs.
   const bx0 = -240, bx1 = CAR.length + 240;
   out.push(`<rect x="${sx(bx0)}" y="${sy(0)}" width="${bx1 - bx0}" height="${BASE}" fill="#9ea3a8"/><rect x="${sx(bx0)}" y="${sy(0)}" width="${bx1 - bx0}" height="6" fill="#c3c7cb"/><rect x="${sx(bx0)}" y="${sy(0) + BASE - 6}" width="${bx1 - bx0}" height="6" fill="#7c8186"/>`);
@@ -155,24 +159,34 @@ function heroSVG() {
   // Wheel wells, clipped to the space above the sills.
   for (const w of wheels) {
     const sill = Math.min(botAt(w.cx - w.archR - 8), botAt(w.cx + w.archR + 8));
-    out.push(`<clipPath id="well${w.cx}"><rect x="${sx(w.cx - w.archR)}" y="${sy(w.cy + w.archR)}" width="${Math.round(w.archR * 2)}" height="${Math.round(w.cy + w.archR - sill)}"/></clipPath><circle cx="${sx(w.cx)}" cy="${sy(w.cy)}" r="${Math.round(w.archR)}" fill="#14171b" clip-path="url(#well${w.cx})"/>`);
+    out.push(`<clipPath id="${id('well' + w.cx)}"><rect x="${sx(w.cx - w.archR)}" y="${sy(w.cy + w.archR)}" width="${Math.round(w.archR * 2)}" height="${Math.round(w.cy + w.archR - sill)}"/></clipPath><circle cx="${sx(w.cx)}" cy="${sy(w.cy)}" r="${Math.round(w.archR)}" fill="#14171b" clip-path="url(#${id('well' + w.cx)})"/>`);
   }
   // Plate rows, seams and top highlights.
-  const bodies = [], seamPaths = [], highs = [];
-  for (const row of rows) for (const run of row.runs) {
-    bodies.push(runPath(run, 1.5));
-    for (const x of seams(row, run)) seamPaths.push(`M${sx(x)} ${sy(row.y1)}V${sy(row.y0)}`);
-    highs.push(line(simplify(run.map(([x, t]) => [x, t - 6]), 1.5)));
+  const bodies = [], seamPaths = [], highs = [], rowParts = [];
+  for (const row of rows) {
+    const part = { b: [], s: [], h: [] };
+    for (const run of row.runs) {
+      part.b.push(runPath(run, 1.5));
+      for (const x of seams(row, run)) part.s.push(`M${sx(x)} ${sy(row.y1)}V${sy(row.y0)}`);
+      part.h.push(line(simplify(run.map(([x, t]) => [x, t - 6]), 1.5)));
+    }
+    bodies.push(...part.b); seamPaths.push(...part.s); highs.push(...part.h);
+    if (part.b.length) rowParts.push(part);
   }
-  out.push(`<g fill="#c8102e" stroke="#5a0613" stroke-width="6" stroke-linejoin="round"><path d="${bodies.join('')}"/></g>`);
-  out.push(`<path d="${highs.join('')}" fill="none" stroke="#e8435a" stroke-width="5" stroke-linecap="round" opacity=".85"/>`);
-  out.push(`<path d="${seamPaths.join('')}" stroke="#5a0613" stroke-width="7"/>`);
+  if (inline) {
+    // Row 0 is the base. The repaint wave climbs the rows in this order.
+    rowParts.forEach((part, i) => out.push(`<g class="hr" style="--i:${i}"><path class="hr-body" d="${part.b.join('')}"/><path class="hr-hi" d="${part.h.join('')}"/><path class="hr-seam" d="${part.s.join('')}"/></g>`));
+  } else {
+    out.push(`<g fill="#c8102e" stroke="#5a0613" stroke-width="6" stroke-linejoin="round"><path d="${bodies.join('')}"/></g>`);
+    out.push(`<path d="${highs.join('')}" fill="none" stroke="#e8435a" stroke-width="5" stroke-linecap="round" opacity=".85"/>`);
+    out.push(`<path d="${seamPaths.join('')}" stroke="#5a0613" stroke-width="7"/>`);
+  }
   // Glass as single transparent parts.
-  out.push(`<clipPath id="glass">${glass.map(g => `<path d="${path(g)}"/>`).join('')}</clipPath>`);
+  out.push(`<clipPath id="${id('glass')}">${glass.map(g => `<path d="${path(g)}"/>`).join('')}</clipPath>`);
   out.push(`<g fill="#1e2a35" stroke="#0e151c" stroke-width="6">${glass.map(g => `<path d="${path(g)}"/>`).join('')}</g>`);
-  out.push(`<path d="M${sx(1500)} ${sy(1300)}L${sx(1900)} ${sy(1300)}L${sx(1500)} ${sy(800)}L${sx(1100)} ${sy(800)}ZM${sx(2150)} ${sy(1300)}L${sx(2300)} ${sy(1300)}L${sx(1900)} ${sy(800)}L${sx(1750)} ${sy(800)}Z" fill="#9fb3c4" opacity=".22" clip-path="url(#glass)"/>`);
+  out.push(`<path d="M${sx(1500)} ${sy(1300)}L${sx(1900)} ${sy(1300)}L${sx(1500)} ${sy(800)}L${sx(1100)} ${sy(800)}ZM${sx(2150)} ${sy(1300)}L${sx(2300)} ${sy(1300)}L${sx(1900)} ${sy(800)}L${sx(1750)} ${sy(800)}Z" fill="#9fb3c4" opacity=".22" clip-path="url(#${id('glass')})"/>`);
   // Lights, intakes and handle sit inside the body outline. The mirror stands proud of it.
-  out.push(`<clipPath id="body"><path d="${bodies.join('')}"/></clipPath><g clip-path="url(#body)">`);
+  out.push(`<clipPath id="${id('body')}"><path d="${bodies.join('')}"/></clipPath><g clip-path="url(#${id('body')})">`);
   out.push(`<path d="${path(DETAIL.tail)}" fill="#8e0d1d" stroke="#5a0611" stroke-width="5"/><path d="${line(DETAIL.tail.slice(0, 3))}" fill="none" stroke="#ff6b78" stroke-width="6" stroke-linecap="round"/>`);
   out.push(`<path d="${path(DETAIL.head)}" fill="#dde6ec" stroke="#8796a2" stroke-width="5"/>`);
   for (const k of ['intakeFront', 'intakeRear']) {
@@ -180,8 +194,8 @@ function heroSVG() {
     const slats = [1, 2, 3].map(n => { const y = Math.min(...ys) + (Math.max(...ys) - Math.min(...ys)) * n / 4; return `M${sx(Math.min(...xs) + 20)} ${sy(y)}H${sx(Math.max(...xs) - 20)}`; }).join('');
     out.push(`<path d="${path(pts)}" fill="#24292f" stroke="#111418" stroke-width="5"/><path d="${slats}" stroke="#4a525b" stroke-width="7"/>`);
   }
-  out.push(`<path d="${path(DETAIL.handle)}" fill="#a50c24" stroke="#6e0818" stroke-width="4"/></g>`);
-  out.push(`<path d="${path(DETAIL.mirrorArm)}" fill="#24292f"/><path d="${path(DETAIL.mirror)}" fill="#c8102e" stroke="#7d0a1c" stroke-width="5"/>`);
+  out.push(inline ? `<path class="hc-handle" d="${path(DETAIL.handle)}"/></g>` : `<path d="${path(DETAIL.handle)}" fill="#a50c24" stroke="#6e0818" stroke-width="4"/></g>`);
+  out.push(`<path d="${path(DETAIL.mirrorArm)}" fill="#24292f"/>` + (inline ? `<path class="hc-mirror" d="${path(DETAIL.mirror)}"/>` : `<path d="${path(DETAIL.mirror)}" fill="#c8102e" stroke="#7d0a1c" stroke-width="5"/>`));
   for (const w of wheels) out.push(wheelSVG(w, true));
   out.push('</svg>');
   return out.join('\n');
@@ -214,7 +228,8 @@ writeFileSync(root + 'sports-car.svg', heroSVG() + '\n');
 const html = readFileSync(root + 'index.html', 'utf8');
 const marked = /(<!-- build-model:start -->)[\s\S]*?(<!-- build-model:end -->)/;
 const rulerMarked = /(<!-- ruler:start -->)[\s\S]*?(<!-- ruler:end -->)/;
-if (marked.test(html)) writeFileSync(root + 'index.html', html.replace(marked, `$1${buildSVG()}$2`).replace(rulerMarked, `$1${rulerSVG()}$2`));
+const heroMarked = /(<!-- hero-car:start -->)[\s\S]*?(<!-- hero-car:end -->)/;
+if (marked.test(html)) writeFileSync(root + 'index.html', html.replace(marked, `$1${buildSVG()}$2`).replace(rulerMarked, `$1${rulerSVG()}$2`).replace(heroMarked, () => `<!-- hero-car:start -->${heroSVG(true)}<!-- hero-car:end -->`));
 
 // Facts the page states, so the copy and the drawing agree.
 const pct = x => +(sx(x) / VB.w * 100).toFixed(2);

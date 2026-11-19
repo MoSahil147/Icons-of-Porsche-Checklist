@@ -35,7 +35,7 @@ Checklist progress saves in the visitor's browser under the existing `brick-by-b
 
 | File | Source | Rebuild |
 | --- | --- | --- |
-| `sports-car.svg`, build model in `index.html` | `tools/car-profile.json` | `bun tools/build-car.js` |
+| `sports-car.svg`, the hero car, the ruler and the build model in `index.html` | `tools/car-profile.json` | `bun tools/build-car.js` |
 | `og-v2.png` | `tools/og.html` | `chromium --headless --hide-scrollbars --virtual-time-budget=5000 --window-size=1200,630 --screenshot=og-v2.png "file://$PWD/tools/og.html"` |
 | `icons/*.png` | `icons/favicon.svg`, `icons/icon-source.svg` | `rsvg-convert -w 180 -h 180 icons/icon-source.svg -o icons/apple-touch-icon.png` (also 192 and 512; favicon-32 from `favicon.svg`) |
 
