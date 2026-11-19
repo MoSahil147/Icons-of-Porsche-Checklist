@@ -196,10 +196,25 @@ function buildSVG() {
   return `<svg class="build-model" viewBox="${PAD.left - 60} ${PAD.top - 10} ${CAR.length + 120} ${CAR.height + 30}" aria-hidden="true" focusable="false"><g class="pm-ghost">${layer('pm-part')}</g><g class="pm-solid">${layer('pm-part')}</g></svg>`;
 }
 
+
+// Stud ruler under the hero car: one tick per stud from the rear bumper, a taller tick every 4 studs,
+// axle marks and the wheelbase span. Same viewBox width as the car, so it lines up at every size.
+function rulerSVG() {
+  const H = 150, base = 40, ticks = [];
+  for (let k = 0; k * STUD <= CAR.length + 1; k++) ticks.push(`M${sx(k * STUD)} ${base}v${k % 4 === 0 ? 34 : 18}`);
+  const [rear, front] = wheels.map(w => sx(w.cx));
+  return `<svg class="ruler" viewBox="0 0 ${VB.w} ${H}" preserveAspectRatio="none" aria-hidden="true" focusable="false">`
+    + `<path class="ruler-base" d="M${sx(0)} ${base}H${sx(CAR.length)}"/>`
+    + `<path class="ruler-ticks" d="${ticks.join('')}"/>`
+    + `<path class="ruler-axle" d="M${rear} ${base - 30}v${H - base + 10}M${front} ${base - 30}v${H - base + 10}M${rear} ${H - 12}H${front}"/>`
+    + `</svg>`;
+}
+
 writeFileSync(root + 'sports-car.svg', heroSVG() + '\n');
 const html = readFileSync(root + 'index.html', 'utf8');
 const marked = /(<!-- build-model:start -->)[\s\S]*?(<!-- build-model:end -->)/;
-if (marked.test(html)) writeFileSync(root + 'index.html', html.replace(marked, `$1${buildSVG()}$2`));
+const rulerMarked = /(<!-- ruler:start -->)[\s\S]*?(<!-- ruler:end -->)/;
+if (marked.test(html)) writeFileSync(root + 'index.html', html.replace(marked, `$1${buildSVG()}$2`).replace(rulerMarked, `$1${rulerSVG()}$2`));
 
 // Facts the page states, so the copy and the drawing agree.
 const pct = x => +(sx(x) / VB.w * 100).toFixed(2);

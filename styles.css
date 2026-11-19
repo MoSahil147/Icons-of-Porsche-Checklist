@@ -54,12 +54,11 @@ button { user-select: none; -webkit-user-select: none; }
 .hero-lede { font-size: var(--text-lead); color: var(--color-ink-2); }
 .hero-model { margin: var(--space-xl) 0 0; }
 .hero-model img { width: 100%; }
-.dimension { position: relative; height: 48px; }
-.dimension-line { position: absolute; left: 26.78%; width: 47.65%; top: var(--space-sm); border-top: 2px solid var(--color-ink); }
-.dimension-line::before, .dimension-line::after { content: ""; position: absolute; top: -8px; width: 2px; height: 14px; background: var(--color-ink); }
-.dimension-line::before { left: 0; }
-.dimension-line::after { right: 0; }
-.dimension-label { position: absolute; left: 50%; top: var(--space-xs); transform: translateX(-50%); white-space: nowrap; font-size: var(--text-sm); font-weight: 600; }
+.dimension { display: grid; justify-items: center; gap: var(--space-2xs); }
+.ruler { display: block; width: 100%; height: clamp(20px, 3vw, 40px); }
+.ruler path { fill: none; stroke: var(--color-ink); stroke-width: 1px; vector-effect: non-scaling-stroke; }
+.ruler .ruler-axle { stroke-width: 2px; }
+.dimension-label { white-space: nowrap; font-size: var(--text-sm); font-weight: 600; }
 .hero-model figcaption { max-width: 62ch; font-size: var(--text-sm); color: var(--color-muted); }
 
 /* Checklist */
