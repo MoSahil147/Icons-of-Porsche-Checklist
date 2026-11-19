@@ -876,18 +876,22 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape' && ti
 // A scroll closes an open hover tooltip, but not one that keyboard focus opened (focus itself can scroll the page).
 window.addEventListener('scroll', () => { if (tipOpen && !paintTip.parentElement.contains(document.activeElement)) hideTip(); }, { passive: true });
 
-// Exhaust on the scroll rail: puffs only on a hard fling. CSS hides the rail on small screens and with reduced motion.
+// Exhaust on the scroll rail: puffs only on a firm flick. CSS hides the rail on small screens and with reduced motion.
+// Speed is in viewport heights per second over the last 100 ms. Measured (pptr/speed-probe.mjs, 600 and 1000 px
+// windows): reading scrolls peak at 2.05, firm wheel and trackpad flicks start at 3.07. Keys and anchor glides
+// never count: only a scroll within 300 ms of wheel or touch input does.
 const scrollRail = document.getElementById('scroll-rail');
-const FLING_SPEED = 6; // px per ms, sustained over FLING_SPAN; a normal wheel scroll peaks near 2.
-const FLING_SPAN = 120; // ms
-let railY = window.scrollY, railT = performance.now(), flingFrom = 0;
+const FLING_VH_PER_S = 2.5;
+let railSamples = [], railInputAt = -Infinity;
+for (const type of ['wheel', 'touchmove']) window.addEventListener(type, () => { railInputAt = performance.now(); }, { passive: true });
 window.addEventListener('scroll', () => {
-  const now = performance.now(), y = window.scrollY;
-  const fast = now - railT < 100 && Math.abs(y - railY) / (now - railT) > FLING_SPEED;
-  if (!fast) flingFrom = 0;
-  else if (!flingFrom) flingFrom = now;
-  else if (now - flingFrom >= FLING_SPAN && !scrollRail.classList.contains('is-fling') && scrollRail.checkVisibility()) scrollRail.classList.add('is-fling');
-  railY = y; railT = now;
+  const now = performance.now();
+  if (now - railInputAt > 300) { railSamples = []; return; }
+  railSamples.push([now, window.scrollY]);
+  while (now - railSamples[0][0] > 100) railSamples.shift();
+  const [t0, y0] = railSamples[0];
+  const speed = Math.abs(window.scrollY - y0) / (now - t0) * 1000 / window.innerHeight;
+  if (now - t0 >= 40 && speed > FLING_VH_PER_S && !scrollRail.classList.contains('is-fling') && scrollRail.checkVisibility()) scrollRail.classList.add('is-fling');
 }, { passive: true });
 scrollRail.addEventListener('animationend', event => { if (event.target.matches('.rail-puff:last-child')) scrollRail.classList.remove('is-fling'); });
 
