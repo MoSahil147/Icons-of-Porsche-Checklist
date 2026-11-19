@@ -350,3 +350,24 @@ html:not(.js) .spec { display: none; }
 .story-link { box-sizing: border-box; width: 720px; height: 132px; margin: var(--space-lg) 0 0; padding: 0 48px; border: 4px dashed var(--color-ink-2); border-radius: 66px; display: flex; align-items: center; font: 600 34px var(--font-body); overflow-wrap: anywhere; }
 .story-event { margin: var(--space-xl) 0 0; font: 600 38px var(--font-body); }
 .story-small { margin: var(--space-sm) 0 0; font: 400 30px var(--font-body); color: var(--color-ink-2); }
+
+/* Scroll rail, desktop only. Scroll-driven animations move it on the compositor (transform and opacity), so no script runs per frame. */
+.scroll-rail { display: none; }
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 53.75rem) and (prefers-reduced-motion: no-preference) {
+    .scroll-rail { display: block; position: fixed; z-index: var(--z-sticky); inset: var(--space-xs) 2px var(--space-xs) auto; width: 20px; pointer-events: none; background: linear-gradient(var(--color-rule), var(--color-rule)) 50% 0 / 2px 100% no-repeat; }
+    .rail-car { position: absolute; top: 0; left: 0; width: 20px; height: 69px; filter: drop-shadow(0 0 0.75px var(--color-ink)); animation: rail-drive linear both; animation-timeline: scroll(root); }
+    .rail-car svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; animation: rail-paint linear none; animation-timeline: scroll(root); animation-range: calc(var(--n) * 12.5%) calc(var(--n) * 12.5% + 12.5%); }
+    /* At the very bottom the last range has ended; keep Carmine Red on. */
+    .rail-car svg:last-of-type { animation-fill-mode: forwards; }
+    .rail-puff { position: absolute; top: -6px; left: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-muted); opacity: 0; }
+    .scroll-rail.is-fling .rail-puff { animation: rail-puff 600ms var(--ease-out); }
+    .scroll-rail.is-fling .rail-puff:nth-of-type(2) { animation-delay: 90ms; left: 2px; }
+    .scroll-rail.is-fling .rail-puff:nth-of-type(3) { animation-delay: 180ms; left: 10px; }
+  }
+}
+@keyframes rail-drive { to { transform: translateY(calc(100vh - 2 * var(--space-xs) - 100%)); } }
+/* A paint snaps on for its eighth of the page, like a brick swap. */
+@keyframes rail-paint { from, to { opacity: 1; } }
+@keyframes rail-puff { from { opacity: 0.6; transform: none; } to { opacity: 0; transform: translateY(-16px) scale(1.8); } }
+

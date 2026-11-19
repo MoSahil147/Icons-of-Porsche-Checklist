@@ -876,6 +876,21 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape' && ti
 // A scroll closes an open hover tooltip, but not one that keyboard focus opened (focus itself can scroll the page).
 window.addEventListener('scroll', () => { if (tipOpen && !paintTip.parentElement.contains(document.activeElement)) hideTip(); }, { passive: true });
 
+// Exhaust on the scroll rail: puffs only on a hard fling. CSS hides the rail on small screens and with reduced motion.
+const scrollRail = document.getElementById('scroll-rail');
+const FLING_SPEED = 6; // px per ms, sustained over FLING_SPAN; a normal wheel scroll peaks near 2.
+const FLING_SPAN = 120; // ms
+let railY = window.scrollY, railT = performance.now(), flingFrom = 0;
+window.addEventListener('scroll', () => {
+  const now = performance.now(), y = window.scrollY;
+  const fast = now - railT < 100 && Math.abs(y - railY) / (now - railT) > FLING_SPEED;
+  if (!fast) flingFrom = 0;
+  else if (!flingFrom) flingFrom = now;
+  else if (now - flingFrom >= FLING_SPAN && !scrollRail.classList.contains('is-fling') && scrollRail.checkVisibility()) scrollRail.classList.add('is-fling');
+  railY = y; railT = now;
+}, { passive: true });
+scrollRail.addEventListener('animationend', event => { if (event.target.matches('.rail-puff:last-child')) scrollRail.classList.remove('is-fling'); });
+
 paintInputs.forEach(input => input.addEventListener('change', () => {
   paintIndex = Number(input.value);
   saveState();

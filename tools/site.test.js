@@ -56,6 +56,18 @@ describe('paint', () => {
   });
 });
 
+describe('scroll rail', () => {
+  test('the rail car finds the hero clip paths it reuses', () => {
+    for (const id of ['hc-body', 'hc-glass']) expect(html).toContain(`<clipPath id="${id}">`);
+  });
+
+  test('eight paint layers in Porsche order, one per eighth of the page', () => {
+    const rail = html.slice(html.indexOf('class="rail-car"'));
+    expect([...rail.matchAll(/<svg data-paint="([a-z-]+)" style="--n:(\d)"/g)].map(match => `${match[2]}${match[1]}`)).toEqual(
+      ['guards-red', 'racing-yellow', 'irish-green', 'miami-blue', 'lava-orange', 'chalk', 'carrara-white', 'carmine-red'].map((paint, i) => `${i}${paint}`));
+  });
+});
+
 describe('paint picker', () => {
   test('eight paint radios sit on the hero, before the checklist', () => {
     const hero = html.slice(html.indexOf('class="hero-paint"'), html.indexOf('id="checklist"'));
