@@ -17,8 +17,16 @@ const dialogCancel = document.querySelector('#dialog-cancel');
 const engineToggle = document.querySelector('#engine-toggle');
 const buildModel = document.querySelector('.build-model');
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
+const makeItYours = document.querySelector('#make-it-yours');
+let wasComplete = null;
 const itemIds = new Set(checkboxes.map(input => input.dataset.item));
 const dayNames = { sat: 'Saturday', sun: 'Sunday' };
+const PAINTS = [
+  ['guards-red', 'Guards Red'], ['racing-yellow', 'Racing Yellow'], ['irish-green', 'Irish Green'], ['miami-blue', 'Miami Blue'],
+  ['lava-orange', 'Lava Orange'], ['chalk', 'Chalk'], ['carrara-white', 'Carrara White Metallic'], ['carmine-red', 'Carmine Red']
+];
+let paintIndex = 0;
+let builderName = '';
 let storageAvailable = true;
 let activeDay = 'sat';
 let activeCategory = 'pack';
@@ -63,6 +71,8 @@ function readSavedState() {
     if (saved.activeCategory === 'pack' || saved.activeCategory === 'collect') {
       activeCategory = saved.activeCategory;
     }
+    if (Number.isInteger(saved.paint) && saved.paint >= 0 && saved.paint < PAINTS.length) paintIndex = saved.paint;
+    if (typeof saved.name === 'string') builderName = cleanName(saved.name);
   } catch {
     progress = emptyProgress();
   }
@@ -80,7 +90,9 @@ function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         ...progress,
         activeDay,
-        activeCategory
+        activeCategory,
+        paint: paintIndex,
+        name: builderName
       }));
     } catch {
       storageAvailable = false;
@@ -178,8 +190,18 @@ function renderProgress() {
     0
   );
 
-  const suffix = done === total ? '. The 911 is complete.' : activeDay === 'both' ? ' ready across both days' : ' ready';
+  const complete = done === total;
+  const suffix = complete ? '. The 911 is complete.' : activeDay === 'both' ? ' ready across both days' : ' ready';
   progressLabel.textContent = `${done} / ${total}${suffix}`;
+  makeItYours.hidden = done === 0;
+  // The last tick of a day earns one short pop. Loads and day switches do not.
+  if (complete && wasComplete === false && buildModel && !buildModel.classList.contains('no-anim')) {
+    buildModel.classList.remove('is-done');
+    void buildModel.getBoundingClientRect();
+    buildModel.classList.add('is-done');
+  }
+  wasComplete = complete;
+  scheduleStory();
   progressMeter.max = total;
   progressMeter.value = done;
   progressMeter.setAttribute('aria-valuetext', `${done} of ${total} items ready`);
@@ -348,6 +370,320 @@ if ('IntersectionObserver' in window) {
     lastFrameTime = 0;
     if (engineVisible && engineRunning && !engineFrame) engineFrame = requestAnimationFrame(engineTick);
   }).observe(engineArt);
+}
+
+// Your 911: paint, name, story image and the plan link.
+const root = document.documentElement;
+const heroImage = document.querySelector('.hero-model img');
+const paintInputs = [...document.querySelectorAll('.paint-picker input[name="paint"]')];
+const nameInput = document.querySelector('#builder-name');
+const storyFigure = document.querySelector('#story-figure');
+const storyHint = document.querySelector('#story-hint');
+const shareStoryButton = document.querySelector('#share-story');
+const saveStoryLink = document.querySelector('#save-story');
+const copyPlanButton = document.querySelector('#copy-plan');
+const shareStatus = document.querySelector('#share-status');
+const planBanner = document.querySelector('#plan-banner');
+const planBannerText = document.querySelector('#plan-banner-text');
+const planMerge = document.querySelector('#plan-merge');
+const planDismiss = document.querySelector('#plan-dismiss');
+const planUndo = document.querySelector('#plan-undo');
+const storyImage = new Image();
+storyImage.width = 1080;
+storyImage.height = 1920;
+storyImage.alt = 'Your story image: your 911 in the paint you chose, with your progress and the event details.';
+let storyFile = null;
+let storyUrl = '';
+let heroUrl = '';
+let heroSource = null;
+let storyTimer = 0;
+let storyVisible = false;
+let copyTimer = 0;
+
+function paintHex(index = paintIndex) {
+  return getComputedStyle(root).getPropertyValue(`--paint-${PAINTS[index][0]}`).trim() || '#c8102e';
+}
+
+async function heroSVGText() {
+  heroSource ??= fetch(heroImage.currentSrc || heroImage.src).then(response => response.ok ? response.text() : Promise.reject(new Error(String(response.status))));
+  return heroSource;
+}
+
+async function applyPaint() {
+  const hex = paintHex();
+  buildModel?.style.setProperty('--color-brick', hex);
+  buildModel?.style.setProperty('--color-brick-edge', shade(hex, -0.45));
+  paintInputs.forEach(input => { input.checked = Number(input.value) === paintIndex; });
+  if (paintIndex === 0 && !heroUrl) return;
+  try {
+    const svg = paintedSVG(await heroSVGText(), hex);
+    const next = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+    const previous = heroUrl;
+    heroUrl = next;
+    heroImage.src = next;
+    heroImage.alt = `A ${PAINTS[paintIndex][1]} Porsche 911 Carrera of the 992 generation, built from bricks and plates at 1:12 scale, on a grey studded baseplate.`;
+    if (previous) setTimeout(() => URL.revokeObjectURL(previous), 1000);
+  } catch {
+    // The red original stays when the file cannot be read again (for example offline without a cache).
+  }
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = src;
+  });
+}
+
+// The build model with plain fill attributes, because CSS classes do not apply to an SVG drawn as an image.
+function buildModelSVG(builtCount, hex) {
+  const clone = buildModel.cloneNode(true);
+  clone.querySelector('.pm-ghost')?.remove();
+  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  // An SVG drawn to a canvas needs a size of its own; the viewBox alone gives it none in some browsers.
+  const [, , viewWidth, viewHeight] = clone.getAttribute('viewBox').split(' ');
+  clone.setAttribute('width', viewWidth);
+  clone.setAttribute('height', viewHeight);
+  const colours = { 'pm-plate': hex, 'pm-glass': '#1e2a35', 'pm-tyre': '#1c1d20', 'pm-rim': '#c6ccd1' };
+  clone.querySelectorAll('.pm-part').forEach((part, index) => {
+    const built = index < builtCount;
+    part.removeAttribute('class');
+    part.querySelectorAll('[class]').forEach(shape => {
+      const kind = shape.getAttribute('class');
+      shape.removeAttribute('class');
+      shape.setAttribute('fill', built ? colours[kind] : '#c8dde9');
+      shape.setAttribute('stroke', built && kind === 'pm-plate' ? shade(hex, -0.45) : built ? 'none' : '#a7becf');
+      shape.setAttribute('stroke-width', '10');
+    });
+  });
+  return new XMLSerializer().serializeToString(clone);
+}
+
+function progressNumbers() {
+  const days = selectedDays();
+  const total = days.length * itemIds.size;
+  const done = days.reduce((count, day) => count + [...itemIds].filter(item => progress[day][item]).length, 0);
+  return { done, total };
+}
+
+function fitText(context, text, font, maxWidth, size) {
+  let next = size;
+  do {
+    context.font = `${font} ${next}px ${font.startsWith('800') ? '"League Spartan"' : '"Onest"'}, system-ui, sans-serif`;
+    next -= 4;
+  } while (context.measureText(text).width > maxWidth && next > 24);
+}
+
+// One page of the visitor's own building instructions, 1080 x 1920.
+// Key content stays between y 270 and y 1536 so Instagram and WhatsApp controls do not cover it.
+async function renderStory() {
+  const { done, total } = progressNumbers();
+  const hex = paintHex();
+  const complete = done === total;
+  const built = total ? Math.round(done / total * modelParts.length) : 0;
+  const svg = complete ? paintedSVG(await heroSVGText(), hex) : buildModelSVG(built, hex);
+  await Promise.race([
+    Promise.all(['800 120px "League Spartan"', '600 40px "Onest"', '400 34px "Onest"'].map(font => document.fonts.load(font))),
+    new Promise(resolve => setTimeout(resolve, 1500))
+  ]);
+  const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+  const car = await loadImage(url).finally(() => setTimeout(() => URL.revokeObjectURL(url), 1000));
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080;
+  canvas.height = 1920;
+  const c = canvas.getContext('2d');
+  const ink = '#162232', muted = '#4b5a6c', left = 90, width = 900;
+  c.fillStyle = '#dbebf5';
+  c.fillRect(0, 0, 1080, 1920);
+  c.fillStyle = ink;
+  c.textBaseline = 'alphabetic';
+  fitText(c, `${done} / ${total}`, '800', width, 230);
+  c.fillText(`${done} / ${total}`, left, 500);
+  const dayText = activeDay === 'both' ? 'Saturday and Sunday' : dayNames[activeDay];
+  const countLine = complete ? `items ready. ${dayText}'s 911 is complete.` : `items ready for ${dayText}.`;
+  fitText(c, countLine, '600', width, 52);
+  c.fillText(countLine, left, 580);
+  const carWidth = 1000, carHeight = carWidth * car.naturalHeight / car.naturalWidth;
+  c.drawImage(car, 40, 760 - carHeight / 2 + 60, carWidth, carHeight);
+  // The parts call-out: the paint as a 1x2 plate, like the box in a building step.
+  const boxY = 1060;
+  c.lineWidth = 6;
+  c.strokeStyle = ink;
+  c.beginPath();
+  c.roundRect(left, boxY, width, 210, 18);
+  c.stroke();
+  c.fillStyle = hex;
+  c.strokeStyle = shade(hex, -0.45);
+  c.lineWidth = 4;
+  c.beginPath(); c.roundRect(left + 40, boxY + 92, 150, 76, 8); c.fill(); c.stroke();
+  for (const x of [left + 77, left + 152]) { c.beginPath(); c.roundRect(x - 26, boxY + 64, 52, 30, 6); c.fill(); c.stroke(); }
+  c.fillStyle = ink;
+  fitText(c, `1x ${PAINTS[paintIndex][1]}`, '800', width - 260, 60);
+  c.fillText(`1x ${PAINTS[paintIndex][1]}`, left + 230, boxY + 115);
+  c.fillStyle = muted;
+  fitText(c, '911 Carrera (992), 1:12, brick-built', '400', width - 260, 34);
+  c.fillText('911 Carrera (992), 1:12, brick-built', left + 230, boxY + 165);
+  if (builderName) {
+    c.fillStyle = ink;
+    fitText(c, `Built by ${builderName}`, '800', width, 72);
+    c.fillText(`Built by ${builderName}`, left, 1385);
+  }
+  c.fillStyle = ink;
+  fitText(c, 'Icons of Porsche, Dubai, 21 to 22 November 2026', '600', width, 38);
+  c.fillText('Icons of Porsche, Dubai, 21 to 22 November 2026', left, 1460);
+  c.fillStyle = muted;
+  fitText(c, 'A fan-made guide, not an official Porsche page.', '400', width, 30);
+  c.fillText('A fan-made guide, not an official Porsche page.', left, 1560);
+  c.fillStyle = muted;
+  const address = (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
+  fitText(c, address, '400', width, 32);
+  c.fillText(address, left, 1512);
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  if (!blob) throw new Error('The story image could not be exported.');
+  return blob;
+}
+
+function scheduleStory() {
+  // Drop the old image at once, so a fast tap never shares a card that no longer matches the list.
+  storyFile = null;
+  if (!storyVisible) return;
+  clearTimeout(storyTimer);
+  storyTimer = setTimeout(async () => {
+    try {
+      const blob = await renderStory();
+      storyFile = new File([blob], 'my-911-icons-of-porsche.png', { type: 'image/png' });
+      const previous = storyUrl;
+      storyUrl = URL.createObjectURL(blob);
+      storyImage.src = storyUrl;
+      if (!storyImage.isConnected) storyFigure.prepend(storyImage);
+      saveStoryLink.href = storyUrl;
+      if (previous) setTimeout(() => URL.revokeObjectURL(previous), 1000);
+    } catch {
+      storyFile = null;
+      shareStatus.textContent = 'The story image could not be made in this browser.';
+    }
+  }, 300);
+}
+
+const canShareFiles = file => Boolean(navigator.canShare && file && navigator.canShare({ files: [file] }));
+
+shareStoryButton.addEventListener('click', () => {
+  // share() runs first in the handler, with the file made in advance, so the tap still counts as a user gesture.
+  if (canShareFiles(storyFile)) {
+    navigator.share({ files: [storyFile], title: 'My 911 for Icons of Porsche' }).catch(() => {});
+    return;
+  }
+  saveStoryLink.hidden = !storyUrl;
+  storyHint.hidden = false;
+  shareStatus.textContent = storyUrl ? 'Sharing is not available here. Save the image instead.' : 'The image is still being made. Try again in a moment.';
+});
+
+function planUrl() {
+  const url = new URL(location.pathname, location.origin);
+  const masks = selectedDays().map(day => encodeMask(progress[day]));
+  url.searchParams.set('plan', ['1', activeDay, ...masks].join('.'));
+  if (builderName) url.searchParams.set('by', builderName);
+  return url.href;
+}
+
+function clearPlanParams() {
+  history.replaceState(history.state, '', location.pathname + location.hash);
+}
+
+function showPlanBanner(plan) {
+  const count = Object.values(plan.days).reduce((sum, ids) => sum + ids.length, 0);
+  const total = Object.keys(plan.days).length * itemIds.size;
+  const dayText = plan.day === 'both' ? 'Saturday and Sunday' : dayNames[plan.day];
+  // The name sits in <bdi>, so an Arabic or Hebrew name cannot reorder the sentence around it.
+  const who = document.createElement('bdi');
+  who.textContent = plan.by || 'A friend';
+  planBannerText.replaceChildren(who, ` ticked ${count} of ${total} items on ${dayText}.`);
+  planBanner.hidden = false;
+  planMerge.hidden = count === 0;
+  let added = [];
+  planMerge.onclick = () => {
+    added = [];
+    for (const [day, ids] of Object.entries(plan.days)) {
+      for (const id of ids) if (itemIds.has(id) && !progress[day][id]) { progress[day][id] = true; added.push([day, id]); }
+    }
+    activeDay = plan.day;
+    saveState();
+    renderDayButtons();
+    renderChecklist();
+    planBannerText.textContent = added.length ? `Ticked ${added.length} more ${added.length === 1 ? 'item' : 'items'} on your ${dayText} list. Nothing was unticked.` : `Your ${dayText} list already had every item.`;
+    planMerge.hidden = true;
+    planUndo.hidden = added.length === 0;
+    clearPlanParams();
+  };
+  planUndo.onclick = () => {
+    for (const [day, id] of added) delete progress[day][id];
+    saveState();
+    renderChecklist();
+    planBannerText.textContent = 'Undone. Your list is as it was.';
+    planUndo.hidden = true;
+  };
+  planDismiss.onclick = () => {
+    planBanner.hidden = true;
+    clearPlanParams();
+  };
+}
+
+function showCopied() {
+  copyPlanButton.classList.add('is-copied');
+  shareStatus.textContent = 'Link copied.';
+  clearTimeout(copyTimer);
+  copyTimer = setTimeout(() => copyPlanButton.classList.remove('is-copied'), 2000);
+}
+
+copyPlanButton.addEventListener('click', () => {
+  const url = planUrl();
+  const dayText = activeDay === 'both' ? 'Saturday and Sunday' : dayNames[activeDay];
+  const text = `${builderName ? `${builderName}'s` : 'My'} ${dayText} list for Icons of Porsche. Open it to add it to yours.`;
+  if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+    navigator.share({ title: '911 Field Guide', text, url }).catch(() => {});
+    return;
+  }
+  navigator.clipboard?.writeText(url).then(showCopied, () => { shareStatus.textContent = `Copy this link: ${url}`; })
+    ?? (shareStatus.textContent = `Copy this link: ${url}`);
+});
+
+paintInputs.forEach(input => input.addEventListener('change', () => {
+  paintIndex = Number(input.value);
+  saveState();
+  applyPaint();
+  scheduleStory();
+}));
+
+nameInput.value = builderName;
+nameInput.addEventListener('input', () => {
+  builderName = cleanName(nameInput.value);
+  saveState();
+  scheduleStory();
+});
+
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting) && !storyVisible) {
+      storyVisible = true;
+      scheduleStory();
+    }
+  }, { rootMargin: '200px' }).observe(storyFigure);
+} else {
+  storyVisible = true;
+}
+
+const sharedPlan = decodePlan(location.search);
+if (sharedPlan) showPlanBanner(sharedPlan);
+else if (location.search.includes('plan=')) clearPlanParams();
+
+// Offline after one visit, where the browser allows a service worker (not in every in-app browser).
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js')
+    .then(() => navigator.serviceWorker.ready)
+    .then(() => { if (storageAvailable) storageStatus.textContent += ' This page also opens with no signal now.'; })
+    .catch(() => {}));
 }
 
 window.addEventListener('resize', renderCategoryView);
