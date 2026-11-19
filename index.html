@@ -1,229 +1,382 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f3f0e9">
-  <meta name="description" content="A fan-made Icons of Porsche 2026 guide with a practical festival checklist and Porsche facts.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#dbebf5">
+  <meta name="description" content="A fan checklist for Icons of Porsche Dubai, 21 and 22 November 2026. Every tick adds a part to a brick-built 911, traced from the real car.">
   <title>Icons of Porsche 2026 | Fan Field Guide</title>
+  <!-- Site address: change the five absolute URLs below if the host changes. -->
+  <link rel="canonical" href="https://cr2007.github.io/Icons-of-Porsche-Checklist/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="911 Field Guide">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:url" content="https://cr2007.github.io/Icons-of-Porsche-Checklist/">
+  <meta property="og:title" content="Every tick builds your 911">
+  <meta property="og:description" content="A fan checklist for Icons of Porsche Dubai, 21 and 22 November 2026. Every tick adds a part to a brick-built 911, traced from the real car.">
+  <meta property="og:image" content="https://cr2007.github.io/Icons-of-Porsche-Checklist/og-v3.png">
+  <meta property="og:image:secure_url" content="https://cr2007.github.io/Icons-of-Porsche-Checklist/og-v3.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Eight brick-built Porsche 911s, one in each of Porsche's eight iconic paints, drive in an arc over the words Every tick builds your 911, 21 + 22 Nov, Icons of Porsche, Dubai.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Every tick builds your 911">
+  <meta name="twitter:description" content="A fan checklist for Icons of Porsche Dubai, 21 and 22 November 2026. Every tick adds a part to a brick-built 911, traced from the real car.">
+  <meta name="twitter:image" content="https://cr2007.github.io/Icons-of-Porsche-Checklist/og-v3.png">
+  <meta name="twitter:image:alt" content="Eight brick-built Porsche 911s, one in each of Porsche's eight iconic paints, drive in an arc over the words Every tick builds your 911, 21 + 22 Nov, Icons of Porsche, Dubai.">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="fonts/league-spartan-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- Before the first paint: mark scripts as on, and paint the car in the saved colour (no red flash). Order matches PAINTS in app.js. -->
+  <script>document.documentElement.classList.add("js");try{var s=JSON.parse(localStorage.getItem("brick-by-brick-iop26-v1")),p=["guards-red","racing-yellow","irish-green","miami-blue","lava-orange","chalk","carrara-white","carmine-red"][s&&s.paint];if(p)document.documentElement.style.setProperty("--car-paint","var(--paint-"+p+")")}catch(e){}</script>
+  <!-- Three parallel requests instead of an @import chain: faster first paint on weak signal. -->
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles.css">
+  <script src="plan.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to the guide</a>
-  <div class="site-shell">
-    <header class="topbar" id="top">
-      <a class="brand" href="#top" aria-label="Icons of Porsche field guide, back to top">
-        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="brand-type"><b>THE 911 FIELD GUIDE</b><small>ICONS OF PORSCHE · DUBAI 2026</small></span>
-      </a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="#checklist">The checklist</a>
-        <a href="#facts">Porsche facts</a>
-      </nav>
-      <a class="ticket-link" href="https://iconsofporsche.com/register" target="_blank" rel="noopener noreferrer">Need a ticket? <span aria-hidden="true">↗</span></a>
-    </header>
+  <header class="topbar container" id="top">
+    <a class="brand" href="#top" aria-label="Icons of Porsche Checklist, back to top">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="2" y="2" width="28" height="28" rx="3"/><circle cx="11" cy="11" r="5"/><circle cx="21" cy="11" r="5"/><circle cx="11" cy="21" r="5"/><circle cx="21" cy="21" r="5"/></svg>
+      <span>Icons of Porsche Checklist</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#checklist">Checklist</a>
+      <a href="#your-911">Your 911</a>
+      <a href="#engine">Engine</a>
+      <a href="#facts">Facts</a>
+    </nav>
+    <a class="ticket-link" href="https://iconsofporsche.com/register" target="_blank" rel="noopener noreferrer">Need a ticket?<svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9 2h5v5M14 2 7.5 8.5M12 9.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3.5"/></svg><span class="visually-hidden"> Opens the official site in a new tab.</span></a>
+  </header>
 
-    <main id="main">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-line"></span> THE INDEPENDENT FESTIVAL FIELD GUIDE</p>
-          <p class="hero-edition">DUBAI <span>·</span> 21-22 NOVEMBER 2026</p>
-          <h1 id="hero-title">The 911.<br><em>Rebuilt.</em></h1>
-          <p class="hero-lede">Your pocket guide for a weekend of great cars, good finds and stories worth taking home.</p>
-          <div class="hero-actions">
-            <a class="primary-button" href="#checklist">Open my checklist <span aria-hidden="true">↓</span></a>
-            <span class="hero-note">Made for the people going.</span>
+  <main id="main">
+    <section class="plan-banner container" id="plan-banner" aria-label="List shared with you" hidden>
+      <p id="plan-banner-text"></p>
+      <div class="plan-actions"><button class="button" id="plan-merge" type="button">Tick the same items</button><button class="text-button" id="plan-undo" type="button" hidden>Undo</button><button class="text-button" id="plan-dismiss" type="button">Not now</button></div>
+    </section>
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <h1 id="hero-title">Every tick builds your 911.</h1>
+        <div class="hero-side">
+          <p class="hero-lede">A fan checklist for Icons of Porsche Dubai, 21 and 22 November.</p>
+          <a class="button" href="#checklist">Start the checklist</a>
+        </div>
+      </div>
+      <figure class="hero-model" id="hero-model">
+        <!-- hero-car:start --><svg class="hero-car" width="5142" height="1448" viewBox="0 0 5142 1448" role="img" aria-labelledby="hc-t hc-d">
+<title id="hc-t">Brick-built Porsche 911 Carrera (992), side view, scale 1:12</title>
+<desc id="hc-d">Original fan art. A red 911 coupe built from plates, about 47 studs long and 34 plates high, on a grey studded baseplate. Each plate row ends on the real outline of the car, traced from a scaled side elevation.</desc>
+<rect x="60" y="1342" width="5022" height="36" fill="#9ea3a8"/><rect x="60" y="1342" width="5022" height="6" fill="#c3c7cb"/><rect x="60" y="1372" width="5022" height="6" fill="#7c8186"/>
+<g fill="#a7acb1"><rect x="79" y="1322" width="58" height="20"/><rect x="175" y="1322" width="58" height="20"/><rect x="271" y="1322" width="58" height="20"/><rect x="367" y="1322" width="58" height="20"/><rect x="463" y="1322" width="58" height="20"/><rect x="559" y="1322" width="58" height="20"/><rect x="655" y="1322" width="58" height="20"/><rect x="751" y="1322" width="58" height="20"/><rect x="847" y="1322" width="58" height="20"/><rect x="943" y="1322" width="58" height="20"/><rect x="1039" y="1322" width="58" height="20"/><rect x="1135" y="1322" width="58" height="20"/><rect x="1231" y="1322" width="58" height="20"/><rect x="1327" y="1322" width="58" height="20"/><rect x="1423" y="1322" width="58" height="20"/><rect x="1519" y="1322" width="58" height="20"/><rect x="1615" y="1322" width="58" height="20"/><rect x="1711" y="1322" width="58" height="20"/><rect x="1807" y="1322" width="58" height="20"/><rect x="1903" y="1322" width="58" height="20"/><rect x="1999" y="1322" width="58" height="20"/><rect x="2095" y="1322" width="58" height="20"/><rect x="2191" y="1322" width="58" height="20"/><rect x="2287" y="1322" width="58" height="20"/><rect x="2383" y="1322" width="58" height="20"/><rect x="2479" y="1322" width="58" height="20"/><rect x="2575" y="1322" width="58" height="20"/><rect x="2671" y="1322" width="58" height="20"/><rect x="2767" y="1322" width="58" height="20"/><rect x="2863" y="1322" width="58" height="20"/><rect x="2959" y="1322" width="58" height="20"/><rect x="3055" y="1322" width="58" height="20"/><rect x="3151" y="1322" width="58" height="20"/><rect x="3247" y="1322" width="58" height="20"/><rect x="3343" y="1322" width="58" height="20"/><rect x="3439" y="1322" width="58" height="20"/><rect x="3535" y="1322" width="58" height="20"/><rect x="3631" y="1322" width="58" height="20"/><rect x="3727" y="1322" width="58" height="20"/><rect x="3823" y="1322" width="58" height="20"/><rect x="3919" y="1322" width="58" height="20"/><rect x="4015" y="1322" width="58" height="20"/><rect x="4111" y="1322" width="58" height="20"/><rect x="4207" y="1322" width="58" height="20"/><rect x="4303" y="1322" width="58" height="20"/><rect x="4399" y="1322" width="58" height="20"/><rect x="4495" y="1322" width="58" height="20"/><rect x="4591" y="1322" width="58" height="20"/><rect x="4687" y="1322" width="58" height="20"/><rect x="4783" y="1322" width="58" height="20"/><rect x="4879" y="1322" width="58" height="20"/><rect x="4975" y="1322" width="58" height="20"/></g><g fill="#c9cdd1"><rect x="79" y="1322" width="14" height="20"/><rect x="175" y="1322" width="14" height="20"/><rect x="271" y="1322" width="14" height="20"/><rect x="367" y="1322" width="14" height="20"/><rect x="463" y="1322" width="14" height="20"/><rect x="559" y="1322" width="14" height="20"/><rect x="655" y="1322" width="14" height="20"/><rect x="751" y="1322" width="14" height="20"/><rect x="847" y="1322" width="14" height="20"/><rect x="943" y="1322" width="14" height="20"/><rect x="1039" y="1322" width="14" height="20"/><rect x="1135" y="1322" width="14" height="20"/><rect x="1231" y="1322" width="14" height="20"/><rect x="1327" y="1322" width="14" height="20"/><rect x="1423" y="1322" width="14" height="20"/><rect x="1519" y="1322" width="14" height="20"/><rect x="1615" y="1322" width="14" height="20"/><rect x="1711" y="1322" width="14" height="20"/><rect x="1807" y="1322" width="14" height="20"/><rect x="1903" y="1322" width="14" height="20"/><rect x="1999" y="1322" width="14" height="20"/><rect x="2095" y="1322" width="14" height="20"/><rect x="2191" y="1322" width="14" height="20"/><rect x="2287" y="1322" width="14" height="20"/><rect x="2383" y="1322" width="14" height="20"/><rect x="2479" y="1322" width="14" height="20"/><rect x="2575" y="1322" width="14" height="20"/><rect x="2671" y="1322" width="14" height="20"/><rect x="2767" y="1322" width="14" height="20"/><rect x="2863" y="1322" width="14" height="20"/><rect x="2959" y="1322" width="14" height="20"/><rect x="3055" y="1322" width="14" height="20"/><rect x="3151" y="1322" width="14" height="20"/><rect x="3247" y="1322" width="14" height="20"/><rect x="3343" y="1322" width="14" height="20"/><rect x="3439" y="1322" width="14" height="20"/><rect x="3535" y="1322" width="14" height="20"/><rect x="3631" y="1322" width="14" height="20"/><rect x="3727" y="1322" width="14" height="20"/><rect x="3823" y="1322" width="14" height="20"/><rect x="3919" y="1322" width="14" height="20"/><rect x="4015" y="1322" width="14" height="20"/><rect x="4111" y="1322" width="14" height="20"/><rect x="4207" y="1322" width="14" height="20"/><rect x="4303" y="1322" width="14" height="20"/><rect x="4399" y="1322" width="14" height="20"/><rect x="4495" y="1322" width="14" height="20"/><rect x="4591" y="1322" width="14" height="20"/><rect x="4687" y="1322" width="14" height="20"/><rect x="4783" y="1322" width="14" height="20"/><rect x="4879" y="1322" width="14" height="20"/><rect x="4975" y="1322" width="14" height="20"/></g>
+<ellipse cx="2571" cy="1344" rx="2135" ry="26" fill="#0d1620" opacity=".28"/>
+<g class="hc-car"><g class="hc-body">
+<clipPath id="hc-well1077"><rect x="877" y="485" width="1000" height="726"/></clipPath><circle cx="1377" cy="985" r="500" fill="#14171b" clip-path="url(#hc-well1077)"/>
+<clipPath id="hc-well3527"><rect x="3332" y="512" width="990" height="709"/></clipPath><circle cx="3827" cy="1007" r="495" fill="#14171b" clip-path="url(#hc-well3527)"/>
+<g class="hr" style="--i:0"><path class="hr-body" d="M384 1112L936 1112L936 1171L772 1164L740 1160L656 1156L472 1142L436 1137L396 1121L384 1113ZM1820 1112L3392 1112L3392 1219L3388 1220L3044 1220L3032 1218L2768 1218L2756 1217L2504 1217L2492 1215L1820 1211ZM4264 1112L4816 1112L4820 1124L4832 1137L4840 1180L4840 1200L4836 1207L4828 1214L4816 1217L4444 1217L4420 1220L4396 1218L4384 1220L4284 1220L4264 1218Z"/><path class="hr-hi" d="M384 1118L936 1118M1820 1118L3392 1118M4264 1118L4816 1118L4820 1130L4832 1143L4840 1186"/><path class="hr-seam" d=""/></g>
+<g class="hr" style="--i:1"><path class="hr-body" d="M332 996L936 996L936 1112L380 1111L348 1090L332 999ZM1820 996L3392 996L3392 1112L1820 1112ZM4264 996L4812 996L4816 1047L4816 1112L4264 1112Z"/><path class="hr-hi" d="M332 1002L936 1002M1820 1002L3392 1002M4264 1002L4812 1002L4816 1053"/><path class="hr-seam" d="M396 996V1112M876 996V1112M684 996V1112M1836 996V1112M3372 996V1112M2220 996V1112M2604 996V1112M4332 996V1112M4812 996V1112"/></g>
+<g class="hr" style="--i:2"><path class="hr-body" d="M304 881L948 881L940 933L936 996L332 996L324 906L320 899L308 893L304 887ZM1808 881L3408 881L3408 890L3396 948L3392 996L1820 996L1808 896ZM4244 881L4808 881L4812 922L4812 996L4264 996L4256 935L4244 883Z"/><path class="hr-hi" d="M304 887L948 887M1808 887L3408 887M4244 887L4808 887L4812 928"/><path class="hr-seam" d="M396 881V996M876 881V996M780 881V996M1836 881V996M3372 881V996M2124 881V996M2892 881V996M4332 881V996M4716 881V996M4620 881V996"/></g>
+<g class="hr" style="--i:3"><path class="hr-body" d="M300 867L308 848L312 766L992 766L992 772L964 833L948 881L300 881ZM1760 766L3464 766L3436 816L3412 876L3408 881L1808 881L1804 879L1792 839L1780 808L1760 768ZM4192 766L4680 766L4716 787L4764 823L4796 855L4808 873L4808 881L4244 881L4220 820L4192 770Z"/><path class="hr-hi" d="M300 873L308 854L312 772L992 772M1760 772L3464 772M4192 772L4680 772L4716 793L4764 829L4796 861L4808 879"/><path class="hr-seam" d="M396 766V881M876 766V881M1836 766V881M3372 766V881M2412 766V881M2988 766V881M4332 766V881M4620 766V881M4428 766V881"/></g>
+<g class="hr" style="--i:4"><path class="hr-body" d="M312 753L316 663L320 652L324 651L1088 651L1040 702L1016 733L996 765L992 766L312 766ZM1668 651L3576 651L3544 676L3516 703L3492 729L3464 766L1760 766L1716 704L1668 655ZM4080 651L4432 651L4568 709L4676 763L4676 766L4192 766L4188 764L4164 732L4136 701L4108 675L4080 653Z"/><path class="hr-hi" d="M312 759L316 669L320 658L324 657L1088 657M1668 657L3576 657M4080 657L4432 657L4568 715L4676 769"/><path class="hr-seam" d="M396 651V766M972 651V766M492 651V766M876 651V766M1836 651V766M3372 651V766M2220 651V766M2604 651V766M4236 651V766M4428 651V766"/></g>
+<g class="hr" style="--i:5"><path class="hr-body" d="M324 641L340 616L356 600L372 593L376 588L392 566L404 536L4208 536L4232 543L4276 567L4340 615L4424 649L4424 651L4080 651L4016 615L3956 591L3892 577L3828 572L3760 577L3696 592L3636 616L3576 651L1664 651L1632 626L1600 605L1564 586L1528 571L1492 560L1452 551L1416 546L1376 545L1336 547L1300 552L1260 561L1224 572L1188 587L1156 604L1088 651L324 651Z"/><path class="hr-hi" d="M324 647L340 622L356 606L372 599L376 594L392 572L404 542L4208 542L4232 549L4276 573L4340 621L4424 655"/><path class="hr-seam" d="M492 536V651M4140 536V651M972 536V651M1932 536V651M2700 536V651M2988 536V651M3564 536V651"/></g>
+<g class="hr" style="--i:6"><path class="hr-body" d="M404 533L412 515L432 506L456 497L3844 497L3876 501L3912 501L4080 511L4144 519L4176 525L4208 535L404 536Z"/><path class="hr-hi" d="M404 539L412 521L432 512L456 503L3844 503L3876 507L3912 507L4080 517L4144 525L4176 531L4208 541"/><path class="hr-seam" d="M492 497V536M3756 497V536M972 497V536M1356 497V536M2124 497V536M2412 497V536M2988 497V536"/></g>
+<g class="hr" style="--i:7"><path class="hr-body" d="M456 495L552 459L3580 459L3832 496L456 497Z"/><path class="hr-hi" d="M456 501L552 465L3580 465L3832 502"/><path class="hr-seam" d="M588 459V497M3564 459V497M876 459V497M1644 459V497M1932 459V497M2508 459V497M3468 459V497"/></g>
+<g class="hr" style="--i:8"><path class="hr-body" d="M552 458L608 436L660 420L3384 420L3436 452L3448 457L3508 452L3544 452L3576 457L552 459Z"/><path class="hr-hi" d="M552 464L608 442L660 426L3384 426L3436 458L3448 463L3508 458L3544 458L3576 463"/><path class="hr-seam" d="M684 420V459M3372 420V459M876 420V459M1164 420V459M1740 420V459M2700 420V459M3084 420V459"/></g>
+<g class="hr" style="--i:9"><path class="hr-body" d="M660 419L756 385L772 382L3316 382L3332 388L3380 418L3380 420L660 420Z"/><path class="hr-hi" d="M660 425L756 391L772 388L3316 388L3332 394L3380 424"/><path class="hr-seam" d="M780 382V420M3276 382V420M1164 382V420M2124 382V420M2508 382V420"/></g>
+<g class="hr" style="--i:10"><path class="hr-body" d="M772 381L836 359L892 344L3252 344L3316 380L3316 382L772 382Z"/><path class="hr-hi" d="M772 387L836 365L892 350L3252 350L3316 386"/><path class="hr-seam" d="M972 344V382M3180 344V382M1644 344V382M2028 344V382M2796 344V382"/></g>
+<g class="hr" style="--i:11"><path class="hr-body" d="M892 343L1016 305L3184 305L3252 343L892 344Z"/><path class="hr-hi" d="M892 349L1016 311L3184 311L3252 349"/><path class="hr-seam" d="M1068 305V344M3180 305V344M1164 305V344M1548 305V344M2316 305V344M2892 305V344"/></g>
+<g class="hr" style="--i:12"><path class="hr-body" d="M1016 304L1148 267L3112 267L3180 303L3180 305L1016 305Z"/><path class="hr-hi" d="M1016 310L1148 273L3112 273L3180 309"/><path class="hr-seam" d="M1164 267V305M3084 267V305M1260 267V305M2028 267V305M2604 267V305M2988 267V305"/></g>
+<g class="hr" style="--i:13"><path class="hr-body" d="M1148 266L1284 228L3036 228L3072 245L3108 265L3108 267L1148 267Z"/><path class="hr-hi" d="M1148 272L1284 234L3036 234L3072 251L3108 271"/><path class="hr-seam" d="M1356 228V267M2988 228V267M1452 228V267M1836 228V267M2604 228V267M2892 228V267"/></g>
+<g class="hr" style="--i:14"><path class="hr-body" d="M1284 228L1428 190L2956 190L2972 195L3036 227L1284 228Z"/><path class="hr-hi" d="M1284 234L1428 196L2956 196L2972 201L3036 233"/><path class="hr-seam" d="M1452 190V228M2892 190V228M2028 190V228M2316 190V228"/></g>
+<g class="hr" style="--i:15"><path class="hr-body" d="M1432 189L1456 181L1576 152L2876 152L2896 159L2956 189L1432 190Z"/><path class="hr-hi" d="M1432 195L1456 187L1576 158L2876 158L2896 165L2956 195"/><path class="hr-seam" d="M1644 152V190M2796 152V190M1836 152V190M2412 152V190"/></g>
+<g class="hr" style="--i:16"><path class="hr-body" d="M1576 151L1688 125L1700 124L1712 121L1728 113L2792 113L2876 151L1576 152Z"/><path class="hr-hi" d="M1576 157L1688 131L1700 130L1712 127L1728 119L2792 119L2876 157"/><path class="hr-seam" d="M1740 113V152M2700 113V152M2604 113V152"/></g>
+<g class="hr" style="--i:17"><path class="hr-body" d="M1732 112L1856 85L1924 75L2684 75L2712 81L2768 99L2788 111L2788 113L1732 113Z"/><path class="hr-hi" d="M1732 118L1856 91L1924 81L2684 81L2712 87L2768 105L2788 117"/><path class="hr-seam" d="M1932 75V113M2604 75V113M2508 75V113"/></g>
+<g class="hr" style="--i:18"><path class="hr-body" d="M1924 74L2084 52L2156 46L2276 40L2420 40L2524 46L2588 54L2644 64L2684 74L1924 75Z"/><path class="hr-hi" d="M1924 80L2084 58L2156 52L2276 46L2420 46L2524 52L2588 60L2644 70L2684 80"/><path class="hr-seam" d=""/></g>
+<clipPath id="hc-glass"><path d="M1443 364L1459 352L1506 330L1569 307L1679 271L1876 220L1986 201L1993 203L2056 409L2056 424L1821 413L1514 387L1467 379L1443 371Z"/><path d="M2033 193L2166 179L2300 175L2418 181L2536 197L2630 220L2669 234L2756 277L2858 342L2811 350L2795 358L2779 371L2771 387L2764 448L2103 426L2096 409L2033 203Z"/></clipPath>
+<g class="hd" style="--i:11"><g fill="#1e2a35" stroke="#0e151c" stroke-width="6"><path d="M1443 364L1459 352L1506 330L1569 307L1679 271L1876 220L1986 201L1993 203L2056 409L2056 424L1821 413L1514 387L1467 379L1443 371Z"/><path d="M2033 193L2166 179L2300 175L2418 181L2536 197L2630 220L2669 234L2756 277L2858 342L2811 350L2795 358L2779 371L2771 387L2764 448L2103 426L2096 409L2033 203Z"/></g>
+<path d="M1800 42L2200 42L1800 542L1400 542ZM2450 42L2600 42L2200 542L2050 542Z" fill="#9fb3c4" opacity=".22" clip-path="url(#hc-glass)"/></g>
+<clipPath id="hc-body"><path d="M384 1112L936 1112L936 1171L772 1164L740 1160L656 1156L472 1142L436 1137L396 1121L384 1113ZM1820 1112L3392 1112L3392 1219L3388 1220L3044 1220L3032 1218L2768 1218L2756 1217L2504 1217L2492 1215L1820 1211ZM4264 1112L4816 1112L4820 1124L4832 1137L4840 1180L4840 1200L4836 1207L4828 1214L4816 1217L4444 1217L4420 1220L4396 1218L4384 1220L4284 1220L4264 1218ZM332 996L936 996L936 1112L380 1111L348 1090L332 999ZM1820 996L3392 996L3392 1112L1820 1112ZM4264 996L4812 996L4816 1047L4816 1112L4264 1112ZM304 881L948 881L940 933L936 996L332 996L324 906L320 899L308 893L304 887ZM1808 881L3408 881L3408 890L3396 948L3392 996L1820 996L1808 896ZM4244 881L4808 881L4812 922L4812 996L4264 996L4256 935L4244 883ZM300 867L308 848L312 766L992 766L992 772L964 833L948 881L300 881ZM1760 766L3464 766L3436 816L3412 876L3408 881L1808 881L1804 879L1792 839L1780 808L1760 768ZM4192 766L4680 766L4716 787L4764 823L4796 855L4808 873L4808 881L4244 881L4220 820L4192 770ZM312 753L316 663L320 652L324 651L1088 651L1040 702L1016 733L996 765L992 766L312 766ZM1668 651L3576 651L3544 676L3516 703L3492 729L3464 766L1760 766L1716 704L1668 655ZM4080 651L4432 651L4568 709L4676 763L4676 766L4192 766L4188 764L4164 732L4136 701L4108 675L4080 653ZM324 641L340 616L356 600L372 593L376 588L392 566L404 536L4208 536L4232 543L4276 567L4340 615L4424 649L4424 651L4080 651L4016 615L3956 591L3892 577L3828 572L3760 577L3696 592L3636 616L3576 651L1664 651L1632 626L1600 605L1564 586L1528 571L1492 560L1452 551L1416 546L1376 545L1336 547L1300 552L1260 561L1224 572L1188 587L1156 604L1088 651L324 651ZM404 533L412 515L432 506L456 497L3844 497L3876 501L3912 501L4080 511L4144 519L4176 525L4208 535L404 536ZM456 495L552 459L3580 459L3832 496L456 497ZM552 458L608 436L660 420L3384 420L3436 452L3448 457L3508 452L3544 452L3576 457L552 459ZM660 419L756 385L772 382L3316 382L3332 388L3380 418L3380 420L660 420ZM772 381L836 359L892 344L3252 344L3316 380L3316 382L772 382ZM892 343L1016 305L3184 305L3252 343L892 344ZM1016 304L1148 267L3112 267L3180 303L3180 305L1016 305ZM1148 266L1284 228L3036 228L3072 245L3108 265L3108 267L1148 267ZM1284 228L1428 190L2956 190L2972 195L3036 227L1284 228ZM1432 189L1456 181L1576 152L2876 152L2896 159L2956 189L1432 190ZM1576 151L1688 125L1700 124L1712 121L1728 113L2792 113L2876 151L1576 152ZM1732 112L1856 85L1924 75L2684 75L2712 81L2768 99L2788 111L2788 113L1732 113ZM1924 74L2084 52L2156 46L2276 40L2420 40L2524 46L2588 54L2644 64L2684 74L1924 75Z"/></clipPath><g clip-path="url(#hc-body)">
+<g class="hd" style="--i:5"><path d="M328 548L732 555L945 581L830 624L438 630L328 601Z" fill="#8e0d1d" stroke="#5a0611" stroke-width="5"/><path d="M328 548L732 555L945 581" fill="none" stroke="#ff6b78" stroke-width="6" stroke-linecap="round"/></g>
+<g class="hd" style="--i:4"><path d="M4121 532L4301 598L4448 761L4400 777L4219 663Z" fill="#dde6ec" stroke="#8796a2" stroke-width="5"/></g>
+<g class="hd" style="--i:1"><path d="M4498 924L4792 924L4775 1104L4514 1104Z" fill="#24292f" stroke="#111418" stroke-width="5"/><path d="M4518 1059H4772M4518 1014H4772M4518 969H4772" stroke="#4a525b" stroke-width="7"/></g>
+<g class="hd" style="--i:1"><path d="M339 908L732 915L830 1071L372 1087Z" fill="#24292f" stroke="#111418" stroke-width="5"/><path d="M359 1042H810M359 998H810M359 953H810" stroke="#4a525b" stroke-width="7"/></g>
+<g class="hd" style="--i:5"><path class="hc-handle" d="M2058 604L2287 614L2271 663L2074 663Z"/></g></g>
+<g class="hd" style="--i:8"><path d="M2905 483L2984 479L3023 548L2936 548Z" fill="#24292f"/><path class="hc-mirror" d="M2778 359L2991 379L3041 450L2991 483L2828 489L2778 450Z"/></g></g>
+<g class="hc-wheel" data-r="357">
+<circle cx="1377" cy="985" r="357" fill="#1c1d20"/>
+<circle cx="1377" cy="985" r="306" fill="none" stroke="#2f3135" stroke-width="10"/>
+<circle cx="1377" cy="985" r="254" fill="#c6ccd1" stroke="#7f878f" stroke-width="8"/>
+<circle cx="1377" cy="985" r="218" fill="#353b42"/>
+<g fill="#c6ccd1"><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(0 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(36 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(72 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(108 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(144 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(180 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(216 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(252 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(288 1377 985)"/><rect x="1361" y="767" width="32" height="157" rx="10" transform="rotate(324 1377 985)"/></g>
+<circle cx="1377" cy="985" r="76" fill="#d9dee2" stroke="#7f878f" stroke-width="6"/>
+<path d="M1368 958h18v18h18v18h-18v18h-18v-18h-18v-18h18Z" fill="#353b42"/>
+</g>
+<g class="hc-wheel" data-r="335">
+<circle cx="3827" cy="1007" r="335" fill="#1c1d20"/>
+<circle cx="3827" cy="1007" r="288" fill="none" stroke="#2f3135" stroke-width="10"/>
+<circle cx="3827" cy="1007" r="241" fill="#c6ccd1" stroke="#7f878f" stroke-width="8"/>
+<circle cx="3827" cy="1007" r="208" fill="#353b42"/>
+<g fill="#c6ccd1"><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(0 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(36 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(72 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(108 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(144 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(180 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(216 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(252 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(288 3827 1007)"/><rect x="3811" y="799" width="32" height="150" rx="10" transform="rotate(324 3827 1007)"/></g>
+<circle cx="3827" cy="1007" r="72" fill="#d9dee2" stroke="#7f878f" stroke-width="6"/>
+<path d="M3818 980h18v18h18v18h-18v18h-18v-18h-18v-18h18Z" fill="#353b42"/>
+</g>
+</g>
+</svg><!-- hero-car:end -->
+        <div class="dimension" aria-hidden="true"><!-- ruler:start --><svg class="ruler" viewBox="0 0 5142 150" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="ruler-base" d="M300 40H4842"/><path class="ruler-ticks" d="M300 40v34M396 40v18M492 40v18M588 40v18M684 40v34M780 40v18M876 40v18M972 40v18M1068 40v34M1164 40v18M1260 40v18M1356 40v18M1452 40v34M1548 40v18M1644 40v18M1740 40v18M1836 40v34M1932 40v18M2028 40v18M2124 40v18M2220 40v34M2316 40v18M2412 40v18M2508 40v18M2604 40v34M2700 40v18M2796 40v18M2892 40v18M2988 40v34M3084 40v18M3180 40v18M3276 40v18M3372 40v34M3468 40v18M3564 40v18M3660 40v18M3756 40v34M3852 40v18M3948 40v18M4044 40v18M4140 40v34M4236 40v18M4332 40v18M4428 40v18M4524 40v34M4620 40v18M4716 40v18M4812 40v18"/><path class="ruler-axle" d="M1377 10v120M3827 10v120M1377 138H3827"/></svg><!-- ruler:end --><span class="dimension-label num">2,450 mm wheelbase, 25.5 studs</span></div>
+        <fieldset class="hero-paint" id="hero-paint">
+          <legend>Paint <span class="hero-paint-name" id="paint-name">Guards Red</span></legend>
+          <div class="hero-paint-swatches">
+            <label class="swatch" data-paint="guards-red" data-detail="First seen on the 911 Turbo (930) in 1975."><input type="radio" name="paint" value="0" checked><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Guards Red</span></label>
+            <label class="swatch" data-paint="racing-yellow" data-detail="Called Speed Yellow until 2012."><input type="radio" name="paint" value="1"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Racing Yellow</span></label>
+            <label class="swatch" data-paint="irish-green" data-detail="One of the first 911 colours, in 1964. The one-millionth 911 wore it in 2017."><input type="radio" name="paint" value="2"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Irish Green</span></label>
+            <label class="swatch" data-paint="miami-blue" data-detail="First used on the 911, later on the Boxster, Cayman and Macan."><input type="radio" name="paint" value="3"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Miami Blue</span></label>
+            <label class="swatch" data-paint="lava-orange" data-detail="Back in the late 1990s, later on the 911 GT3 RS (997)."><input type="radio" name="paint" value="4"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Lava Orange</span></label>
+            <label class="swatch" data-paint="chalk" data-detail="Also called Crayon. It recalls the Pearl Grey and Heron Grey of the 1950s and 1960s."><input type="radio" name="paint" value="5"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Chalk</span></label>
+            <label class="swatch" data-paint="carrara-white" data-detail="Seen on the 911, the Panamera hybrid and the Taycan."><input type="radio" name="paint" value="6"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Carrara White Metallic</span></label>
+            <label class="swatch" data-paint="carmine-red" data-detail="Tied to the GTS models and the 930 coupe of the 1980s."><input type="radio" name="paint" value="7"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Carmine Red</span></label>
           </div>
-          <div class="hero-meta"><span class="meta-dot"></span> SATURDAY + SUNDAY <span class="meta-separator">/</span> THE SQUARE, NAD AL SHEBA</div>
+          <p class="paint-tip" id="paint-tip" role="tooltip" hidden></p>
+        </fieldset>
+        <figcaption>The 992 Carrera at 1:12: 47 studs long, 20 rows high. Each row ends on the real outline, traced from a scaled side elevation.</figcaption>
+      </figure>
+    </section>
+
+    <section class="checklist container" id="checklist" aria-labelledby="check-title">
+      <div class="section-head">
+        <h2 id="check-title">13 things to pack, 11 to find.</h2>
+        <p class="section-intro">Your ticks save on this device, with no account and no sign-up. Each tick adds a part to the model.</p>
+      </div>
+
+
+      <div class="day-row">
+        <div class="day-switch" role="group" aria-label="Choose your festival day">
+          <button class="day-button is-active" type="button" data-day="sat" aria-pressed="true"><span>Saturday</span><small>21 Nov</small></button>
+          <button class="day-button" type="button" data-day="sun" aria-pressed="false"><span>Sunday</span><small>22 Nov</small></button>
+          <button class="day-button day-both" type="button" data-day="both" aria-pressed="false"><span>Both days</span><small>21 to 22 Nov</small></button>
         </div>
+        <p class="day-note">Edition 6, the first at The Square Nad Al Sheba. The event FAQ says gates open at 16:00 and close at 23:00. The preliminary programme lists the main stage from 15:15, so check the timetable on the day. Each day has 4 Porsche Moments.</p>
+      </div>
 
-        <div class="hero-art" role="img" aria-label="Original fan art of a detailed brick-built red 911 Carrera scale model">
-          <div class="art-glow"></div>
-          <div class="art-kicker"><span>MODEL 01</span><span>GUARDS RED</span></div>
-          <img class="hero-car" src="sports-car.svg" alt="A detailed red brick-built 911 Carrera model shown from the front and side">
-          <span class="exhaust-puffs" aria-hidden="true"><i></i><i></i><i></i></span>
-          <div class="display-caption"><span class="caption-number">01</span><span>911 CARRERA<br>BRICK MODEL STUDY</span></div>
-          <div class="hero-ground"></div>
+      <div class="build-bar">
+        <!-- build-model:start --><svg class="build-model" viewBox="240 30 4662 1332" aria-hidden="true" focusable="false"><g class="pm-ghost"><g class="pm-part" data-part="0"><circle class="pm-tyre" cx="1377" cy="985" r="357"/><circle class="pm-rim" cx="1377" cy="985" r="254"/><circle class="pm-tyre" cx="3827" cy="1007" r="335"/><circle class="pm-rim" cx="3827" cy="1007" r="241"/></g><g class="pm-part" data-part="1"><path class="pm-plate" d="M384 1112L936 1112L936 1171L472 1142L436 1137L384 1113Z"/></g><g class="pm-part" data-part="2"><path class="pm-plate" d="M1820 1112L3392 1112L3388 1220L1820 1211Z"/></g><g class="pm-part" data-part="3"><path class="pm-plate" d="M4264 1112L4816 1112L4832 1137L4840 1180L4836 1207L4816 1217L4264 1218Z"/></g><g class="pm-part" data-part="4"><path class="pm-plate" d="M332 996L936 996L936 1112L380 1111L348 1090L332 999Z"/></g><g class="pm-part" data-part="5"><path class="pm-plate" d="M1820 996L3392 996L3392 1112L1820 1112Z"/></g><g class="pm-part" data-part="6"><path class="pm-plate" d="M4264 996L4812 996L4816 1047L4816 1112L4264 1112Z"/></g><g class="pm-part" data-part="7"><path class="pm-plate" d="M304 881L948 881L936 996L332 996L324 906L304 887Z"/></g><g class="pm-part" data-part="8"><path class="pm-plate" d="M1808 881L3408 881L3392 996L1820 996L1808 896Z"/></g><g class="pm-part" data-part="9"><path class="pm-plate" d="M4244 881L4808 881L4812 922L4812 996L4264 996L4244 883Z"/></g><g class="pm-part" data-part="10"><path class="pm-plate" d="M300 867L308 848L312 766L992 766L948 881L300 881Z"/></g><g class="pm-part" data-part="11"><path class="pm-plate" d="M1760 766L3464 766L3408 881L1808 881L1760 768Z"/></g><g class="pm-part" data-part="12"><path class="pm-plate" d="M4192 766L4680 766L4764 823L4808 873L4808 881L4244 881L4192 770Z"/></g><g class="pm-part" data-part="13"><path class="pm-plate" d="M312 753L316 663L324 651L1088 651L992 766L312 766Z"/></g><g class="pm-part" data-part="14"><path class="pm-plate" d="M1668 651L3576 651L3516 703L3464 766L1760 766L1716 704L1668 655Z"/></g><g class="pm-part" data-part="15"><path class="pm-plate" d="M4080 651L4432 651L4676 763L4192 766L4136 701L4080 653Z"/></g><g class="pm-part" data-part="16"><path class="pm-plate" d="M324 641L340 616L376 588L404 536L4208 536L4276 567L4340 615L4424 649L4080 651L3956 591L3828 572L3760 577L3696 592L3576 651L1664 651L1600 605L1528 571L1452 551L1376 545L1300 552L1224 572L1156 604L1088 651L324 651Z"/></g><g class="pm-part" data-part="17"><path class="pm-plate" d="M404 533L412 515L456 497L3844 497L4080 511L4208 535L404 536Z"/></g><g class="pm-part" data-part="18"><path class="pm-plate" d="M456 495L552 459L3580 459L3832 496L456 497Z"/></g><g class="pm-part" data-part="19"><path class="pm-plate" d="M552 458L660 420L3384 420L3448 457L3544 452L3576 457L552 459Z"/></g><g class="pm-part" data-part="20"><path class="pm-plate" d="M660 419L772 382L3316 382L3380 418L660 420Z"/></g><g class="pm-part" data-part="21"><path class="pm-plate" d="M772 381L892 344L3252 344L3316 380L772 382Z"/></g><g class="pm-part" data-part="22"><path class="pm-plate" d="M892 343L1016 305L3184 305L3252 343L892 344Z"/></g><g class="pm-part" data-part="23"><path class="pm-plate" d="M1016 304L1148 267L3112 267L3180 303L1016 305Z"/></g><g class="pm-part" data-part="24"><path class="pm-plate" d="M1148 266L1284 228L3036 228L3108 265L1148 267Z"/></g><g class="pm-part" data-part="25"><path class="pm-plate" d="M1284 228L1428 190L2956 190L3036 227L1284 228Z"/></g><g class="pm-part" data-part="26"><path class="pm-plate" d="M1432 189L1576 152L2876 152L2956 189L1432 190Z"/></g><g class="pm-part" data-part="27"><path class="pm-plate" d="M1576 151L1728 113L2792 113L2876 151L1576 152Z"/></g><g class="pm-part" data-part="28"><path class="pm-plate" d="M1732 112L1924 75L2684 75L2788 111L1732 113Z"/></g><g class="pm-part" data-part="29"><path class="pm-plate" d="M1924 74L2156 46L2420 40L2588 54L2684 74L1924 75Z"/></g><g class="pm-part" data-part="30"><path class="pm-glass" d="M1443 364L1506 330L1679 271L1876 220L1986 201L1993 203L2056 409L2056 424L1821 413L1514 387L1443 371Z"/><path class="pm-glass" d="M2033 193L2166 179L2300 175L2418 181L2536 197L2669 234L2756 277L2858 342L2811 350L2779 371L2771 387L2764 448L2103 426L2033 203Z"/></g></g><g class="pm-solid"><g class="pm-part" data-part="0"><circle class="pm-tyre" cx="1377" cy="985" r="357"/><circle class="pm-rim" cx="1377" cy="985" r="254"/><circle class="pm-tyre" cx="3827" cy="1007" r="335"/><circle class="pm-rim" cx="3827" cy="1007" r="241"/></g><g class="pm-part" data-part="1"><path class="pm-plate" d="M384 1112L936 1112L936 1171L472 1142L436 1137L384 1113Z"/></g><g class="pm-part" data-part="2"><path class="pm-plate" d="M1820 1112L3392 1112L3388 1220L1820 1211Z"/></g><g class="pm-part" data-part="3"><path class="pm-plate" d="M4264 1112L4816 1112L4832 1137L4840 1180L4836 1207L4816 1217L4264 1218Z"/></g><g class="pm-part" data-part="4"><path class="pm-plate" d="M332 996L936 996L936 1112L380 1111L348 1090L332 999Z"/></g><g class="pm-part" data-part="5"><path class="pm-plate" d="M1820 996L3392 996L3392 1112L1820 1112Z"/></g><g class="pm-part" data-part="6"><path class="pm-plate" d="M4264 996L4812 996L4816 1047L4816 1112L4264 1112Z"/></g><g class="pm-part" data-part="7"><path class="pm-plate" d="M304 881L948 881L936 996L332 996L324 906L304 887Z"/></g><g class="pm-part" data-part="8"><path class="pm-plate" d="M1808 881L3408 881L3392 996L1820 996L1808 896Z"/></g><g class="pm-part" data-part="9"><path class="pm-plate" d="M4244 881L4808 881L4812 922L4812 996L4264 996L4244 883Z"/></g><g class="pm-part" data-part="10"><path class="pm-plate" d="M300 867L308 848L312 766L992 766L948 881L300 881Z"/></g><g class="pm-part" data-part="11"><path class="pm-plate" d="M1760 766L3464 766L3408 881L1808 881L1760 768Z"/></g><g class="pm-part" data-part="12"><path class="pm-plate" d="M4192 766L4680 766L4764 823L4808 873L4808 881L4244 881L4192 770Z"/></g><g class="pm-part" data-part="13"><path class="pm-plate" d="M312 753L316 663L324 651L1088 651L992 766L312 766Z"/></g><g class="pm-part" data-part="14"><path class="pm-plate" d="M1668 651L3576 651L3516 703L3464 766L1760 766L1716 704L1668 655Z"/></g><g class="pm-part" data-part="15"><path class="pm-plate" d="M4080 651L4432 651L4676 763L4192 766L4136 701L4080 653Z"/></g><g class="pm-part" data-part="16"><path class="pm-plate" d="M324 641L340 616L376 588L404 536L4208 536L4276 567L4340 615L4424 649L4080 651L3956 591L3828 572L3760 577L3696 592L3576 651L1664 651L1600 605L1528 571L1452 551L1376 545L1300 552L1224 572L1156 604L1088 651L324 651Z"/></g><g class="pm-part" data-part="17"><path class="pm-plate" d="M404 533L412 515L456 497L3844 497L4080 511L4208 535L404 536Z"/></g><g class="pm-part" data-part="18"><path class="pm-plate" d="M456 495L552 459L3580 459L3832 496L456 497Z"/></g><g class="pm-part" data-part="19"><path class="pm-plate" d="M552 458L660 420L3384 420L3448 457L3544 452L3576 457L552 459Z"/></g><g class="pm-part" data-part="20"><path class="pm-plate" d="M660 419L772 382L3316 382L3380 418L660 420Z"/></g><g class="pm-part" data-part="21"><path class="pm-plate" d="M772 381L892 344L3252 344L3316 380L772 382Z"/></g><g class="pm-part" data-part="22"><path class="pm-plate" d="M892 343L1016 305L3184 305L3252 343L892 344Z"/></g><g class="pm-part" data-part="23"><path class="pm-plate" d="M1016 304L1148 267L3112 267L3180 303L1016 305Z"/></g><g class="pm-part" data-part="24"><path class="pm-plate" d="M1148 266L1284 228L3036 228L3108 265L1148 267Z"/></g><g class="pm-part" data-part="25"><path class="pm-plate" d="M1284 228L1428 190L2956 190L3036 227L1284 228Z"/></g><g class="pm-part" data-part="26"><path class="pm-plate" d="M1432 189L1576 152L2876 152L2956 189L1432 190Z"/></g><g class="pm-part" data-part="27"><path class="pm-plate" d="M1576 151L1728 113L2792 113L2876 151L1576 152Z"/></g><g class="pm-part" data-part="28"><path class="pm-plate" d="M1732 112L1924 75L2684 75L2788 111L1732 113Z"/></g><g class="pm-part" data-part="29"><path class="pm-plate" d="M1924 74L2156 46L2420 40L2588 54L2684 74L1924 75Z"/></g><g class="pm-part" data-part="30"><path class="pm-glass" d="M1443 364L1506 330L1679 271L1876 220L1986 201L1993 203L2056 409L2056 424L1821 413L1514 387L1443 371Z"/><path class="pm-glass" d="M2033 193L2166 179L2300 175L2418 181L2536 197L2669 234L2756 277L2858 342L2811 350L2779 371L2771 387L2764 448L2103 426L2033 203Z"/></g></g></svg><!-- build-model:end -->
+        <div class="progress-area" aria-live="polite">
+          <span class="progress-copy num" id="progress-label">0 / 24 ready</span>
+          <a class="text-link make-it-yours" id="make-it-yours" href="#your-911" hidden>Make it yours</a>
+          <progress class="visually-hidden" id="progress-meter" max="24" value="0" aria-label="Checklist progress"></progress>
         </div>
-      </section>
+      </div>
 
-      <section class="event-strip" aria-label="Festival overview">
-        <div class="event-strip-label">THE WEEKEND<br><b>AT A GLANCE</b></div>
-        <div class="event-stat"><strong>21-22 <span>Nov</span></strong><span>Festival dates</span></div>
-        <div class="event-stat"><strong>15:15</strong><span>Main stage opens</span></div>
-        <div class="event-stat"><strong>8</strong><span>Porsche Moments</span></div>
-      </section>
+      <div class="list-switch" role="group" aria-label="Choose checklist category">
+        <button class="category-button is-active" type="button" data-category="pack" aria-pressed="true">Before you go</button>
+        <button class="category-button" type="button" data-category="collect" aria-pressed="false">At the festival</button>
+      </div>
 
-      <section class="checklist-section section-wrap" id="checklist" aria-labelledby="check-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span class="eyebrow-line"></span> YOUR PERSONAL PIT BOARD</p>
-            <h2 id="check-title">A few things<br>before the <em>good stuff.</em></h2>
+      <div class="checklist-grid">
+        <section class="check-column" aria-labelledby="pack-title">
+          <div class="list-heading">
+            <span class="step-num num" aria-hidden="true">1</span>
+            <div><h3 id="pack-title">Before you go</h3><p>Bring the basics. Leave room for the unexpected.</p></div>
           </div>
-          <p class="section-intro">A simple plan for the day. Your ticks save on this device, with no account and no sign-up.</p>
-        </div>
-
-        <div class="check-controls">
-          <div class="day-switch" role="group" aria-label="Choose your festival day">
-            <button class="day-button is-active" data-day="sat" aria-pressed="true"><span class="day-index">01</span><span>Saturday <small>21 Nov</small></span></button>
-            <button class="day-button" data-day="sun" aria-pressed="false"><span class="day-index">02</span><span>Sunday <small>22 Nov</small></span></button>
-            <button class="day-button day-both" data-day="both" aria-pressed="false"><span class="day-index">01/02</span><span>Both days</span></button>
-          </div>
-          <div class="progress-area" aria-live="polite">
-            <span class="progress-copy" id="progress-label">0 / 21 ready</span>
-            <progress id="progress-meter" max="21" value="0" aria-label="Checklist progress"></progress>
-          </div>
-        </div>
-
-        <div class="category-switch" role="group" aria-label="Choose checklist category">
-          <button class="category-button is-active" data-category="pack" aria-pressed="true">Before you go</button>
-          <button class="category-button" data-category="collect" aria-pressed="false">At the festival</button>
-        </div>
-
-        <div class="checklist-grid">
-          <section class="check-column" aria-labelledby="pack-title">
-            <div class="list-heading"><span class="list-index">01</span><div><h3 id="pack-title">Before you go</h3><p>Bring the basics. Leave room for the unexpected.</p></div></div>
-            <ul class="check-list" id="pack-list">
-              <li><label class="check-row"><input type="checkbox" data-item="ticket"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Ticket ready on your phone</b><small>Have it ready to scan at the entrance.</small></span><span class="essential-tag">ESSENTIAL</span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="phone"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Charged phone</b><small>For your ticket, photos and messages.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="power"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Power bank or charging cable</b><small>Optional, but handy for a long evening.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="shoes"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Comfortable shoes</b><small>There is plenty to see across the site.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="travel"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Travel plan checked</b><small>Know your route, drop-off or shuttle plan.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="bag"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A little room in your bag</b><small>For any prints, books or small finds.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="water"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Water bottle</b><small>Bring one only if venue rules allow it.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="payment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Payment method</b><small>For food, drinks, art or merchandise.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="sun"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Sun protection</b><small>Useful if you will be outside before sunset.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="layer"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Light layer for later</b><small>Optional, depending on the evening.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="camera"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Make space for photos</b><small>Clear a little room on your phone.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-            </ul>
-          </section>
-
-          <section class="check-column collect-column" aria-labelledby="collect-title">
-            <div class="list-heading"><span class="list-index list-index-blue">02</span><div><h3 id="collect-title">At the festival</h3><p>Things to look for, if they are there this year.</p></div></div>
-            <aside class="availability-note"><span class="note-mark">i</span><p>Printed items and giveaways can vary, sell out or be for sale. These are possibilities remembered from past visits, not promises.</p></aside>
-            <ul class="check-list" id="collect-list">
-              <li><label class="check-row"><input type="checkbox" data-item="book"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Porsche or event book</b><small>If a copy is available.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="pin"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Badge or lapel pin</b><small>A small pin to wear or keep.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="postcard"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Postcard or printed card</b><small>Look out for a small keepsake print.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="catalogue"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Colour catalogue or brochure</b><small>If one is offered this year.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="stickers"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Sticker or small giveaway</b><small>Promotional items may be limited.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="guide"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Event map or printed guide</b><small>If one is available at the entrance.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="programme"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Event programme</b><small>A printed schedule, if provided.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="car-moment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A car you will remember</b><small>Pick a favourite from the displays.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="art-moment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A favourite piece of art</b><small>Take a moment to meet an artist.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-              <li><label class="check-row"><input type="checkbox" data-item="stage-moment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A live moment to remember</b><small>Music, a reveal or a story on stage.</small></span><span class="row-mark" aria-hidden="true"></span></label></li>
-            </ul>
-            <p class="paid-note">Food, drinks, artwork and official merchandise may cost extra.</p>
-          </section>
-        </div>
-
-        <div class="checklist-bottom">
-          <p class="save-note" id="storage-status" role="status">Your progress stays on this device. No account needed.</p>
-          <div class="check-actions"><button class="clear-all-button" id="clear-all-button" type="button">Clear all progress</button><button class="reset-button" id="reset-button" type="button">Reset this day <span aria-hidden="true">↺</span></button></div>
-        </div>
-      </section>
-
-      <section class="facts-section section-wrap" id="facts" aria-labelledby="facts-title">
-        <div class="section-heading facts-heading">
-          <div><p class="eyebrow"><span class="eyebrow-line eyebrow-blue"></span> THE STORIES BEHIND THE SHAPE</p><h2 id="facts-title">Small details.<br><em>Big stories.</em></h2></div>
-          <p class="section-intro">A few Porsche facts for your next conversation beside a very good car.</p>
-        </div>
-        <div class="facts-grid">
-          <article class="fact-card fact-red"><div class="fact-index">01 <span>ORIGINS</span></div><div class="fact-art art-roadster" aria-hidden="true"><span class="fact-car-body"></span><span class="fact-wheel wheel-a"></span><span class="fact-wheel wheel-b"></span><span class="fact-stud"></span></div><h3>The first Porsche was a roadster</h3><p>The 356 “No. 1” received its road permit in 1948. Its mid-engine layout was different from the rear-engined production 356 that followed.</p><div class="fact-rule"></div></article>
-          <article class="fact-card fact-blue"><div class="fact-index">02 <span>THE 911</span></div><div class="fact-art art-numbers" aria-hidden="true"><span>901</span><i>became</i><b>911</b></div><h3>The 911 started as the 901</h3><p>The first version was shown as the 901. Before production, it became the 911 after Peugeot objected to its three-digit naming pattern.</p><div class="fact-rule"></div></article>
-          <article class="fact-card fact-yellow"><div class="fact-index">03 <span>STUTTGART</span></div><div class="fact-art art-horse" aria-hidden="true"><span class="horse-silhouette">♞</span><i>STUTTGART<br>BADEN-WÜRTTEMBERG</i></div><h3>The horse points to Porsche’s home</h3><p>The horse at the centre of Porsche’s crest comes from Stuttgart’s city seal, a nod to the city where the company is based.</p><div class="fact-rule"></div></article>
-          <article class="fact-card fact-navy"><div class="fact-index">04 <span>RACING</span></div><div class="fact-art art-race" aria-hidden="true"><span class="race-number">917</span><span class="race-lines"></span><span class="race-flag">▦</span></div><h3>The 917 took Porsche’s first Le Mans win</h3><p>In 1970, Hans Herrmann and Richard Attwood won the 24 Hours of Le Mans overall in a 917 KH.</p><div class="fact-rule"></div></article>
-        </div>
-        <section class="engine-feature" aria-labelledby="engine-title">
-          <div class="engine-copy">
-            <p class="engine-label">A LOOK UNDER THE REAR DECK</p>
-            <h3 id="engine-title">The flat-six.<br><em>Six, laid flat.</em></h3>
-            <p>A 911 signature: six horizontally opposed cylinders, mounted at the rear. Here is the layout in miniature, built from brick-inspired shapes.</p>
-            <button class="engine-toggle" id="engine-toggle" type="button" aria-expanded="false" aria-controls="engine-detail">Start the flat-six <span aria-hidden="true">+</span></button>
-            <p class="engine-detail" id="engine-detail" hidden>Three cylinders sit on each side of the crankcase. Their pistons move in opposition. The 911 places its engine behind the rear axle, giving the flat-six its distinctive position.</p>
-          </div>
-          <svg class="flat-six-art" viewBox="0 0 720 280" role="img" aria-labelledby="engine-art-title engine-art-desc">
-            <title id="engine-art-title">Flat-six engine in a brick-built Porsche model</title>
-            <desc id="engine-art-desc">A cutaway view of a horizontally opposed six-cylinder engine. Three finned cylinders and moving pistons sit on each side of a central crankcase, with red studded valve covers and metal exhaust headers.</desc>
-            <defs>
-              <linearGradient id="engineRed" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e94b48"/><stop offset=".48" stop-color="#c62531"/><stop offset="1" stop-color="#821a27"/></linearGradient>
-              <linearGradient id="engineMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0f2eb"/><stop offset=".28" stop-color="#bcc5c4"/><stop offset=".7" stop-color="#788992"/><stop offset="1" stop-color="#445965"/></linearGradient>
-              <linearGradient id="engineDark" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3d5260"/><stop offset="1" stop-color="#13273a"/></linearGradient>
-              <linearGradient id="enginePipe" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3f0e8"/><stop offset=".45" stop-color="#9aa8aa"/><stop offset="1" stop-color="#4b626e"/></linearGradient>
-              <g id="left-cylinder">
-                <path d="M0 0h227v43H0Z" fill="url(#engineDark)" stroke="#0c1c2b" stroke-width="3"/>
-                <path d="M7 5h204M7 12h204M7 19h204M7 26h204M7 33h204M7 40h204" stroke="#aab5b3" stroke-width="2" opacity=".76"/>
-                <path d="M21 2h104v26H21Z" fill="url(#engineRed)" stroke="#6d1b25" stroke-width="2"/>
-                <path d="M30 1v-6h24v6m37 0v-6h24v6" fill="#d9353c" stroke="#711a25" stroke-width="2"/>
-                <ellipse cx="42" cy="-5" rx="8" ry="3" fill="#f47b6e" stroke="#7d1a26" stroke-width="1.5"/>
-                <ellipse cx="103" cy="-5" rx="8" ry="3" fill="#f47b6e" stroke="#7d1a26" stroke-width="1.5"/>
-              </g>
-              <g id="right-cylinder">
-                <path d="M0 0h227v43H0Z" fill="url(#engineDark)" stroke="#0c1c2b" stroke-width="3"/>
-                <path d="M16 5h204M16 12h204M16 19h204M16 26h204M16 33h204M16 40h204" stroke="#aab5b3" stroke-width="2" opacity=".76"/>
-                <path d="M102 2h104v26H102Z" fill="url(#engineRed)" stroke="#6d1b25" stroke-width="2"/>
-                <path d="M104 1v-6h24v6m37 0v-6h24v6" fill="#d9353c" stroke="#711a25" stroke-width="2"/>
-                <ellipse cx="116" cy="-5" rx="8" ry="3" fill="#f47b6e" stroke="#7d1a26" stroke-width="1.5"/>
-                <ellipse cx="177" cy="-5" rx="8" ry="3" fill="#f47b6e" stroke="#7d1a26" stroke-width="1.5"/>
-              </g>
-            </defs>
-            <ellipse cx="360" cy="247" rx="300" ry="16" fill="#091725" opacity=".3"/>
-            <g class="engine-banks-left">
-              <g transform="translate(27 54)"><use href="#left-cylinder"/><g class="piston piston-left"><rect x="194" y="11" width="28" height="21" rx="4" fill="url(#engineMetal)" stroke="#172a3b" stroke-width="2"/><path d="M220 22h57" stroke="#d9dfd9" stroke-width="5"/><circle cx="221" cy="22" r="4" fill="#445966"/></g></g>
-              <g transform="translate(27 118)"><use href="#left-cylinder"/><g class="piston piston-left"><rect x="194" y="11" width="28" height="21" rx="4" fill="url(#engineMetal)" stroke="#172a3b" stroke-width="2"/><path d="M220 22h57" stroke="#d9dfd9" stroke-width="5"/><circle cx="221" cy="22" r="4" fill="#445966"/></g></g>
-              <g transform="translate(27 182)"><use href="#left-cylinder"/><g class="piston piston-left"><rect x="194" y="11" width="28" height="21" rx="4" fill="url(#engineMetal)" stroke="#172a3b" stroke-width="2"/><path d="M220 22h57" stroke="#d9dfd9" stroke-width="5"/><circle cx="221" cy="22" r="4" fill="#445966"/></g></g>
-            </g>
-            <g class="engine-banks-right">
-              <g transform="translate(466 54)"><use href="#right-cylinder"/><g class="piston piston-right"><rect x="5" y="11" width="28" height="21" rx="4" fill="url(#engineMetal)" stroke="#172a3b" stroke-width="2"/><path d="M-50 22h55" stroke="#d9dfd9" stroke-width="5"/><circle cx="5" cy="22" r="4" fill="#445966"/></g></g>
-              <g transform="translate(466 118)"><use href="#right-cylinder"/><g class="piston piston-right"><rect x="5" y="11" width="28" height="21" rx="4" fill="url(#engineMetal)" stroke="#172a3b" stroke-width="2"/><path d="M-50 22h55" stroke="#d9dfd9" stroke-width="5"/><circle cx="5" cy="22" r="4" fill="#445966"/></g></g>
-              <g transform="translate(466 182)"><use href="#right-cylinder"/><g class="piston piston-right"><rect x="5" y="11" width="28" height="21" rx="4" fill="url(#engineMetal)" stroke="#172a3b" stroke-width="2"/><path d="M-50 22h55" stroke="#d9dfd9" stroke-width="5"/><circle cx="5" cy="22" r="4" fill="#445966"/></g></g>
-            </g>
-            <path d="M288 74h144l20 28-12 82-38 28H316l-38-28-12-82Z" fill="url(#engineMetal)" stroke="#243a4a" stroke-width="5"/>
-            <path d="M286 92h148m-156 15h164m-163 15h162m-155 15h148m-135 15h122" stroke="#536974" stroke-width="3" opacity=".85"/>
-            <g fill="#e1e5dd" stroke="#435863" stroke-width="2"><circle cx="296" cy="91" r="5"/><circle cx="424" cy="91" r="5"/><circle cx="287" cy="168" r="5"/><circle cx="433" cy="168" r="5"/></g>
-            <circle class="crank-wheel" cx="360" cy="127" r="31" fill="#13273a" stroke="#e5e7dd" stroke-width="5"/>
-            <circle cx="360" cy="127" r="8" fill="#d5ddd8" stroke="#657882" stroke-width="3"/>
-            <g transform="translate(360 127)"><g class="crank-fan" stroke="#dce4df" stroke-width="4" stroke-linecap="round"><path d="M0-25V25M-22-13 22 13M-22 13 22-13"/></g></g>
-            <path d="M331 63v-13h58v13m-58 156v13h58v-13" fill="url(#engineDark)" stroke="#263b4a" stroke-width="4"/>
-            <g fill="none" stroke="url(#enginePipe)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M45 221c29 0 29 24 56 24s27-24 54-24 27 24 56 24 25-24 50-24"/>
-              <path d="M675 221c-29 0-29 24-56 24s-27-24-54-24-27 24-56 24-25-24-50-24"/>
-            </g>
-            <g fill="#d6dcd6" stroke="#334b5b" stroke-width="2"><circle cx="54" cy="221" r="5"/><circle cx="666" cy="221" r="5"/></g>
-            <path d="M324 235h72" stroke="#b7c2bf" stroke-width="6" stroke-linecap="round"/>
-            <text x="360" y="266" text-anchor="middle" fill="#b7c3c8" font-family="monospace" font-size="9" letter-spacing="3">REAR-MOUNTED HORIZONTALLY OPPOSED SIX</text>
-          </svg>
+          <ul class="check-list" id="pack-list">
+            <li><label class="check-row"><input type="checkbox" data-item="ticket"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>E-ticket ready on your phone</b><small>It comes by email and WhatsApp. Show it to get your wristband, and keep the wristband on to re-enter.</small></span><span class="essential-tag" id="essential-tag-ticket">Essential</span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="phone"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Charged phone</b><small>For your ticket, photos and messages.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="power"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Power bank or charging cable</b><small>Optional, but handy for a long evening.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="shoes"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Comfortable shoes</b><small>There is plenty to see across the site.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="travel"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Travel plan checked</b><small>Park at Meydan Racecourse E, F or G and take the free shuttle. Taxi codes: IOP2026 (Careem), ICON25 (Hala).</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="offline"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Map and programme saved offline</b><small>The site map, parking map and programme are on the official site. Save them before you lose signal.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="young-icons"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Young Icons tickets for under-12s</b><small>Only if children come with you. Each child needs a free registered ticket, and proof of age may be asked.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="bag"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A little room in your bag</b><small>For any prints, books or small finds.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="water"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Empty reusable bottle</b><small>Refill stations are inside. Outside food and drink are not allowed.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="payment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Payment method</b><small>For food, drinks, art or merchandise.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="sun"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Sun protection</b><small>Useful if you will be outside before sunset.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="layer"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Light layer for later</b><small>Optional, depending on the evening.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="camera"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Make space for photos</b><small>Clear a little room on your phone.</small></span></label></li>
+          </ul>
         </section>
-        <p class="facts-footnote">Selected Porsche stories. No quiz, no homework.</p>
-      </section>
 
-      <section class="closing-panel" aria-label="Fan-made guide note">
-        <div class="closing-art" aria-hidden="true"><span class="closing-brick closing-brick-red"></span><span class="closing-brick closing-brick-blue"></span><span class="closing-brick closing-brick-yellow"></span><span class="closing-stud"></span></div>
-        <div><p class="eyebrow">THAT IS THE PLAN</p><h2>Have a brilliant weekend.</h2><p>Keep your checklist close, look around, and leave room for a surprise.</p></div>
-        <a class="closing-link" href="#checklist">Back to checklist <span aria-hidden="true">↑</span></a>
-      </section>
-    </main>
+        <section class="check-column collect-column" aria-labelledby="collect-title">
+          <div class="list-heading">
+            <span class="step-num num" aria-hidden="true">2</span>
+            <div><h3 id="collect-title">At the festival</h3><p>Things to look for, if they are there this year.</p></div>
+          </div>
+          <p class="availability-note">Printed items and giveaways can vary, sell out or be for sale. These are possibilities remembered from past visits, not promises.</p>
+          <ul class="check-list" id="collect-list">
+            <li><label class="check-row"><input type="checkbox" data-item="book"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Porsche or event book</b><small>If a copy is available.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="pin"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Badge or lapel pin</b><small>A small pin to wear or keep.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="postcard"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Postcard or printed card</b><small>Look out for a small keepsake print.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="catalogue"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Colour catalogue or brochure</b><small>If one is offered this year.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="stickers"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Sticker or small giveaway</b><small>Promotional items may be limited.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="guide"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Event map or printed guide</b><small>If one is available at the entrance.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="programme"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>Event programme</b><small>A printed schedule, if provided.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="car-moment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A car you will remember</b><small>Pick a favourite. The 2026 line-up lists the 804 F1 car, the 917 and the 919 Hybrid.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="art-moment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A favourite piece of art</b><small>Take a moment to meet an artist.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="festival-treat"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A festival-only treat</b><small>Bake My Day cookies such as Turbo Heat, or a DRVN drink. Both are made for the festival.</small></span></label></li>
+            <li><label class="check-row"><input type="checkbox" data-item="stage-moment"><span class="check-box" aria-hidden="true"></span><span class="item-copy"><b>A live moment to remember</b><small>The Mission S reveal is on Saturday at 19:00 and Sunday at 19:30, in the preliminary programme.</small></span></label></li>
+          </ul>
+          <p class="paid-note">Food, drinks, artwork and official merchandise may cost extra.</p>
+        </section>
+      </div>
 
-    <footer class="site-footer">
-      <a class="footer-brand" href="#top">THE 911 FIELD GUIDE <span>· FAN MADE</span></a>
+      <div class="checklist-bottom">
+        <p class="save-note" id="storage-status" role="status">Your progress stays on this device. No account needed.</p>
+        <div class="check-actions"><button class="text-button" id="clear-all-button" type="button">Clear all progress</button><button class="text-button text-button-red" id="reset-button" type="button">Reset this day</button></div>
+      </div>
+    </section>
+
+    <section class="spec container" id="your-911" aria-labelledby="spec-title">
+      <div class="spec-head">
+        <h2 id="spec-title">Put your 911 in a story.</h2>
+        <p>Add a name if you like. The story image uses your paint and your progress.</p>
+      </div>
+      <div class="spec-body">
+        <p class="paint-summary">Paint: <b id="paint-summary-name">Guards Red</b>, one of Porsche&rsquo;s eight iconic colours. The screen colour is close, not exact. <a href="#hero-model">Change it on the car</a></p>
+        <label class="name-field" for="builder-name">Name on your story image, optional</label>
+        <input class="name-input" id="builder-name" type="text" maxlength="24" autocomplete="nickname" enterkeyhint="done" spellcheck="false">
+        <figure class="story-preview" id="story-figure">
+          <figcaption id="story-hint" hidden>Press and hold the image to save it, or use the button below.</figcaption>
+            <p class="story-tip">In an Instagram story, put the link sticker on the dashed box.</p>
+        </figure>
+        <div class="share-actions">
+          <button class="button" id="share-story" type="button">Share story image</button>
+          <a class="button button-quiet" id="save-story" href="#your-911" download="my-911-icons-of-porsche.png" hidden>Save image</a>
+          <button class="button button-quiet copy-plan" id="copy-plan" type="button"><span class="swap"><span class="swap-idle">Send my list</span><span class="swap-done" aria-hidden="true">Link copied</span></span></button>
+        </div>
+        <p class="share-tag">On Instagram, tag <a href="https://www.instagram.com/porsche.middleeast/" target="_blank" rel="noopener noreferrer">@porsche.middleeast</a><svg class="external-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9 2h5v5M14 2 7.5 8.5M12 9.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3.5"/></svg><span class="visually-hidden"> Opens Instagram in a new tab.</span></p>
+        <p class="visually-hidden" id="share-status" role="status"></p>
+      </div>
+    </section>
+
+    <section class="engine" id="engine" aria-labelledby="engine-title">
+      <div class="engine-inner container">
+        <div class="engine-copy">
+          <h2 id="engine-title">Six cylinders, laid flat, behind the rear axle.</h2>
+          <p>Three cylinders sit on each side of the crankcase. Each piston faces an opposed piston, and the pair move out and in together. The cylinders fire in the order 1, 6, 2, 4, 3, 5, one every 120 degrees of crank turn.</p>
+        </div>
+        <svg class="engine-art" viewBox="0 0 680 500" role="img" aria-labelledby="engine-art-title engine-art-desc">
+<title id="engine-art-title">Flat-six engine, top view, built from Technic-style parts</title>
+<desc id="engine-art-desc">Six cylinders lie flat in two banks of three on each side of one crankshaft. Cylinders 1, 2 and 3 are on the left bank, 4, 5 and 6 on the right bank. Each piston faces an opposed piston, and the pairs move out and in together. The rear of the car is to the left.</desc>
+<rect class="e-case" x="128" y="180" width="384" height="140" rx="10"/>
+<g class="e-stud"><circle cx="148" cy="192" r="6"/><circle cx="148" cy="308" r="6"/><circle cx="172" cy="192" r="6"/><circle cx="172" cy="308" r="6"/><circle cx="196" cy="192" r="6"/><circle cx="196" cy="308" r="6"/><circle cx="220" cy="192" r="6"/><circle cx="220" cy="308" r="6"/><circle cx="244" cy="192" r="6"/><circle cx="244" cy="308" r="6"/><circle cx="268" cy="192" r="6"/><circle cx="268" cy="308" r="6"/><circle cx="292" cy="192" r="6"/><circle cx="292" cy="308" r="6"/><circle cx="316" cy="192" r="6"/><circle cx="316" cy="308" r="6"/><circle cx="340" cy="192" r="6"/><circle cx="340" cy="308" r="6"/><circle cx="364" cy="192" r="6"/><circle cx="364" cy="308" r="6"/><circle cx="388" cy="192" r="6"/><circle cx="388" cy="308" r="6"/><circle cx="412" cy="192" r="6"/><circle cx="412" cy="308" r="6"/><circle cx="436" cy="192" r="6"/><circle cx="436" cy="308" r="6"/><circle cx="460" cy="192" r="6"/><circle cx="460" cy="308" r="6"/><circle cx="484" cy="192" r="6"/><circle cx="484" cy="308" r="6"/></g>
+<rect class="e-axle" x="60" y="241" width="560" height="18" rx="4"/><path class="e-axle-line" d="M64 250H616"/>
+<rect class="e-pulley" x="36" y="202" width="26" height="96" rx="4"/><path class="e-groove" d="M43 206V294M49 206V294M55 206V294"/>
+<rect class="e-flywheel" x="612" y="158" width="22" height="184" rx="4"/>
+<g class="cyl" data-cyl="1" data-bank="1">
+<rect class="e-barrel" x="136" y="44" width="108" height="136"/><path class="e-fin" d="M137 172H144M236 172H243M137 163H144M236 163H243M137 154H144M236 154H243M137 145H144M236 145H243M137 136H144M236 136H243M137 127H144M236 127H243M137 118H144M236 118H243M137 109H144M236 109H243M137 100H144M236 100H243M137 91H144M236 91H243M137 82H144M236 82H243M137 73H144M236 73H243M137 64H144M236 64H243M137 55H144M236 55H243"/>
+<rect class="e-bore" x="145" y="44" width="90" height="136"/>
+<rect class="e-glow" x="146" y="44" width="88" height="10" opacity="0"/>
+<rect class="e-throw" x="174" y="217.0910346561913" width="32" height="32.90896534380869" rx="6"/>
+<rect class="e-rod" x="179" y="90.50904541601545" width="22" height="126.58198924017586" rx="11"/>
+<circle class="e-pin" cx="190" cy="217.0910346561913" r="9"/>
+<g class="e-piston" transform="translate(0 90.5)"><rect x="147" y="-30" width="86" height="56" rx="3"/><path d="M147 -18H233M147 -24H233"/><circle cx="190" cy="0" r="6"/></g>
+<rect class="e-head" x="134" y="14" width="112" height="30" rx="4"/>
+<text class="e-label" x="190" y="37" text-anchor="middle">1</text>
+</g>
+<g class="cyl" data-cyl="2" data-bank="1">
+<rect class="e-barrel" x="254" y="44" width="108" height="136"/><path class="e-fin" d="M255 172H262M354 172H361M255 163H262M354 163H361M255 154H262M354 154H361M255 145H262M354 145H361M255 136H262M354 136H361M255 127H262M354 127H361M255 118H262M354 118H361M255 109H262M354 109H361M255 100H262M354 100H361M255 91H262M354 91H361M255 82H262M354 82H361M255 73H262M354 73H361M255 64H262M354 64H361M255 55H262M354 55H361"/>
+<rect class="e-bore" x="263" y="44" width="90" height="136"/>
+<rect class="e-glow" x="264" y="44" width="88" height="10" opacity="0"/>
+<rect class="e-throw" x="292" y="250" width="32" height="32.90896534380869" rx="6"/>
+<rect class="e-rod" x="297" y="156.3269761036328" width="22" height="126.58198924017589" rx="11"/>
+<circle class="e-pin" cx="308" cy="282.9089653438087" r="9"/>
+<g class="e-piston" transform="translate(0 156.3)"><rect x="265" y="-30" width="86" height="56" rx="3"/><path d="M265 -18H351M265 -24H351"/><circle cx="308" cy="0" r="6"/></g>
+<rect class="e-head" x="252" y="14" width="112" height="30" rx="4"/>
+<text class="e-label" x="308" y="37" text-anchor="middle">2</text>
+</g>
+<g class="cyl" data-cyl="3" data-bank="1">
+<rect class="e-barrel" x="372" y="44" width="108" height="136"/><path class="e-fin" d="M373 172H380M472 172H479M373 163H380M472 163H479M373 154H380M472 154H479M373 145H380M472 145H479M373 136H380M472 136H479M373 127H380M472 127H479M373 118H380M472 118H479M373 109H380M472 109H479M373 100H380M472 100H479M373 91H380M472 91H479M373 82H380M472 82H479M373 73H380M472 73H479M373 64H380M472 64H479M373 55H380M472 55H479"/>
+<rect class="e-bore" x="381" y="44" width="90" height="136"/>
+<rect class="e-glow" x="382" y="44" width="88" height="10" opacity="0"/>
+<rect class="e-throw" x="410" y="250" width="32" height="0" rx="6"/>
+<rect class="e-rod" x="415" y="127.7707072752198" width="22" height="122.2292927247802" rx="11"/>
+<circle class="e-pin" cx="426" cy="250" r="9"/>
+<g class="e-piston" transform="translate(0 127.8)"><rect x="383" y="-30" width="86" height="56" rx="3"/><path d="M383 -18H469M383 -24H469"/><circle cx="426" cy="0" r="6"/></g>
+<rect class="e-head" x="370" y="14" width="112" height="30" rx="4"/>
+<text class="e-label" x="426" y="37" text-anchor="middle">3</text>
+</g>
+<g class="cyl" data-cyl="4" data-bank="-1">
+<rect class="e-barrel" x="168" y="320" width="108" height="136"/><path class="e-fin" d="M169 328H176M268 328H275M169 337H176M268 337H275M169 346H176M268 346H275M169 355H176M268 355H275M169 364H176M268 364H275M169 373H176M268 373H275M169 382H176M268 382H275M169 391H176M268 391H275M169 400H176M268 400H275M169 409H176M268 409H275M169 418H176M268 418H275M169 427H176M268 427H275M169 436H176M268 436H275M169 445H176M268 445H275"/>
+<rect class="e-bore" x="177" y="320" width="90" height="136"/>
+<rect class="e-glow" x="178" y="446" width="88" height="10" opacity="0"/>
+<rect class="e-throw" x="206" y="250" width="32" height="32.90896534380863" rx="6"/>
+<rect class="e-rod" x="211" y="282.90896534380863" width="22" height="126.58198924017591" rx="11"/>
+<circle class="e-pin" cx="222" cy="282.90896534380863" r="9"/>
+<g class="e-piston" transform="translate(0 409.5)"><rect x="179" y="-26" width="86" height="56" rx="3"/><path d="M179 18H265M179 24H265"/><circle cx="222" cy="0" r="6"/></g>
+<rect class="e-head" x="166" y="456" width="112" height="30" rx="4"/>
+<text class="e-label" x="222" y="479" text-anchor="middle">4</text>
+</g>
+<g class="cyl" data-cyl="5" data-bank="-1">
+<rect class="e-barrel" x="286" y="320" width="108" height="136"/><path class="e-fin" d="M287 328H294M386 328H393M287 337H294M386 337H393M287 346H294M386 346H393M287 355H294M386 355H393M287 364H294M386 364H393M287 373H294M386 373H393M287 382H294M386 382H393M287 391H294M386 391H393M287 400H294M386 400H393M287 409H294M386 409H393M287 418H294M386 418H393M287 427H294M386 427H393M287 436H294M386 436H393M287 445H294M386 445H393"/>
+<rect class="e-bore" x="295" y="320" width="90" height="136"/>
+<rect class="e-glow" x="296" y="446" width="88" height="10" opacity="0"/>
+<rect class="e-throw" x="324" y="217.09103465619134" width="32" height="32.90896534380866" rx="6"/>
+<rect class="e-rod" x="329" y="217.09103465619134" width="22" height="126.58198924017589" rx="11"/>
+<circle class="e-pin" cx="340" cy="217.09103465619134" r="9"/>
+<g class="e-piston" transform="translate(0 343.7)"><rect x="297" y="-26" width="86" height="56" rx="3"/><path d="M297 18H383M297 24H383"/><circle cx="340" cy="0" r="6"/></g>
+<rect class="e-head" x="284" y="456" width="112" height="30" rx="4"/>
+<text class="e-label" x="340" y="479" text-anchor="middle">5</text>
+</g>
+<g class="cyl" data-cyl="6" data-bank="-1">
+<rect class="e-barrel" x="404" y="320" width="108" height="136"/><path class="e-fin" d="M405 328H412M504 328H511M405 337H412M504 337H511M405 346H412M504 346H511M405 355H412M504 355H511M405 364H412M504 364H511M405 373H412M504 373H511M405 382H412M504 382H511M405 391H412M504 391H511M405 400H412M504 400H511M405 409H412M504 409H511M405 418H412M504 418H511M405 427H412M504 427H511M405 436H412M504 436H511M405 445H412M504 445H511"/>
+<rect class="e-bore" x="413" y="320" width="90" height="136"/>
+<rect class="e-glow" x="414" y="446" width="88" height="10" opacity="0"/>
+<rect class="e-throw" x="442" y="250" width="32" height="0" rx="6"/>
+<rect class="e-rod" x="447" y="250" width="22" height="122.22929272478018" rx="11"/>
+<circle class="e-pin" cx="458" cy="250" r="9"/>
+<g class="e-piston" transform="translate(0 372.2)"><rect x="415" y="-26" width="86" height="56" rx="3"/><path d="M415 18H501M415 24H501"/><circle cx="458" cy="0" r="6"/></g>
+<rect class="e-head" x="402" y="456" width="112" height="30" rx="4"/>
+<text class="e-label" x="458" y="479" text-anchor="middle">6</text>
+</g>
+</svg>
+        <div class="engine-panel">
+          <div class="engine-controls">
+              <button class="button engine-toggle" id="engine-toggle" type="button" aria-pressed="false">Run the engine</button>
+              <div class="crank-control">
+                <span><label for="crank-angle">Crank angle</label> <output class="num" id="crank-readout" for="crank-angle" aria-live="off">30 degrees</output></span>
+                <input type="range" id="crank-angle" min="0" max="719" step="1" value="30">
+              </div>
+              <ol class="firing-order" aria-label="Firing order">
+                <li data-cyl="1">1</li><li data-cyl="6">6</li><li data-cyl="2">2</li><li data-cyl="4">4</li><li data-cyl="3">3</li><li data-cyl="5">5</li>
+              </ol>
+            </div>
+            <p class="engine-detail" id="engine-detail">Top view, rear of the car to the left. Shown at 30 crank turns a minute. A running engine turns many times faster.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="facts container" id="facts" aria-labelledby="facts-title">
+      <h2 id="facts-title">Four Porsche stories for the paddock.</h2>
+      <ol class="fact-list">
+        <li><span class="fact-mark num" aria-hidden="true">1948</span><h3>The first Porsche was a roadster</h3><p>The 356 &ldquo;No. 1&rdquo; received its road permit in 1948. Its mid-engine layout was different from the rear-engined production 356 that followed.</p></li>
+        <li><span class="fact-mark num" aria-hidden="true">1963</span><h3>The 911 started as the 901</h3><p>The first version was shown as the 901. Before production, it became the 911 after Peugeot objected to its three-digit naming pattern.</p></li>
+        <li><span class="fact-mark" aria-hidden="true">Stuttgart</span><h3>The horse points to Porsche&rsquo;s home</h3><p>The horse at the centre of Porsche&rsquo;s crest comes from Stuttgart&rsquo;s city seal, a nod to the city where the company is based.</p></li>
+        <li><span class="fact-mark num" aria-hidden="true">1970</span><h3>The 917 took Porsche&rsquo;s first Le Mans win</h3><p>In 1970, Hans Herrmann and Richard Attwood won the 24 Hours of Le Mans overall in a 917 KH.</p></li>
+      </ol>
+      <p class="facts-footnote">Selected Porsche stories. No quiz, no homework.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <div class="footer-close">
+      <h2>Have a brilliant weekend.</h2>
+      <p>Keep your checklist close, look around, and leave room for a surprise.</p>
+      <a class="text-link" href="#checklist">Back to the checklist</a>
+    </div>
+    <div class="footer-meta">
+      <a class="footer-brand" href="#top">911 Field Guide 2026, fan made</a>
       <p>A fan-made guide. Not affiliated with or endorsed by Porsche, LEGO or Icons of Porsche.</p>
-      <span class="footer-location">DUBAI · 2026</span>
-    </footer>
-  </div>
-
-  <aside class="scroll-rail" aria-hidden="true">
-    <span class="rail-label rail-label-top">START</span>
-    <span class="rail-line"></span>
-    <img class="rail-car" src="sports-car.svg" alt="">
-    <span class="rail-label rail-label-bottom">FINISH</span>
-  </aside>
+      <a class="source-link" href="https://github.com/MoSahil147/Icons-of-Porsche-Checklist" target="_blank" rel="noopener noreferrer"><svg class="github-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>Source on GitHub<span class="visually-hidden"> Opens in a new tab.</span></a>
+    </div>
+  </footer>
 
   <dialog class="confirm-dialog" id="confirm-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-copy">
-    <div class="dialog-stud-row" aria-hidden="true"><i></i><i></i><i></i></div>
     <h2 id="dialog-title">Reset your checklist?</h2>
     <p id="dialog-copy">Your saved ticks for this day will be cleared.</p>
-    <div class="dialog-actions"><button type="button" class="dialog-cancel" id="dialog-cancel">Keep my ticks</button><button type="button" class="dialog-confirm" id="dialog-confirm">Reset checklist</button></div>
+    <div class="dialog-actions"><button type="button" class="button button-quiet" id="dialog-cancel">Keep my ticks</button><button type="button" class="button" id="dialog-confirm">Reset checklist</button></div>
   </dialog>
 </body>
 </html>
