@@ -6,14 +6,17 @@ The page reads like a building-instruction sheet. Each tick adds a part to a bri
 
 ## Run locally
 
-This is a static website with no build step, package install, backend or database. Sharing and the offline cache need `localhost` or HTTPS, so serve the folder:
+This is a static website with no build step, backend or database. The page itself needs no package install; only the tests do. Sharing and the offline cache need `localhost` or HTTPS, so serve the folder:
 
 ```sh
 bunx --bun serve .
+bun install
 bun test
+bun run e2e
+bun tools/check-text.js
 ```
 
-`bun test` checks the plan link, the paint swap, the item order and the site files. CI runs the same tests, validates `index.html` and deploys to GitHub Pages from `main`.
+`bun test` checks the plan link, the paint swap, the item order, the asset versions and the site files. `bun run e2e` runs the browser journeys in Chrome or Chromium (set `CHROME_PATH` if it is not found), axe included; `tools/e2e/BEHAVIOUR.md` maps each feature to its journey. `tools/check-text.js` fails on em dashes, en dashes and emoji. CI runs all of these, validates `index.html` and deploys to GitHub Pages from `main`.
 
 ## Checklist behaviour
 
@@ -23,8 +26,8 @@ Checklist progress saves in the visitor's browser under the existing `brick-by-b
 
 - `index.html` contains the page content, the checklist, the inline build model and the engine drawing.
 - `styles.css` contains the layout and components. `tokens.css` holds the colour, type and spacing tokens. `base.css` holds the base rules.
-- `app.js` handles saved checklist state, progress, the build model, reset controls, the engine (play, pause and crank-angle slider), the paint and name, the story image and the plan link.
-- `plan.js` holds the plan-link codec and the paint swap. The page and `bun test` both load it.
+- `js/` holds the page script as ES modules, one per job, loaded with `<script type="module">` and no build step: `state.js` (saved list, paint and name), `checklist.js` (ticks, days, progress, build model, part flight, reset), `story.js` (story image and share), `paint.js` (paint picker, repaint and tooltip), `link.js` (plan link and banner), `engine.js`, `rail.js` (exhaust) and `main.js` (start-up and the service worker).
+- `plan.js` holds the plan-link codec and the paint swap. The page and `bun test` both import it.
 - `sw.js` keeps the site available with no signal after one visit. It fetches from the network first and falls back to the cache after 3 seconds.
 - `fonts/` holds League Spartan and Onest (latin subset, SIL OFL 1.1, licences included). `icons/` and `manifest.webmanifest` give the favicons and the home-screen icon.
 - `og-v3.png` is the link preview image for WhatsApp and other apps, 1200 x 630: eight cars, one per paint, on an arc around the headline and the event date.
