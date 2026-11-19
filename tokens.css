@@ -1,0 +1,33 @@
+:root {
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.25rem; --text-xl: 1.5625rem; --text-2xl: 1.953rem; --text-3xl: 2.441rem;
+  --text-display: clamp(3rem, 5.2vw + 1rem, 6rem);
+  --text-section: clamp(2.25rem, 3vw + 1rem, 4rem); --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.5rem); --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.3125rem);
+  --text-step: clamp(3.5rem, 4vw + 1.5rem, 5.5rem);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
+  --container: 1280px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+
+  /* Building-instruction paper: a pale blue sheet, navy ink, the car's red as the one signal. */
+  --color-paper: oklch(93% 0.022 236); --color-paper-2: oklch(97.5% 0.008 236); --color-paper-3: oklch(88% 0.03 236);
+  --color-ink: oklch(25% 0.035 255); --color-ink-2: oklch(36% 0.035 255); --color-muted: oklch(45% 0.03 250);
+  --color-rule: oklch(80% 0.03 240);
+  --color-accent: oklch(53% 0.205 25); --color-accent-deep: oklch(44% 0.18 24); --color-accent-ink: oklch(98% 0.006 236); --color-focus: oklch(40% 0.16 258);
+
+  /* The engine bay. */
+  --color-night: oklch(24% 0.03 252); --color-night-2: oklch(30% 0.03 252); --color-night-ink: oklch(94% 0.01 240); --color-night-muted: oklch(78% 0.02 240); --color-night-rule: oklch(42% 0.03 250); --color-night-focus: oklch(85% 0.13 85);
+
+  /* Parts. */
+  --color-brick: var(--color-accent); --color-brick-edge: oklch(36% 0.15 23);
+  --color-ghost: oklch(88.5% 0.028 236); --color-ghost-edge: oklch(79% 0.035 238);
+  --color-tyre: oklch(22% 0.006 260); --color-rim: oklch(84% 0.008 240); --color-glass: oklch(28% 0.03 245);
+  --color-part: oklch(74% 0.012 240); --color-part-dark: oklch(47% 0.012 250); --color-part-edge: oklch(18% 0.02 250);
+  --color-metal: oklch(90% 0.006 240); --color-bore: oklch(16% 0.02 250);
+  --color-glow: oklch(70% 0.19 50); --color-glow-core: oklch(95% 0.11 95);
+
+  --font-display: "League Spartan", ui-sans-serif, system-ui, sans-serif; --font-body: "Onest", ui-sans-serif, system-ui, sans-serif; --font-outlier: var(--font-display);
+  --radius-card: 6px; --radius-pill: 999px; --rule-hair: 1px; --shadow-card: none;
+  --tracking-display: -0.03em;
+}
