@@ -574,56 +574,59 @@ async function renderStory() {
   c.fillStyle = ink;
   c.textBaseline = 'alphabetic';
   // Layout bands, all inside y 270 to 1536 (Instagram covers the top and bottom).
-  fitText(c, `${done} / ${total}`, '800', width, 230);
-  c.fillText(`${done} / ${total}`, left, 470);
+  fitText(c, `${done} / ${total}`, '800', width, 210);
+  c.fillText(`${done} / ${total}`, left, 435);
   const dayText = activeDay === 'both' ? 'Saturday and Sunday' : dayNames[activeDay];
   const countLine = complete ? `items ready. ${dayText}'s 911 is complete.` : `items ready for ${dayText}.`;
   fitText(c, countLine, '600', width, 52);
-  c.fillText(countLine, left, 545);
-  const carWidth = 1000, carHeight = carWidth * car.naturalHeight / car.naturalWidth;
-  c.drawImage(car, 40, 740 - carHeight / 2, carWidth, carHeight);
+  c.fillText(countLine, left, 510);
+  const carWidth = 940, carHeight = carWidth * car.naturalHeight / car.naturalWidth;
+  c.drawImage(car, 70, 740 - carHeight / 2, carWidth, carHeight);
   // The parts call-out: the paint as a 1x2 plate, like the box in a building step.
-  const boxY = 900;
+  // Even gaps of about 60 between bands. Without a name, the lower bands move up.
+  const boxY = 955;
+  const lower = builderName ? 0 : -55;
+  const foot = builderName ? 0 : -45;
   c.lineWidth = 6;
   c.strokeStyle = ink;
   c.beginPath();
-  c.roundRect(left, boxY, width, 180, 18);
+  c.roundRect(left, boxY, width, 165, 18);
   c.stroke();
   c.fillStyle = hex;
   c.strokeStyle = shade(hex, -0.45);
   c.lineWidth = 4;
-  c.beginPath(); c.roundRect(left + 40, boxY + 78, 150, 70, 8); c.fill(); c.stroke();
-  for (const x of [left + 77, left + 152]) { c.beginPath(); c.roundRect(x - 26, boxY + 52, 52, 28, 6); c.fill(); c.stroke(); }
+  c.beginPath(); c.roundRect(left + 40, boxY + 61, 150, 70, 8); c.fill(); c.stroke();
+  for (const x of [left + 77, left + 152]) { c.beginPath(); c.roundRect(x - 26, boxY + 35, 52, 28, 6); c.fill(); c.stroke(); }
   c.fillStyle = ink;
   fitText(c, `1x ${PAINTS[paintIndex][1]}`, '800', width - 260, 60);
-  c.fillText(`1x ${PAINTS[paintIndex][1]}`, left + 230, boxY + 95);
+  c.fillText(`1x ${PAINTS[paintIndex][1]}`, left + 230, boxY + 78);
   c.fillStyle = muted;
   fitText(c, '911 Carrera (992), 1:12, brick-built', '400', width - 260, 34);
-  c.fillText('911 Carrera (992), 1:12, brick-built', left + 230, boxY + 145);
+  c.fillText('911 Carrera (992), 1:12, brick-built', left + 230, boxY + 128);
   if (builderName) {
     c.fillStyle = ink;
     fitText(c, `Built by ${builderName}`, '800', width, 64);
-    c.fillText(`Built by ${builderName}`, left, 1160);
+    c.fillText(`Built by ${builderName}`, left, 1225);
   }
   // Link slot: room for the Instagram link sticker. Without a sticker, the address still reads as the link.
-  const slotY = 1200;
+  const slotY = 1275 + lower;
   c.setLineDash([18, 12]);
   c.lineWidth = 4;
   c.strokeStyle = muted;
   c.beginPath();
-  c.roundRect(left, slotY, 720, 130, 65);
+  c.roundRect(left, slotY, 720, 116, 58);
   c.stroke();
   c.setLineDash([]);
   c.fillStyle = ink;
   const address = (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
   fitText(c, address, '600', 620, 34);
-  c.fillText(address, left + 50, slotY + 77);
+  c.fillText(address, left + 50, slotY + 70);
   c.fillStyle = ink;
   fitText(c, 'Icons of Porsche, Dubai, 21 to 22 November 2026', '600', width, 38);
-  c.fillText('Icons of Porsche, Dubai, 21 to 22 November 2026', left, 1415);
+  c.fillText('Icons of Porsche, Dubai, 21 to 22 November 2026', left, 1490 + foot);
   c.fillStyle = muted;
   fitText(c, 'A fan-made guide, not an official Porsche page.', '400', width, 30);
-  c.fillText('A fan-made guide, not an official Porsche page.', left, 1470);
+  c.fillText('A fan-made guide, not an official Porsche page.', left, 1536 + foot);
   const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
   if (!blob) throw new Error('The story image could not be exported.');
   return blob;
@@ -679,16 +682,16 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
       };
       canvas.requestPaint?.();
     });
-    // Some Chromium builds (seen in Arc) expose the API but draw nothing. A blank card must fall back to the drawn version.
-    const probe = document.createElement('canvas');
-    probe.width = 54;
-    probe.height = 96;
-    const p = probe.getContext('2d', { willReadFrequently: true });
-    p.drawImage(canvas, 0, 0, 54, 96);
-    const pixels = p.getImageData(0, 0, 54, 96).data;
-    let dark = 0;
-    for (let i = 0; i < pixels.length; i += 4) if (pixels[i + 3] > 200 && pixels[i] + pixels[i + 1] + pixels[i + 2] < 300) dark++;
-    if (dark < 20) throw new Error('blank card');
+    // Some browsers report a paint but draw nothing (transparent) or only the background.
+    // Check for an opaque background and opaque dark text; otherwise use the drawn fallback.
+    const pixels = canvas.getContext('2d').getImageData(0, 0, 1080, 1920).data;
+    let opaque = 0, inked = 0;
+    for (let i = 0; i < pixels.length; i += 4 * 97) {
+      if (pixels[i + 3] < 250) continue;
+      opaque++;
+      if (pixels[i] + pixels[i + 1] + pixels[i + 2] < 300) inked++;
+    }
+    if (opaque < pixels.length / (4 * 97) * 0.9 || inked < 20) throw new Error('blank paint');
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     if (!blob) throw new Error('no blob');
     return blob;

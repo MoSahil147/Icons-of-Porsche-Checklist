@@ -3,7 +3,9 @@
 // Plan link: ?plan=1.<day>.<mask>[.<mask>] with one base-36 mask per day over this item order.
 // Append new items to the end only. Never rename, remove or reorder an id, or older links decode wrongly.
 const PLAN_ITEMS = ['ticket', 'phone', 'power', 'shoes', 'travel', 'offline', 'young-icons', 'bag', 'water', 'payment', 'sun', 'layer', 'camera',
-  'book', 'pin', 'postcard', 'catalogue', 'stickers', 'guide', 'programme', 'car-moment', 'art-moment', 'festival-treat', 'stage-moment'];
+  'book', 'pin', 'postcard', 'catalogue', 'stickers', 'guide', 'programme', 'car-moment', 'art-moment', 'festival-treat', 'stage-moment', 'live-set', 'referral', 'leave-home', 'merch'];
+// Ids no longer on the page. They keep their bit so older links still decode; decodePlan drops them.
+const RETIRED_ITEMS = new Set(['book', 'pin', 'postcard', 'catalogue', 'guide']);
 const PLAN_DAYS = { sat: ['sat'], sun: ['sun'], both: ['sat', 'sun'] };
 const NAME_LIMIT = 24;
 
@@ -27,7 +29,7 @@ function decodePlan(search) {
     if (!/^[0-9a-z]{1,6}$/.test(text)) return null;
     const mask = parseInt(text, 36);
     if (mask >= 2 ** PLAN_ITEMS.length) return null;
-    days[targetDays[index]] = PLAN_ITEMS.filter((_, bit) => Math.floor(mask / 2 ** bit) % 2 === 1);
+    days[targetDays[index]] = PLAN_ITEMS.filter((item, bit) => Math.floor(mask / 2 ** bit) % 2 === 1 && !RETIRED_ITEMS.has(item));
   }
   return { day, days, by: cleanName(params.get('by') || '') };
 }
@@ -47,4 +49,4 @@ function paintedSVG(source, hex) {
   return source.replace(/#(c8102e|5a0613|7d0a1c|e8435a|a50c24|6e0818)\b/gi, (_, code) => swaps[code.toLowerCase()]);
 }
 
-if (typeof module !== 'undefined') module.exports = { PLAN_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, shade, paintedSVG };
+if (typeof module !== 'undefined') module.exports = { RETIRED_ITEMS, PLAN_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, shade, paintedSVG };
