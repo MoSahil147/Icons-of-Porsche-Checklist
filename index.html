@@ -30,6 +30,7 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="preload" href="fonts/league-spartan-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="stylesheet" href="styles.css">
   <script src="plan.js" defer></script>
   <script src="app.js" defer></script>
@@ -63,9 +64,22 @@
           <a class="button" href="#checklist">Start the checklist</a>
         </div>
       </div>
-      <figure class="hero-model">
+      <figure class="hero-model" id="hero-model">
         <img src="sports-car.svg" width="5142" height="1448" fetchpriority="high" alt="A red Porsche 911 Carrera of the 992 generation, built from bricks and plates at 1:12 scale, on a grey studded baseplate.">
         <div class="dimension" aria-hidden="true"><!-- ruler:start --><svg class="ruler" viewBox="0 0 5142 150" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="ruler-base" d="M300 40H4842"/><path class="ruler-ticks" d="M300 40v34M396 40v18M492 40v18M588 40v18M684 40v34M780 40v18M876 40v18M972 40v18M1068 40v34M1164 40v18M1260 40v18M1356 40v18M1452 40v34M1548 40v18M1644 40v18M1740 40v18M1836 40v34M1932 40v18M2028 40v18M2124 40v18M2220 40v34M2316 40v18M2412 40v18M2508 40v18M2604 40v34M2700 40v18M2796 40v18M2892 40v18M2988 40v34M3084 40v18M3180 40v18M3276 40v18M3372 40v34M3468 40v18M3564 40v18M3660 40v18M3756 40v34M3852 40v18M3948 40v18M4044 40v18M4140 40v34M4236 40v18M4332 40v18M4428 40v18M4524 40v34M4620 40v18M4716 40v18M4812 40v18"/><path class="ruler-axle" d="M1377 10v120M3827 10v120M1377 138H3827"/></svg><!-- ruler:end --><span class="dimension-label num">2,450 mm wheelbase, 25.5 studs</span></div>
+        <fieldset class="hero-paint" id="hero-paint">
+          <legend>Paint <span class="hero-paint-name" id="paint-name">Guards Red</span></legend>
+          <div class="hero-paint-swatches">
+            <label class="swatch" data-paint="guards-red"><input type="radio" name="paint" value="0" checked><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Guards Red</span></label>
+            <label class="swatch" data-paint="racing-yellow"><input type="radio" name="paint" value="1"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Racing Yellow</span></label>
+            <label class="swatch" data-paint="irish-green"><input type="radio" name="paint" value="2"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Irish Green</span></label>
+            <label class="swatch" data-paint="miami-blue"><input type="radio" name="paint" value="3"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Miami Blue</span></label>
+            <label class="swatch" data-paint="lava-orange"><input type="radio" name="paint" value="4"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Lava Orange</span></label>
+            <label class="swatch" data-paint="chalk"><input type="radio" name="paint" value="5"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Chalk</span></label>
+            <label class="swatch" data-paint="carrara-white"><input type="radio" name="paint" value="6"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Carrara White Metallic</span></label>
+            <label class="swatch" data-paint="carmine-red"><input type="radio" name="paint" value="7"><span class="swatch-plate" aria-hidden="true"></span><span class="visually-hidden">Carmine Red</span></label>
+          </div>
+        </fieldset>
         <figcaption>The 992 Carrera at 1:12: 47 studs long, 20 rows high. Each row ends on the real outline, traced from a scaled side elevation.</figcaption>
       </figure>
     </section>
@@ -154,22 +168,11 @@
 
     <section class="spec container" id="your-911" aria-labelledby="spec-title">
       <div class="spec-head">
-        <h2 id="spec-title">Paint it one of Porsche&rsquo;s eight icons.</h2>
-        <p>Pick a colour and add a name if you like. The model, the hero car and your story image all follow it.</p>
+        <h2 id="spec-title">Put your 911 in a story.</h2>
+        <p>Add a name if you like. The story image uses your paint and your progress.</p>
       </div>
       <div class="spec-body">
-        <fieldset class="paint-picker">
-          <legend>Paint</legend>
-          <label class="paint" data-paint="guards-red"><input type="radio" name="paint" value="0" checked><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Guards Red</span></label>
-          <label class="paint" data-paint="racing-yellow"><input type="radio" name="paint" value="1"><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Racing Yellow</span></label>
-          <label class="paint" data-paint="irish-green"><input type="radio" name="paint" value="2"><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Irish Green</span></label>
-          <label class="paint" data-paint="miami-blue"><input type="radio" name="paint" value="3"><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Miami Blue</span></label>
-          <label class="paint" data-paint="lava-orange"><input type="radio" name="paint" value="4"><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Lava Orange</span></label>
-          <label class="paint" data-paint="chalk"><input type="radio" name="paint" value="5"><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Chalk</span></label>
-          <label class="paint" data-paint="carrara-white"><input type="radio" name="paint" value="6"><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Carrara White Metallic</span></label>
-          <label class="paint" data-paint="carmine-red"><input type="radio" name="paint" value="7"><span class="paint-plate" aria-hidden="true"></span><span class="paint-name">Carmine Red</span></label>
-        </fieldset>
-        <p class="paint-note">Colour names from Porsche&rsquo;s own list of its most iconic paints. Screen colours are close, not exact.</p>
+        <p class="paint-summary">Paint: <b id="paint-summary-name">Guards Red</b>, one of Porsche&rsquo;s eight iconic colours. The screen colour is close, not exact. <a href="#hero-model">Change it on the car</a></p>
         <label class="name-field" for="builder-name">Name on your story image, optional</label>
         <input class="name-input" id="builder-name" type="text" maxlength="24" autocomplete="nickname" enterkeyhint="done" spellcheck="false">
         <figure class="story-preview" id="story-figure">

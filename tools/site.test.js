@@ -56,6 +56,18 @@ describe('paint', () => {
   });
 });
 
+describe('paint picker', () => {
+  test('eight paint radios sit on the hero, before the checklist', () => {
+    const hero = html.slice(html.indexOf('class="hero-paint"'), html.indexOf('id="checklist"'));
+    expect([...hero.matchAll(/name="paint" value="(\d)"/g)].map(match => match[1])).toEqual(['0', '1', '2', '3', '4', '5', '6', '7']);
+    expect([...html.matchAll(/name="paint"/g)].length).toBe(8);
+  });
+
+  test('the picker hides when scripts do not run', () => {
+    expect(read('styles.css')).toContain('html:not(.js) .hero-paint { display: none; }');
+  });
+});
+
 describe('site files', () => {
   const precache = [...read('sw.js').matchAll(/'([^']+\.[a-z0-9]+|\.\/)'/g)].map(match => match[1]).filter(path => path !== './');
 

@@ -1,4 +1,4 @@
-document.documentElement.classList.add('js');
+document.documentElement.classList.add('js'); // also set in <head>, before first paint
 const STORAGE_KEY = 'brick-by-brick-iop26-v1';
 const dayButtons = [...document.querySelectorAll('.day-button')];
 const categoryButtons = [...document.querySelectorAll('.category-button')];
@@ -422,7 +422,8 @@ if ('IntersectionObserver' in window) {
 // Your 911: paint, name, story image and the plan link.
 const root = document.documentElement;
 const heroImage = document.querySelector('.hero-model img');
-const paintInputs = [...document.querySelectorAll('.paint-picker input[name="paint"]')];
+const paintInputs = [...document.querySelectorAll('input[name="paint"]')];
+const paintNames = [...document.querySelectorAll('#paint-name, #paint-summary-name')];
 let paintTicket = 0;
 const nameInput = document.querySelector('#builder-name');
 const storyFigure = document.querySelector('#story-figure');
@@ -465,6 +466,7 @@ async function applyPaint() {
   buildModel?.style.setProperty('--color-brick', hex);
   buildModel?.style.setProperty('--color-brick-edge', shade(hex, -0.45));
   paintInputs.forEach(input => { input.checked = Number(input.value) === paintIndex; });
+  paintNames.forEach(name => { name.textContent = PAINTS[paintIndex][1]; });
   // Fast taps can finish out of order: only the latest tap may change the hero.
   const ticket = ++paintTicket;
   if (paintIndex === 0 && !heroUrl) return;
