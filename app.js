@@ -675,6 +675,16 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
       };
       canvas.requestPaint?.();
     });
+    // Some Chromium builds (seen in Arc) expose the API but draw nothing. A blank card must fall back to the drawn version.
+    const probe = document.createElement('canvas');
+    probe.width = 54;
+    probe.height = 96;
+    const p = probe.getContext('2d', { willReadFrequently: true });
+    p.drawImage(canvas, 0, 0, 54, 96);
+    const pixels = p.getImageData(0, 0, 54, 96).data;
+    let dark = 0;
+    for (let i = 0; i < pixels.length; i += 4) if (pixels[i + 3] > 200 && pixels[i] + pixels[i + 1] + pixels[i + 2] < 300) dark++;
+    if (dark < 20) throw new Error('blank card');
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     if (!blob) throw new Error('no blob');
     return blob;
