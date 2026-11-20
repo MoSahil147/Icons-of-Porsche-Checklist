@@ -1,6 +1,6 @@
-import { progressPhase } from '../plan.js?v=23';
-import { dayName, listNumbers, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=23';
-import { scheduleStory } from './story.js?v=23';
+import { progressPhase } from '../plan.js?v=24';
+import { dayName, listNumbers, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=24';
+import { scheduleStory } from './story.js?v=24';
 
 const dayButtons = [...document.querySelectorAll('.day-button')];
 const categoryButtons = [...document.querySelectorAll('.category-button')];

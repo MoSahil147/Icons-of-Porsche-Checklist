@@ -1,4 +1,4 @@
-import { cleanName } from '../plan.js?v=23';
+import { cleanName } from '../plan.js?v=24';
 
 export const STORAGE_KEY = 'brick-by-brick-iop26-v1';
 // The order matches the head script in index.html and the paint value saved in older lists.
