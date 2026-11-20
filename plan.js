@@ -46,3 +46,22 @@ export function paintedSVG(source, hex) {
   const swaps = { c8102e: hex, '5a0613': shade(hex, -0.55), '7d0a1c': shade(hex, -0.4), e8435a: shade(hex, 0.25), a50c24: shade(hex, -0.18), '6e0818': shade(hex, -0.45) };
   return source.replace(/#(c8102e|5a0613|7d0a1c|e8435a|a50c24|6e0818)\b/gi, (_, code) => swaps[code.toLowerCase()]);
 }
+
+// What the progress label and the story card say, from the two lists for the chosen day or days.
+// The car is the packing gauge: the "Before you go" list builds it, and all of it finishes it (ready to go).
+// Festival moments never take parts away. Once one is found, the visitor is at the event, so the card leads with
+// the festival and shows the whole car: before the event, nobody can tick a festival item yet.
+// pack and found: { done, total }. day: "Saturday", "Sunday" or "Saturday and Sunday".
+export function progressPhase(pack, found, day) {
+  const packed = pack.done === pack.total;
+  const allFound = found.done === found.total;
+  const phase = allFound ? 'found' : found.done > 0 ? 'there' : packed ? 'ready' : 'packing';
+  const card = phase === 'packing' || phase === 'ready'
+    ? { count: `${pack.done}/${pack.total}`, line: packed ? `packed. Ready for ${day}.` : `packed for ${day}.` }
+    : { count: `${found.done}/${found.total}`, line: allFound ? `festival moments found. ${day} done.` : `festival moments found on ${day}.` };
+  const packText = `${pack.done} / ${pack.total} packed`, foundText = `${found.done} / ${found.total} found`;
+  const label = packed && allFound ? `All ${pack.total + found.total} done.`
+    : packed ? (found.done ? `Ready to go. ${foundText}.` : `${packText}. Ready to go.`)
+    : found.done ? `${packText}. ${foundText}.` : packText;
+  return { phase, packed, carShare: pack.total ? pack.done / pack.total : 0, carComplete: phase !== 'packing', ...card, label };
+}

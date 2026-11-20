@@ -74,6 +74,15 @@ export function progressNumbers() {
   return { done, total: days.length * itemIds.size };
 }
 
+// The two lists, by item, and their counts for the chosen day or days.
+const listOf = id => [...document.querySelectorAll(`${id} input[data-item]`)].map(input => input.dataset.item);
+export const LISTS = { pack: listOf('#pack-list'), collect: listOf('#collect-list') };
+export function listNumbers() {
+  const days = selectedDays();
+  const count = items => ({ done: days.reduce((sum, day) => sum + items.filter(item => state.progress[day][item]).length, 0), total: days.length * items.length });
+  return { pack: count(LISTS.pack), collect: count(LISTS.collect) };
+}
+
 export const paintHex = (index = state.paintIndex) =>
   getComputedStyle(document.documentElement).getPropertyValue(`--paint-${PAINTS[index][0]}`).trim() || '#c8102e';
 

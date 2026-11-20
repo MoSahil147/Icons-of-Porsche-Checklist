@@ -37,10 +37,10 @@ export default async function ({ browser, url }) {
   assert.match(await page.$eval('#plan-banner-text', el => el.textContent), /ticked 6 of 23 items on Saturday/);
   assert.ok(await page.$eval('#plan-banner', el => !el.hidden && el.getBoundingClientRect().top < 200), 'banner near the top');
   await page.click('#plan-merge');
-  assert.match(await page.$eval('#progress-label', el => el.textContent), /^6 \/ 23/);
+  assert.equal(await page.$eval('#progress-label', el => el.textContent), '6 / 15 packed');
   assert.equal(await page.evaluate(() => location.search), '');
   await page.click('#plan-undo');
-  assert.match(await page.$eval('#progress-label', el => el.textContent), /^0 \/ 23/);
+  assert.equal(await page.$eval('#progress-label', el => el.textContent), '0 / 15 packed');
   await page.done();
 
   page = await open(browser, link);
@@ -50,5 +50,22 @@ export default async function ({ browser, url }) {
 
   page = await open(browser, `${url}?plan=1.sat.12-x&by=%E2%80%AEx`);
   assert.deepEqual(await page.evaluate(() => [document.querySelector('#plan-banner').hidden, location.search]), [true, '']);
+  await page.done();
+
+  // The story card fits the moment it is shared. Before the event only the pack list can be done, so 15 of 15 shows
+  // a finished car and "Ready". One festival moment means the visitor is there: the card leads with the festival.
+  page = await open(browser, url);
+  await page.evaluate(() => document.querySelector('#your-911').scrollIntoView());
+  const story = async (ticks, expected) => {
+    await page.evaluate(ticks);
+    await page.waitForFunction(text => document.querySelector('#story-figure img')?.alt.includes(text), { timeout: 8000 }, expected)
+      .catch(async () => assert.fail(`story says "${expected}", got "${await page.$eval('#story-figure img', el => el.alt)}"`));
+    assert.equal(await page.$eval('#story-figure img', el => el.naturalWidth), 1080);
+  };
+  await story(() => document.querySelectorAll('#pack-list input').forEach((input, i) => { if (i < 9) input.click(); }), '9/15 packed for Saturday.');
+  await story(() => document.querySelectorAll('#pack-list input:not(:checked)').forEach(input => input.click()), '15/15 packed. Ready for Saturday.');
+  await story(() => document.querySelector('#collect-list input').click(), '1/8 festival moments found on Saturday.');
+  await story(() => document.querySelectorAll('#collect-list input:not(:checked)').forEach(input => input.click()), '8/8 festival moments found. Saturday done.');
+  await story(() => document.querySelector('.day-button[data-day="both"]').click(), '8/16 festival moments found on Saturday and Sunday.');
   await page.done();
 }

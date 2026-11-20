@@ -37,7 +37,8 @@ export default async function ({ browser, url }) {
     assert.equal(s.waiting, 'collect', 'the other list waits when this one is done');
     assert.ok(s.signal, 'the other list blinks');
     assert.equal(s.nudge, 'Before you go is done. 8 left at the festival.');
-    assert.equal(s.rev, false, 'no rev while a list is open');
+    assert.ok(s.rev, 'the pack list completes the car, and it revs: ready to go');
+    assert.equal(s.label, '15 / 15 packed. Ready\u00a0to\u00a0go.');
 
     await page.click('#list-switch [data-category="collect"]');
     await page.waitForFunction(() => Math.abs(document.querySelector('.checklist-grid').getBoundingClientRect().top - document.querySelector('#build-dock').offsetHeight) < 2, { timeout: 3000 }).catch(() => {});
@@ -47,10 +48,13 @@ export default async function ({ browser, url }) {
     assert.equal(s.nudge, '', 'and the message');
     assert.equal(s.signal, false, 'and the blink');
 
-    await tick(page, '#collect-list', 8);
+    await tick(page, '#collect-list', 3);
     s = await read(page);
-    assert.match(s.label, /^23 \/ 23\. Ready\sto\sgo\./);
-    assert.ok(s.rev, 'the car revs when both lists are done');
+    assert.equal(s.label, 'Ready\u00a0to\u00a0go. 3 / 8 found.');
+    assert.ok(s.ratio <= 0.3, `${width}: the dock stays at most 30% with the longest label (${s.dockH} px)`);
+    await tick(page, '#collect-list', 5);
+    s = await read(page);
+    assert.equal(s.label, 'All 23 done.');
     assert.deepEqual(s.counts, ['15 of 15', '8 of 8']);
     await page.close();
   }
@@ -59,11 +63,9 @@ export default async function ({ browser, url }) {
   const still = await open(browser, url, { width: 390, height: 844, reduce: true });
   await tick(still, '#pack-list', 15);
   let s = await read(still);
+  assert.equal(s.rev, false, 'no rev with reduced motion');
   assert.equal(s.waiting, 'collect');
   assert.equal(await still.$eval('#list-switch .is-waiting', el => getComputedStyle(el).animationName), 'none', 'no blink with reduced motion');
-  await still.click('#list-switch [data-category="collect"]');
-  await tick(still, '#collect-list', 8);
-  assert.equal((await read(still)).rev, false, 'no rev with reduced motion');
   await still.close();
 
   // Desktop: both lists show, so there is no switch and no message; the car still revs.
@@ -72,8 +74,9 @@ export default async function ({ browser, url }) {
   s = await read(desk);
   assert.equal(await desk.$eval('#list-switch', el => getComputedStyle(el).display), 'none');
   assert.equal(s.nudge, '', 'no message on a wide screen');
+  assert.ok(s.rev, 'the car revs on a desktop when the pack list is done');
   await tick(desk, '#collect-list', 8);
-  assert.ok((await read(desk)).rev, 'the car revs on a desktop');
+  assert.equal((await read(desk)).label, 'All 23 done.');
   await desk.close();
   console.log('dock checks passed');
 }

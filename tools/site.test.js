@@ -1,7 +1,7 @@
 // Run with: bun test
 import { describe, expect, test } from 'bun:test';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { PLAN_ITEMS, RETIRED_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, paintedSVG } from '../plan.js';
+import { PLAN_ITEMS, RETIRED_ITEMS, NAME_LIMIT, cleanName, encodeMask, decodePlan, paintedSVG, progressPhase } from '../plan.js';
 import { findProblems } from './check-text.js';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -131,5 +131,47 @@ describe('text check', () => {
     expect(names('one \u2014 two \u2013 three \u{1F697}')).toEqual(['em dash', 'en dash', 'emoji']);
     expect(names('Porsche\u00ae 911, 9 - 11, \u00a9 2026')).toEqual([]);
     expect(findProblems('a\nb \u2014')[0]).toEqual({ line: 2, column: 3, name: 'em dash' });
+  });
+});
+
+// The state table: the car is the packing gauge, and festival moments only add. Before the event only the pack list
+// can be done, so a card shared then must look finished at 15 of 15, not two-thirds built.
+describe('progress phase', () => {
+  const n = (done, total) => ({ done, total });
+  const at = (p, f, day = 'Saturday') => progressPhase(n(p, 15), n(f, 8), day);
+
+  test('packing: the car builds from the pack list only', () => {
+    expect(at(0, 0)).toMatchObject({ phase: 'packing', carShare: 0, carComplete: false, count: '0/15', line: 'packed for Saturday.', label: '0 / 15 packed' });
+    expect(at(9, 0)).toMatchObject({ phase: 'packing', carShare: 9 / 15, carComplete: false, count: '9/15' });
+  });
+
+  test('ready: 15 of 15 finishes the car before any festival item', () => {
+    expect(at(15, 0)).toMatchObject({ phase: 'ready', packed: true, carShare: 1, carComplete: true, count: '15/15', line: 'packed. Ready for Saturday.' });
+    expect(at(15, 0).label).toBe('15 / 15 packed. Ready to go.');
+  });
+
+  test('there: one festival moment shows the whole car and leads the card', () => {
+    expect(at(15, 3)).toMatchObject({ phase: 'there', carComplete: true, count: '3/8', line: 'festival moments found on Saturday.', label: 'Ready to go. 3 / 8 found.' });
+    // At the event without the pack list: the card still looks finished; the in-page car stays the pack gauge.
+    expect(at(4, 2)).toMatchObject({ phase: 'there', carComplete: true, carShare: 4 / 15, count: '2/8', label: '4 / 15 packed. 2 / 8 found.' });
+  });
+
+  test('found: all moments, with or without the pack list', () => {
+    expect(at(15, 8)).toMatchObject({ phase: 'found', carComplete: true, count: '8/8', line: 'festival moments found. Saturday done.', label: 'All 23 done.' });
+    expect(at(9, 8)).toMatchObject({ phase: 'found', carComplete: true, label: '9 / 15 packed. 8 / 8 found.' });
+  });
+
+  test('both days double each list', () => {
+    const both = progressPhase(n(30, 30), n(5, 16), 'Saturday and Sunday');
+    expect(both).toMatchObject({ phase: 'there', count: '5/16', line: 'festival moments found on Saturday and Sunday.', label: 'Ready to go. 5 / 16 found.' });
+    expect(progressPhase(n(30, 30), n(16, 16), 'Saturday and Sunday').label).toBe('All 46 done.');
+  });
+
+  test('no state shows a part-built car once the pack list is done or a moment is found', () => {
+    for (let p = 0; p <= 15; p++) for (let f = 0; f <= 8; f++) {
+      const s = at(p, f);
+      expect(s.carComplete).toBe(p === 15 || f > 0);
+      expect(s.count.endsWith('/15') || s.count.endsWith('/8')).toBe(true);
+    }
   });
 });

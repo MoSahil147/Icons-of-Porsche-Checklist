@@ -1,4 +1,5 @@
-import { dayName, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=23';
+import { progressPhase } from '../plan.js?v=23';
+import { dayName, listNumbers, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=23';
 import { scheduleStory } from './story.js?v=23';
 
 const dayButtons = [...document.querySelectorAll('.day-button')];
@@ -20,14 +21,10 @@ const makeItYours = document.querySelector('#make-it-yours');
 const buildDock = document.querySelector('#build-dock');
 const listSwitch = document.querySelector('#list-switch');
 const listNudge = document.querySelector('#list-nudge');
-const listItems = { pack: [], collect: [] };
-for (const [category, id] of [['pack', '#pack-list'], ['collect', '#collect-list']]) {
-  listItems[category] = [...document.querySelectorAll(`${id} input[data-item]`)].map(input => input.dataset.item);
-}
 let wasListDone = null;
-// Two exhaust puffs behind the tailpipe, for the rev when the car is complete (CSS runs them).
+// Two exhaust puffs behind the tailpipe, for the rev when the pack list completes the car (CSS runs them).
 buildModel?.insertAdjacentHTML('beforeend', '<circle class="pm-puff" cx="330" cy="1110" r="150"/><circle class="pm-puff" cx="330" cy="1110" r="150"/>');
-let wasComplete = null;
+let wasPacked = null;
 let pendingResetDays = [];
 let flightSource = null;
 let lastBuilt = 0;
@@ -101,33 +98,30 @@ export function renderChecklist() {
 
 function renderProgress() {
   const { done, total } = progressNumbers();
-  const complete = done === total;
-  const suffix = complete ? '. Ready\u00a0to\u00a0go.' : state.activeDay === 'both' ? ' ready, both days' : ' ready';
-  progressLabel.textContent = `${done} / ${total}${suffix}`;
+  const { pack, collect } = listNumbers();
+  const now = progressPhase(pack, collect, dayName());
+  progressLabel.textContent = now.label;
   makeItYours.hidden = done === 0;
-  if (complete && wasComplete === false && buildModel && !buildModel.classList.contains('no-anim')) {
+  // The car is the packing gauge: it revs when the pack list completes it, ready to go.
+  if (now.packed && wasPacked === false && buildModel && !buildModel.classList.contains('no-anim')) {
     buildModel.classList.remove('is-done');
     void buildModel.getBoundingClientRect();
     buildModel.classList.add('is-done');
   }
-  wasComplete = complete;
+  if (!now.packed) buildModel?.classList.remove('is-done'); // so the next completion revs again
+  wasPacked = now.packed;
   scheduleStory();
   progressMeter.max = total;
   progressMeter.value = done;
   progressMeter.setAttribute('aria-valuetext', `${done} of ${total} items ready`);
-  renderModel(done, total);
+  renderModel(now.carShare);
   renderLists(!buildModel?.classList.contains('no-anim'));
 }
 
 // Each list option is a gauge for its list. When the visible list is done and the other is not, the other option
 // waits in amber; if a tick just finished this list, it also blinks twice and a status message says what is left.
 function renderLists(fromTick) {
-  const days = selectedDays();
-  const count = category => {
-    const done = days.reduce((sum, day) => sum + listItems[category].filter(item => state.progress[day][item]).length, 0);
-    return { done, total: days.length * listItems[category].length };
-  };
-  const lists = { pack: count('pack'), collect: count('collect') };
+  const lists = listNumbers();
   const isDone = category => lists[category].done === lists[category].total;
   const here = state.activeCategory;
   const there = here === 'pack' ? 'collect' : 'pack';
@@ -152,8 +146,8 @@ function renderLists(fromTick) {
   wasListDone = { pack: isDone('pack'), collect: isDone('collect') };
 }
 
-function renderModel(done, total) {
-  const built = total ? Math.round(done / total * modelParts.length) : 0;
+function renderModel(share) {
+  const built = Math.round(share * modelParts.length);
   modelParts.forEach((part, index) => part.classList.toggle('is-built', index < built));
   if (built < lastBuilt || buildModel?.classList.contains('no-anim')) cancelFlights();
   // Only plate rows fly: they are bricks. Wheels and glass just fade in.

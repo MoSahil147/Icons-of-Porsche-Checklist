@@ -1,5 +1,5 @@
-import { cleanName, paintedSVG, shade } from '../plan.js?v=23';
-import { PAINTS, dayName, paintHex, progressNumbers, saveState, state } from './state.js?v=23';
+import { cleanName, paintedSVG, progressPhase, shade } from '../plan.js?v=23';
+import { PAINTS, dayName, listNumbers, paintHex, saveState, state } from './state.js?v=23';
 
 const buildModel = document.querySelector('.build-model');
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
@@ -14,6 +14,7 @@ storyImage.width = 1080;
 storyImage.height = 1920;
 storyImage.alt = 'Your story image: your 911 in the paint you chose, with your progress and the event details.';
 let storyFile = null;
+let storyText = ''; // what the last card says, for the preview's alt text
 let storyUrl = '';
 let heroSource = null;
 let storyTimer = 0;
@@ -71,15 +72,16 @@ function fitText(context, text, font, maxWidth, size) {
 }
 
 const siteAddress = () => (location.host + location.pathname).replace(/index\.html$/, '').replace(/\/$/, '');
-const countLine = complete => complete ? `items ready. ${dayName()}'s 911 is complete.` : `items ready for ${dayName()}.`;
 
 // 1080 x 1920. Key content stays between y 270 and y 1536 so Instagram and WhatsApp controls do not cover it.
 async function renderStory() {
-  const { done, total } = progressNumbers();
+  // The card fits the moment it is shared: packing, ready to go, or at the festival (see progressPhase).
+  const { pack, collect } = listNumbers();
+  const now = progressPhase(pack, collect, dayName());
+  storyText = `${now.count} ${now.line}`;
   const hex = paintHex();
-  const complete = done === total;
-  const built = total ? Math.round(done / total * modelParts.length) : 0;
-  const svg = complete ? paintedSVG(await heroSVGText(), hex) : buildModelSVG(built, hex);
+  const built = Math.round(now.carShare * modelParts.length);
+  const svg = now.carComplete ? paintedSVG(await heroSVGText(), hex) : buildModelSVG(built, hex);
   await Promise.race([
     Promise.all(['800 120px "League Spartan"', '600 40px "Onest"', '400 34px "Onest"'].map(font => document.fonts.load(font))),
     new Promise(resolve => setTimeout(resolve, 1500))
@@ -88,7 +90,7 @@ async function renderStory() {
     // Experimental path: if it fails, draws a blank card, or never finishes, use the drawn version.
     try {
       return await Promise.race([
-        renderStoryHTML(svg, done, total, complete, hex),
+        renderStoryHTML(svg, now, hex),
         new Promise((_, reject) => setTimeout(() => reject(new Error('html story timed out')), 2500))
       ]);
     } catch { /* fall back to the drawn version */ }
@@ -105,10 +107,10 @@ async function renderStory() {
   c.fillRect(0, 0, 1080, 1920);
   c.fillStyle = ink;
   c.textBaseline = 'alphabetic';
-  fitText(c, `${done}/${total}`, '800', width, 210);
-  c.fillText(`${done}/${total}`, left, 435);
-  fitText(c, countLine(complete), '600', width, 52);
-  c.fillText(countLine(complete), left, 510);
+  fitText(c, now.count, '800', width, 210);
+  c.fillText(now.count, left, 435);
+  fitText(c, now.line, '600', width, 52);
+  c.fillText(now.line, left, 510);
   const carWidth = 940, carHeight = carWidth * car.naturalHeight / car.naturalWidth;
   c.drawImage(car, 70, 740 - carHeight / 2, carWidth, carHeight);
   const boxY = 955;
@@ -159,7 +161,7 @@ async function renderStory() {
 
 // The same card in HTML and CSS, drawn with drawElementImage (HTML-in-Canvas: Chromium behind a flag or an
 // origin trial; WICG explainer, github.com/WICG/html-in-canvas). Real text layout for any script.
-async function renderStoryHTML(svg, done, total, complete, hex) {
+async function renderStoryHTML(svg, now, hex) {
   const carUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
   const canvas = document.createElement('canvas');
   // Shipping Chrome requires content=drawable (it throws without it); the WICG explainer names layoutsubtree.
@@ -181,8 +183,8 @@ async function renderStoryHTML(svg, done, total, complete, hex) {
   const callout = line('div', 'story-callout', '');
   callout.append(line('span', 'story-plate', ''), line('b', '', `1x ${PAINTS[state.paintIndex][1]}`), line('small', '', '911 Carrera (992), 1:12, brick-built'));
   card.append(
-    line('div', 'story-count', `${done}/${total}`),
-    line('p', 'story-line', countLine(complete)),
+    line('div', 'story-count', now.count),
+    line('p', 'story-line', now.line),
     img, callout,
     ...(state.builderName ? [line('p', 'story-name', `Built by ${state.builderName}`)] : []),
     line('p', 'story-link', siteAddress()),
@@ -243,6 +245,7 @@ export function scheduleStory() {
       const previous = storyUrl;
       storyUrl = URL.createObjectURL(blob);
       storyImage.src = storyUrl;
+      storyImage.alt = `Your story image: ${storyText} Your 911 in ${PAINTS[state.paintIndex][1]}, with the event details.`;
       if (!storyImage.isConnected) storyFigure.prepend(storyImage);
       saveStoryLink.href = storyUrl;
       if (previous) setTimeout(() => URL.revokeObjectURL(previous), 1000);
