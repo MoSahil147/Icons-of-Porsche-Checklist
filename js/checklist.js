@@ -67,7 +67,7 @@ export function renderCategories() {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
   });
-  // The tabs only show on narrow screens; CSS decides that width (53.75rem), so it follows the text size too.
+  // The tabs only show on narrow screens; CSS decides that width (40rem, or a two-pane foldable), so it follows the text size too.
   checklistGrid.classList.toggle('show-pack', state.activeCategory === 'pack');
   checklistGrid.classList.toggle('show-collect', state.activeCategory === 'collect');
 }
