@@ -1,9 +1,9 @@
-import { state, updateStorageStatus } from './state.js?v=20';
-import { renderCategories, renderChecklist, renderDayButtons, withoutModelMotion } from './checklist.js?v=20';
-import { applyPaint } from './paint.js?v=20';
-import { openSharedPlan } from './link.js?v=20';
-import './engine.js?v=20';
-import './rail.js?v=20';
+import { state, updateStorageStatus } from './state.js?v=21';
+import { renderCategories, renderChecklist, renderDayButtons, withoutModelMotion } from './checklist.js?v=21';
+import { applyPaint } from './paint.js?v=21';
+import { openSharedPlan } from './link.js?v=21';
+import './engine.js?v=21';
+import './rail.js?v=21';
 
 renderDayButtons();
 renderCategories();

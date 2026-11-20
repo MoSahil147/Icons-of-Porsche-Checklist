@@ -1,6 +1,6 @@
-import { decodePlan, encodeMask } from '../plan.js?v=20';
-import { dayName, itemIds, saveState, selectedDays, state } from './state.js?v=20';
-import { renderChecklist, renderDayButtons } from './checklist.js?v=20';
+import { decodePlan, encodeMask } from '../plan.js?v=21';
+import { dayName, itemIds, saveState, selectedDays, state } from './state.js?v=21';
+import { renderChecklist, renderDayButtons } from './checklist.js?v=21';
 
 const copyPlanButton = document.querySelector('#copy-plan');
 const shareStatus = document.querySelector('#share-status');
