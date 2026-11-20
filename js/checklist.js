@@ -1,5 +1,5 @@
-import { dayName, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=21';
-import { scheduleStory } from './story.js?v=21';
+import { dayName, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=22';
+import { scheduleStory } from './story.js?v=22';
 
 const dayButtons = [...document.querySelectorAll('.day-button')];
 const categoryButtons = [...document.querySelectorAll('.category-button')];
@@ -67,7 +67,7 @@ export function renderCategories() {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
   });
-  // The tabs only show on narrow screens; CSS decides that width (53.75rem), so it follows the text size too.
+  // The tabs only show on narrow screens; CSS decides that width (40rem, or a two-pane foldable), so it follows the text size too.
   checklistGrid.classList.toggle('show-pack', state.activeCategory === 'pack');
   checklistGrid.classList.toggle('show-collect', state.activeCategory === 'collect');
 }

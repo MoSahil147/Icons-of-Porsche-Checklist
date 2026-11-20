@@ -1,5 +1,5 @@
-import { cleanName, paintedSVG, shade } from '../plan.js?v=21';
-import { PAINTS, dayName, paintHex, progressNumbers, saveState, state } from './state.js?v=21';
+import { cleanName, paintedSVG, shade } from '../plan.js?v=22';
+import { PAINTS, dayName, paintHex, progressNumbers, saveState, state } from './state.js?v=22';
 
 const buildModel = document.querySelector('.build-model');
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
@@ -266,8 +266,17 @@ shareStoryButton.addEventListener('click', () => {
   shareStatus.textContent = storyUrl ? 'Sharing is not available here. Save the image instead.' : 'The image is still being made. Try again in a moment.';
 });
 
+const nameClear = document.querySelector('#name-clear');
+const syncClear = () => { nameClear.hidden = !nameInput.value; };
 nameInput.value = state.builderName;
+syncClear();
+nameClear.addEventListener('click', () => {
+  nameInput.value = '';
+  nameInput.dispatchEvent(new Event('input'));
+  nameInput.focus();
+});
 nameInput.addEventListener('input', () => {
+  syncClear();
   state.builderName = cleanName(nameInput.value);
   saveState();
   scheduleStory();
