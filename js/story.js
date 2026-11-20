@@ -1,5 +1,5 @@
-import { cleanName, paintedSVG, shade } from '../plan.js?v=21';
-import { PAINTS, dayName, paintHex, progressNumbers, saveState, state } from './state.js?v=21';
+import { cleanName, paintedSVG, shade } from '../plan.js?v=22';
+import { PAINTS, dayName, paintHex, progressNumbers, saveState, state } from './state.js?v=22';
 
 const buildModel = document.querySelector('.build-model');
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
