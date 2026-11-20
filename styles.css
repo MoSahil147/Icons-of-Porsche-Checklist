@@ -322,23 +322,20 @@ html:not(.js) .spec { display: none; }
   .swatch:not(:has(input:checked)):hover { background: var(--color-paper-2); }
 }
 
-@media (max-width: 60rem) {
+@media (max-width: 60rem), (horizontal-viewport-segments: 2) {
   .hero-text, .section-head, .engine-inner { grid-template-columns: minmax(0, 1fr); }
   .hero h1, .hero-side, .section-head h2, .section-intro, .engine-copy, .engine-art, .engine-panel { grid-column: 1 / -1; grid-row: auto; }
   .engine-art { max-width: 560px; margin-top: var(--space-xl); }
   .fact-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (max-width: 53.75rem) {
+@media (max-width: 53.75rem), (horizontal-viewport-segments: 2) {
+  .check-column { padding: var(--space-md); }
+  .check-list.is-both > li { flex-wrap: wrap; row-gap: 0; padding-bottom: var(--space-sm); }
+  .check-list.is-both .check-row { flex-basis: 100%; }
   .spec-head { grid-template-columns: minmax(0, 1fr); }
   .spec-head h2, .spec-head p { grid-column: 1 / -1; }
   .spec-body { grid-template-columns: minmax(0, 1fr); grid-template-areas: "summary" "name-label" "name" "preview" "actions" "tag"; }
   .story-preview { max-width: 280px; }
-  .list-switch { display: flex; gap: var(--space-2xs); margin-bottom: var(--space-md); padding: var(--space-2xs); border-radius: 10px; background: var(--color-paper-3); }
-  .category-button { flex: 1; min-height: 44px; border: 0; border-radius: 7px; background: transparent; color: var(--color-ink-2); font-weight: 600; cursor: pointer; transition: background-color 150ms ease, color 150ms ease; }
-  .category-button.is-active { background: var(--color-ink); color: var(--color-paper-2); }
-  .checklist-grid { grid-template-columns: minmax(0, 1fr); }
-  .checklist-grid.show-pack > .collect-column,
-  .checklist-grid.show-collect > .check-column:not(.collect-column) { display: none; }
 }
 /* The header needs about 857px for one row with the full name; below 56rem the nav takes its own row. */
 @media (max-width: 56rem) {
@@ -346,7 +343,14 @@ html:not(.js) .spec { display: none; }
   .main-nav { order: 3; width: 100%; margin-left: 0; }
   .ticket-link { margin-left: auto; }
 }
-@media (max-width: 40rem) {
+@media (max-width: 40rem), (horizontal-viewport-segments: 2) {
+  /* Two lists side by side fit from 40rem, so an open foldable does not get the stretched phone tabs. */
+  .list-switch { display: flex; gap: var(--space-2xs); margin-bottom: var(--space-md); padding: var(--space-2xs); border-radius: 10px; background: var(--color-paper-3); }
+  .category-button { flex: 1; min-height: 44px; border: 0; border-radius: 7px; background: transparent; color: var(--color-ink-2); font-weight: 600; cursor: pointer; transition: background-color 150ms ease, color 150ms ease; }
+  .category-button.is-active { background: var(--color-ink); color: var(--color-paper-2); }
+  .checklist-grid { grid-template-columns: minmax(0, 1fr); }
+  .checklist-grid.show-pack > .collect-column,
+  .checklist-grid.show-collect > .check-column:not(.collect-column) { display: none; }
   /* Two-line lockup (Icons of Porsche / Checklist) so the ticket link fits beside it and the header stays two rows. */
   .brand span { max-width: 8em; }
   .hero { padding-top: var(--space-lg); }
@@ -354,17 +358,15 @@ html:not(.js) .spec { display: none; }
   .dimension-label { font-size: var(--text-xs); }
   .day-switch { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
   .day-button { padding-inline: var(--space-sm); }
-  .check-column { padding: var(--space-md); }
   .step-num { font-size: 3rem; }
   .fact-list { grid-template-columns: minmax(0, 1fr); }
-  .check-list.is-both > li { flex-wrap: wrap; row-gap: 0; padding-bottom: var(--space-sm); }
-  .check-list.is-both .check-row { flex-basis: 100%; }
 }
 @media (max-width: 22.5rem) {
   .brand { font-size: 1.0625rem; gap: var(--space-xs); }
   .ticket-link { font-size: var(--text-xs); }
 }
-@media (max-height: 500px) {
+/* Each pane of a horizontal fold is short too. */
+@media (max-height: 500px), (vertical-viewport-segments: 2) {
   .build-bar { position: static; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -425,4 +427,33 @@ html:not(.js) .spec { display: none; }
   :where([data-cursor="all"]) body { cursor: url("icons/cursor-911.png") 31 18, auto; }
   :where([data-cursor="all"] :is(p, h1, h2, h3, li, dd, dt, td, th, figcaption, legend, label, select, button, :is(span, b, small, strong, em):not(a *, button *, label *))) { cursor: auto; }
   [data-cursor="links"] :is(a[href], button:not(:disabled), .swatch, .check-row) { cursor: url("icons/cursor-911-go.png") 30 12, pointer; }
+}
+
+/* Foldables (Viewport Segments API). HIG, iPhone Duo: keep each view on one side of the fold and leave the
+   fold empty. Each pane takes the phone layout above. Browsers without the API never match these queries. */
+@media (horizontal-viewport-segments: 2) {
+  .topbar, main { display: grid; grid-template-columns: env(viewport-segment-width 0 0) env(viewport-segment-width 1 0); column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)); align-items: start; }
+  .topbar { max-width: none; padding-inline: 0; }
+  .brand, .main-nav { grid-column: 1; margin-left: var(--gutter); }
+  .ticket-link { grid-column: 2; grid-row: 1; justify-self: end; margin-right: var(--gutter); }
+  main > * { grid-column: 2; }
+  .hero { grid-column: 1; grid-row: 1 / span 5; }
+  .checklist { margin-top: 0; padding-top: var(--space-lg); }
+  .site-footer { max-width: none; padding-left: calc(env(viewport-segment-left 1 0) + var(--gutter)); }
+}
+/* Sticky only when the whole hero fits, or its paint row could never scroll into view. */
+@media (horizontal-viewport-segments: 2) and (min-height: 50rem) {
+  .hero { position: sticky; top: 0; }
+}
+/* Hinge across the screen: the hero stays in the top pane and the page scrolls in the bottom pane. */
+@media (vertical-viewport-segments: 2) {
+  html { scroll-padding-top: env(viewport-segment-top 0 1); }
+  body { padding-top: env(viewport-segment-top 0 1); }
+  .hero { position: fixed; z-index: var(--z-sticky); inset: 0 0 auto; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--gap-columns); align-items: center; height: env(viewport-segment-top 0 1); padding-block: var(--space-sm) calc(env(viewport-segment-top 0 1) - env(viewport-segment-bottom 0 0) + var(--space-sm)); overflow: auto; background: var(--color-paper); }
+  .hero-text { display: block; }
+  .hero h1 { font-size: clamp(2rem, 4vw, 3.5rem); }
+  .hero-side { margin-top: var(--space-sm); gap: var(--space-sm); }
+  .hero-model { margin: 0; }
+  .checklist { margin-top: var(--space-lg); }
+  .scroll-rail { display: none; }
 }
