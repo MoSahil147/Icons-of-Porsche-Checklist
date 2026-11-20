@@ -1,5 +1,5 @@
-import { cleanName, paintedSVG, shade } from '../plan.js?v=22';
-import { PAINTS, dayName, paintHex, progressNumbers, saveState, state } from './state.js?v=22';
+import { cleanName, paintedSVG, shade } from '../plan.js?v=23';
+import { PAINTS, dayName, paintHex, progressNumbers, saveState, state } from './state.js?v=23';
 
 const buildModel = document.querySelector('.build-model');
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
@@ -41,6 +41,7 @@ function loadImage(src) {
 function buildModelSVG(builtCount, hex) {
   const clone = buildModel.cloneNode(true);
   clone.querySelector('.pm-ghost')?.remove();
+  clone.querySelectorAll('.pm-puff').forEach(puff => puff.remove()); // rev exhaust, page only
   clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   // An SVG drawn to a canvas needs a size of its own; the viewBox alone gives it none in some browsers.
   const [, , viewWidth, viewHeight] = clone.getAttribute('viewBox').split(' ');

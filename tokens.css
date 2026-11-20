@@ -29,7 +29,7 @@
   --color-tyre: oklch(22% 0.006 260); --color-rim: oklch(84% 0.008 240); --color-glass: oklch(28% 0.03 245);
   --color-part: oklch(74% 0.012 240); --color-part-dark: oklch(47% 0.012 250); --color-part-edge: oklch(18% 0.02 250);
   --color-metal: oklch(90% 0.006 240); --color-bore: oklch(16% 0.02 250);
-  --color-glow: oklch(70% 0.19 50); --color-glow-core: oklch(95% 0.11 95);
+  --color-glow: oklch(70% 0.19 50); --color-signal: oklch(76% 0.16 70); --color-glow-core: oklch(95% 0.11 95);
 
   /* Porsche's eight iconic colours, from its story "8 of the most iconic Porsche car colours". Porsche gives no hex values; these are close screen matches. */
   --paint-guards-red: #c8102e; --paint-racing-yellow: #f1c21b; --paint-irish-green: #1f4d33; --paint-miami-blue: #1aa0d8;
