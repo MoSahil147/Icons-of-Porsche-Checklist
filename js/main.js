@@ -4,6 +4,7 @@ import { applyPaint } from './paint.js?v=21';
 import { openSharedPlan } from './link.js?v=21';
 import './engine.js?v=21';
 import './rail.js?v=21';
+import './segment.js?v=21';
 
 renderDayButtons();
 renderCategories();

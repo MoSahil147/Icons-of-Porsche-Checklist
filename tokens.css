@@ -8,6 +8,8 @@
   --text-section: clamp(2.25rem, 3vw + 1rem, 4rem); --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.5rem); --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.3125rem);
   --text-step: clamp(3.5rem, 4vw + 1.5rem, 5.5rem);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* A light spring: about 2% overshoot, settled by 60%. */
+  --ease-spring: linear(0, 0.2 5%, 0.56 11%, 0.85 18%, 0.98 25%, 1.02 33%, 1.02 41%, 1.005 50%, 1 60%, 1);
   --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
   --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
   --container: 1280px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;

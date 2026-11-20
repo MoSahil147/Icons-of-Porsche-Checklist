@@ -4,6 +4,7 @@ Each user-visible feature, from the visitor's point of view, and the test that g
 
 | Feature | What the visitor sees | Guarded by |
 | --- | --- | --- |
+| Day and list switches | One thumb slides between segments. A drag from the selected segment moves it with the finger or mouse and the release picks the nearest segment; the thumb lifts to glass while held. A tap and the keyboard still select. | `segment` |
 | Checklist ticks and days | 23 items in two lists (tabs on a phone). Saturday and Sunday are separate lists; Both shows Sat and Sun buttons per item. Ticks survive a reload; reset asks first. A corrupt or blocked store does not break the list. | `checklist` |
 | Progress and build model | The count and meter update on each tick; the brick 911 gains a part per tick and pops once when the day is complete. | `checklist` |
 | Part flight | A tick sends one plate from the box to its slot in the model; the count does not wait for it. | `checklist` |

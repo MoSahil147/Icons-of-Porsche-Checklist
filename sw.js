@@ -2,7 +2,7 @@
 // Network first, so a new deploy shows at once; the cache answers when the signal drops.
 const CACHE = 'iop26-v21'; // a new name clears the old cache on activate
 const PRECACHE = ['./', 'index.html', 'styles.css', 'tokens.css', 'base.css', 'plan.js', 'sports-car.svg',
-  'js/main.js', 'js/state.js', 'js/checklist.js', 'js/story.js', 'js/paint.js', 'js/link.js', 'js/engine.js', 'js/rail.js',
+  'js/main.js', 'js/state.js', 'js/checklist.js', 'js/story.js', 'js/paint.js', 'js/link.js', 'js/engine.js', 'js/rail.js', 'js/segment.js',
   'fonts/league-spartan-800-latin.woff2', 'fonts/onest-latin.woff2',
   'manifest.webmanifest', 'icons/favicon.svg', 'icons/favicon-32.png', 'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png',
   'icons/cursor-911.png', 'icons/cursor-911-go.png'];

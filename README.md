@@ -26,7 +26,7 @@ Checklist progress saves in the visitor's browser under the existing `brick-by-b
 
 - `index.html` contains the page content, the checklist, the inline build model and the engine drawing.
 - `styles.css` contains the layout and components. `tokens.css` holds the colour, type and spacing tokens. `base.css` holds the base rules.
-- `js/` holds the page script as ES modules, one per job, loaded with `<script type="module">` and no build step: `state.js` (saved list, paint and name), `checklist.js` (ticks, days, progress, build model, part flight, reset), `story.js` (story image and share), `paint.js` (paint picker, repaint and tooltip), `link.js` (plan link and banner), `engine.js`, `rail.js` (exhaust) and `main.js` (start-up and the service worker).
+- `js/` holds the page script as ES modules, one per job, loaded with `<script type="module">` and no build step: `state.js` (saved list, paint and name), `checklist.js` (ticks, days, progress, build model, part flight, reset), `story.js` (story image and share), `paint.js` (paint picker, repaint and tooltip), `link.js` (plan link and banner), `engine.js`, `rail.js` (exhaust), `segment.js` (the sliding thumb on the day and list switches) and `main.js` (start-up and the service worker).
 - `plan.js` holds the plan-link codec and the paint swap. The page and `bun test` both import it.
 - `sw.js` keeps the site available with no signal after one visit. It fetches from the network first and falls back to the cache after 3 seconds.
 - `fonts/` holds League Spartan and Onest (latin subset, SIL OFL 1.1, licences included). `icons/` and `manifest.webmanifest` give the favicons and the home-screen icon.
