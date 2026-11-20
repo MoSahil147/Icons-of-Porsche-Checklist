@@ -1,5 +1,5 @@
-import { dayName, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=22';
-import { scheduleStory } from './story.js?v=22';
+import { dayName, paintHex, progressNumbers, reducedMotion, saveState, selectedDays, state } from './state.js?v=23';
+import { scheduleStory } from './story.js?v=23';
 
 const dayButtons = [...document.querySelectorAll('.day-button')];
 const categoryButtons = [...document.querySelectorAll('.category-button')];
