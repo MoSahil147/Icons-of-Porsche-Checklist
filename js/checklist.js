@@ -102,7 +102,7 @@ export function renderChecklist() {
 function renderProgress() {
   const { done, total } = progressNumbers();
   const complete = done === total;
-  const suffix = complete ? '. Ready to\u00a0go.' : state.activeDay === 'both' ? ' ready, both days' : ' ready';
+  const suffix = complete ? '. Ready\u00a0to\u00a0go.' : state.activeDay === 'both' ? ' ready, both days' : ' ready';
   progressLabel.textContent = `${done} / ${total}${suffix}`;
   makeItYours.hidden = done === 0;
   if (complete && wasComplete === false && buildModel && !buildModel.classList.contains('no-anim')) {

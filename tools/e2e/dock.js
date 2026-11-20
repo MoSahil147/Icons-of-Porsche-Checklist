@@ -49,7 +49,7 @@ export default async function ({ browser, url }) {
 
     await tick(page, '#collect-list', 8);
     s = await read(page);
-    assert.match(s.label, /^23 \/ 23\. Ready to\sgo\./);
+    assert.match(s.label, /^23 \/ 23\. Ready\sto\sgo\./);
     assert.ok(s.rev, 'the car revs when both lists are done');
     assert.deepEqual(s.counts, ['15 of 15', '8 of 8']);
     await page.close();
