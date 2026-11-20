@@ -24,6 +24,8 @@ A failing check is a finding: find the cause. Never change a test only to make i
 
 - Each deploy bumps the cache name in `sw.js` (`iop26-vN`) and every `?v=N` in `index.html` and `js/*.js` to the same N. `bun test` fails if they differ.
 - A new page file goes in `PRECACHE` in `sw.js` and in the stage step of `.github/workflows/site.yml`. The `offline` journey fails if a precached path does not return 200.
+- The live site (iop.csk.fyi) is GitHub Pages from `main` of the upstream repo, and the owner also pushes to `main`. Before a PR, merge the latest `upstream/main` and set the cache name and `?v` above the live value.
+- Experimental browser APIs (HTML-in-Canvas in `js/story.js`) differ between the explainer and shipping Chrome. Local Chromium can lack them; the CI Chrome is the real test. Set every known attribute form and catch a throw into the drawn fallback.
 
 ## Generated files: never edit by hand
 

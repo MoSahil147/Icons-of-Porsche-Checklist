@@ -1,5 +1,5 @@
-import { PAINTS, reducedMotion, saveState, state } from './state.js?v=20';
-import { scheduleStory } from './story.js?v=20';
+import { PAINTS, reducedMotion, saveState, state } from './state.js?v=21';
+import { scheduleStory } from './story.js?v=21';
 
 // Rows and the parts fixed to them (.hd) share a row index (--i), so they lift together.
 const heroLifts = [...document.querySelectorAll('.hero-car .hr, .hero-car .hd')];
