@@ -1,7 +1,7 @@
 // Runs every browser journey against a local server: bun run e2e [name ...]
 import { coverage, launch, serve } from './helper.js';
 
-const FLOWS = ['checklist', 'paint', 'share', 'story-export', 'offline', 'engine', 'rail', 'layout', 'a11y', 'segment'];
+const FLOWS = ['checklist', 'paint', 'share', 'story-export', 'offline', 'engine', 'rail', 'layout', 'a11y', 'segment', 'foldable'];
 const only = process.argv.slice(2);
 const server = serve();
 const browser = await launch();

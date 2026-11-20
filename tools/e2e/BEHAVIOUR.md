@@ -21,6 +21,7 @@ Each user-visible feature, from the visitor's point of view, and the test that g
 | Smooth scroll | Anchor links glide to the section and land below the header. | `rail` |
 | Reduced motion | The repaint is instant, anchor links jump, the rail is hidden, and no part flies. | `paint`, `rail` |
 | Header and fold | No sideways scroll from 320 to 1920 px; on a 360 x 660 phone the header stays two rows and the first paint swatch is on the first screen. | `layout` |
+| Foldables | On a 344 px cover screen nothing scrolls sideways and the first swatch is on the first screen. Open and flat from 40rem, both lists sit side by side. Folded like a book, the hero and paint sit on the left pane and the checklist on the right; folded like a laptop, the hero stays in the top pane and the page scrolls in the bottom pane. No text, button or car sits on the hinge. Browsers without the Viewport Segments API keep the normal layout. | `foldable` |
 | Accessibility | No axe WCAG 2.x A or AA violations, fresh and with a saved list, at phone and desktop sizes. | `a11y` |
 | Console greeting | One short ASCII 911 with the source link in the console. | `layout` |
 | Deploys | Every `?v=` matches the cache name, every module and precached file exists, and no text has an em dash, en dash or emoji. | `bun test`, `offline`, `tools/check-text.js` |
