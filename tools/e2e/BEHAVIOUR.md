@@ -11,7 +11,7 @@ Each user-visible feature, from the visitor's point of view, and the test that g
 | Paint picker and tooltips | Eight paints on the hero car; the choice survives a reload. Hover (after a wait), keyboard focus and a long press on touch show the paint's story; Escape closes it; a long press does not change the paint. | `paint` |
 | Repaint wave and settle | Rows repaint from the base up, the body sways once and the wheels roll with it; fast taps end on the last paint. | `paint` |
 | Story image and share fallback | A 1080 x 1920 story image of the visitor's 911 with their name; where files cannot be shared, the page offers the image to save. The image is never blank or clear. | `share`, `story-export` |
-| Name | The name is cut to 24 characters and is back in the field after a reload. | `share` |
+| Name | The name is cut to 24 characters and is back in the field after a reload. The field shows a hint, fits a 24-character name, and has a clear button that shows only with text. | `share` |
 | Plan link and banner | Copy a link to the list; a friend who opens it sees a banner, adds the ticks, and can undo or dismiss. A broken link is ignored and removed from the address bar. | `share`, `bun test` (codec) |
 | Offline | After one visit the page and a plan link open with no signal, with the self-hosted fonts. | `offline` |
 | Engine | Each cylinder fires at top dead centre in the order 1-6-2-4-3-5, opposed pairs mirror, and the run button starts and pauses it. | `engine` |

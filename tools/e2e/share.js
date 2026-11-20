@@ -12,6 +12,13 @@ export default async function ({ browser, url }) {
   assert.equal(JSON.parse(await page.evaluate(key => localStorage.getItem(key), STORAGE_KEY)).name.length, 24, 'name is cut to 24 characters');
   await page.reload({ waitUntil: 'networkidle0' });
   assert.equal(await page.$eval('#builder-name', el => el.value), 'Aleksandra Wiśniewska-Ko', 'the saved name is back in the field');
+  // The clear button shows only with text, empties the field and the saved name, and keeps focus in the field.
+  assert.equal(await page.$eval('#name-clear', el => el.hidden), false, 'clear button shows with a name');
+  const fit = await page.$eval('#builder-name', el => [el.scrollWidth <= el.clientWidth, el.getBoundingClientRect().width]);
+  assert.ok(fit[0] && fit[1] <= 320, `a 24-character name fits a field sized for it (${Math.round(fit[1])} px)`);
+  await page.click('#name-clear');
+  assert.deepEqual(await page.evaluate(key => [document.querySelector('#builder-name').value, JSON.parse(localStorage.getItem(key)).name, document.activeElement.id, document.querySelector('#name-clear').hidden], STORAGE_KEY), ['', '', 'builder-name', true]);
+  await page.type('#builder-name', 'Aleksandra Wiśniewska-Kowalczyk');
   await page.evaluate(() => document.querySelector('#your-911').scrollIntoView());
   await page.waitForFunction(() => document.querySelector('#story-figure img')?.naturalWidth === 1080, { timeout: 8000 });
 

@@ -233,7 +233,10 @@
       <div class="spec-body">
         <p class="paint-summary">Paint: <b id="paint-summary-name">Guards Red</b>, one of eight Porsche colours here. The screen colour is close, not exact. <a class="track" href="#top">Change it on the car</a></p>
         <label class="name-field" for="builder-name">Name on your story image, optional</label>
-        <input class="name-input" id="builder-name" type="text" maxlength="24" autocomplete="nickname" enterkeyhint="done" spellcheck="false">
+        <div class="name-box">
+          <input class="name-input" id="builder-name" type="text" maxlength="24" autocomplete="nickname" autocapitalize="words" enterkeyhint="done" spellcheck="false" placeholder="For example, Sam">
+          <button class="name-clear" id="name-clear" type="button" aria-label="Clear name" hidden><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9"/><path d="M7 7l6 6M13 7l-6 6"/></svg></button>
+        </div>
         <figure class="story-preview" id="story-figure">
           <figcaption id="story-hint" hidden>Press and hold the image to save it, or use the button below.</figcaption>
             <p class="story-tip">In an Instagram story, put the link sticker on the dashed box.</p>

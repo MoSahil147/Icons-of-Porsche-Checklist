@@ -266,8 +266,17 @@ shareStoryButton.addEventListener('click', () => {
   shareStatus.textContent = storyUrl ? 'Sharing is not available here. Save the image instead.' : 'The image is still being made. Try again in a moment.';
 });
 
+const nameClear = document.querySelector('#name-clear');
+const syncClear = () => { nameClear.hidden = !nameInput.value; };
 nameInput.value = state.builderName;
+syncClear();
+nameClear.addEventListener('click', () => {
+  nameInput.value = '';
+  nameInput.dispatchEvent(new Event('input'));
+  nameInput.focus();
+});
 nameInput.addEventListener('input', () => {
+  syncClear();
   state.builderName = cleanName(nameInput.value);
   saveState();
   scheduleStory();

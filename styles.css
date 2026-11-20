@@ -228,7 +228,15 @@ html:not(.js) .spec { display: none; }
 .paint-summary b { color: var(--color-ink); }
 .paint-summary a { font-weight: 600; color: var(--color-accent-deep); }
 .name-field { grid-area: name-label; margin-top: var(--space-sm); font-weight: 600; }
-.name-input { grid-area: name; width: 100%; max-width: 420px; min-height: 48px; padding: var(--space-sm) var(--space-md); border: 2px solid var(--color-ink-2); border-radius: 8px; background: var(--color-paper-2); color: var(--color-ink); font-size: 1rem; }
+/* Sized for the 24-character limit (HIG: match the field to the expected text), with a clear button at the trailing end. */
+.name-box { grid-area: name; position: relative; width: 100%; max-width: 20rem; }
+.name-input { width: 100%; min-height: 48px; padding: var(--space-sm) 48px var(--space-sm) var(--space-md); border: 2px solid var(--color-ink-2); border-radius: 8px; background: var(--color-paper-2); color: var(--color-ink); font-size: 1rem; }
+.name-input::placeholder { color: var(--color-muted); opacity: 1; }
+.name-clear { position: absolute; top: 2px; right: 2px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: var(--color-muted); cursor: pointer; touch-action: manipulation; }
+.name-clear[hidden] { display: none; }
+.name-clear svg { width: 18px; height: 18px; }
+.name-clear circle { fill: currentColor; }
+.name-clear path { fill: none; stroke: var(--color-paper-2); stroke-width: 1.8; stroke-linecap: round; }
 .story-preview { grid-area: preview; margin: 0; }
 .story-preview img { width: 100%; border-radius: 12px; box-shadow: 0 0 0 1px var(--color-rule); animation: fade-in 200ms var(--ease-out); }
 .story-tip, .story-preview figcaption { margin-top: var(--space-xs); font-size: var(--text-sm); color: var(--color-ink-2); }
@@ -301,6 +309,7 @@ html:not(.js) .spec { display: none; }
 .dialog-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: var(--space-sm); }
 
 @media (hover: hover) and (pointer: fine) {
+  .name-clear:hover { color: var(--color-ink); }
   .button:hover { background: var(--color-accent-deep); }
   .button-quiet:hover { background: var(--color-paper-3); }
   .main-nav a:hover { color: var(--color-ink); }
