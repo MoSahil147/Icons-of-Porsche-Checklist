@@ -17,6 +17,14 @@ const dialogCancel = document.querySelector('#dialog-cancel');
 const buildModel = document.querySelector('.build-model');
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
 const makeItYours = document.querySelector('#make-it-yours');
+const buildDock = document.querySelector('#build-dock');
+const listSwitch = document.querySelector('#list-switch');
+const listNudge = document.querySelector('#list-nudge');
+const listItems = { pack: [], collect: [] };
+for (const [category, id] of [['pack', '#pack-list'], ['collect', '#collect-list']]) {
+  listItems[category] = [...document.querySelectorAll(`${id} input[data-item]`)].map(input => input.dataset.item);
+}
+let wasListDone = null;
 // Two exhaust puffs behind the tailpipe, for the rev when the car is complete (CSS runs them).
 buildModel?.insertAdjacentHTML('beforeend', '<circle class="pm-puff" cx="330" cy="1110" r="150"/><circle class="pm-puff" cx="330" cy="1110" r="150"/>');
 let wasComplete = null;
@@ -69,6 +77,7 @@ export function renderCategories() {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
   });
+  renderLists(false);
   // The tabs only show on narrow screens; CSS decides that width (40rem, or a two-pane foldable), so it follows the text size too.
   checklistGrid.classList.toggle('show-pack', state.activeCategory === 'pack');
   checklistGrid.classList.toggle('show-collect', state.activeCategory === 'collect');
@@ -93,7 +102,7 @@ export function renderChecklist() {
 function renderProgress() {
   const { done, total } = progressNumbers();
   const complete = done === total;
-  const suffix = complete ? '. Ready to\u00a0go.' : state.activeDay === 'both' ? ' ready across both days' : ' ready';
+  const suffix = complete ? '. Ready to\u00a0go.' : state.activeDay === 'both' ? ' ready, both days' : ' ready';
   progressLabel.textContent = `${done} / ${total}${suffix}`;
   makeItYours.hidden = done === 0;
   if (complete && wasComplete === false && buildModel && !buildModel.classList.contains('no-anim')) {
@@ -107,6 +116,40 @@ function renderProgress() {
   progressMeter.value = done;
   progressMeter.setAttribute('aria-valuetext', `${done} of ${total} items ready`);
   renderModel(done, total);
+  renderLists(!buildModel?.classList.contains('no-anim'));
+}
+
+// Each list option is a gauge for its list. When the visible list is done and the other is not, the other option
+// waits in amber; if a tick just finished this list, it also blinks twice and a status message says what is left.
+function renderLists(fromTick) {
+  const days = selectedDays();
+  const count = category => {
+    const done = days.reduce((sum, day) => sum + listItems[category].filter(item => state.progress[day][item]).length, 0);
+    return { done, total: days.length * listItems[category].length };
+  };
+  const lists = { pack: count('pack'), collect: count('collect') };
+  const isDone = category => lists[category].done === lists[category].total;
+  const here = state.activeCategory;
+  const there = here === 'pack' ? 'collect' : 'pack';
+  const waiting = isDone(here) && !isDone(there);
+  for (const button of categoryButtons) {
+    const { done, total } = lists[button.dataset.category];
+    button.querySelector('.list-count').textContent = `${done} of ${total}`;
+    button.style.setProperty('--fill', done / total);
+    const waits = waiting && button.dataset.category === there;
+    button.classList.toggle('is-waiting', waits);
+    if (!waits) button.classList.remove('is-signal'); // a visit ends the blink at once
+  }
+  const shown = listSwitch.checkVisibility();
+  if (fromTick && waiting && wasListDone?.[here] === false && shown) {
+    const other = categoryButtons.find(button => button.dataset.category === there);
+    other.classList.remove('is-signal');
+    void other.offsetWidth;
+    other.classList.add('is-signal');
+    const left = lists[there].total - lists[there].done;
+    listNudge.textContent = `${here === 'pack' ? 'Before you go' : 'At the festival'} is done. ${left} left ${there === 'collect' ? 'at the festival' : 'before you go'}.`;
+  } else if (!waiting || !shown) listNudge.textContent = '';
+  wasListDone = { pack: isDone('pack'), collect: isDone('collect') };
 }
 
 function renderModel(done, total) {
@@ -182,7 +225,12 @@ categoryButtons.forEach(button => button.addEventListener('click', () => {
   state.activeCategory = button.dataset.category;
   renderCategories();
   saveState();
+  // Deep in one list, the other list starts above the screen: bring its top to just under the dock. Use the dock
+  // height, not its edge: at the end of the section the dock is pushed partly off the top.
+  const gap = checklistGrid.getBoundingClientRect().top - buildDock.offsetHeight;
+  if (gap < 0) scrollBy({ top: gap, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
 }));
+for (const button of categoryButtons) button.addEventListener('animationend', () => button.classList.remove('is-signal'));
 checkboxes.forEach(input => input.addEventListener('change', () => {
   if (state.activeDay === 'both') return;
   state.progress[state.activeDay][input.dataset.item] = input.checked;

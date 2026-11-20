@@ -30,7 +30,7 @@ export default async function ({ browser, url }) {
   await page.click('.day-button[data-day="sun"]');
   assert.match(await label(page), /^0 \/ 23/);
   await page.click('.day-button[data-day="both"]');
-  assert.match(await label(page), /^2 \/ 46 ready across both days/);
+  assert.match(await label(page), /^2 \/ 46 ready, both days/);
   assert.equal(await page.$eval('.day-item-controls', el => el.hidden), false);
   await page.click('#day-controls-water .day-item-button[data-day="sun"]');
   assert.match(await label(page), /^3 \/ 46/);
