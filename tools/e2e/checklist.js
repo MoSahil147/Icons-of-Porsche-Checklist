@@ -50,7 +50,7 @@ export default async function ({ browser, url }) {
 
   // The last tick completes the 911.
   await page.evaluate(() => document.querySelectorAll('.check-row input').forEach(input => { if (!input.checked) input.click(); }));
-  assert.match(await label(page), /^23 \/ 23\. The 911 is complete\./);
+  assert.match(await label(page), /^23 \/ 23\. Ready to\sgo\./);
   assert.equal(await page.$eval('.build-model', el => el.classList.contains('is-done')), true);
 
   // Reset asks first, then clears this day.

@@ -17,6 +17,8 @@ const dialogCancel = document.querySelector('#dialog-cancel');
 const buildModel = document.querySelector('.build-model');
 const modelParts = buildModel ? [...buildModel.querySelectorAll('.pm-solid .pm-part')] : [];
 const makeItYours = document.querySelector('#make-it-yours');
+// Two exhaust puffs behind the tailpipe, for the rev when the car is complete (CSS runs them).
+buildModel?.insertAdjacentHTML('beforeend', '<circle class="pm-puff" cx="330" cy="1110" r="150"/><circle class="pm-puff" cx="330" cy="1110" r="150"/>');
 let wasComplete = null;
 let pendingResetDays = [];
 let flightSource = null;
@@ -91,7 +93,7 @@ export function renderChecklist() {
 function renderProgress() {
   const { done, total } = progressNumbers();
   const complete = done === total;
-  const suffix = complete ? '. The 911 is complete.' : state.activeDay === 'both' ? ' ready across both days' : ' ready';
+  const suffix = complete ? '. Ready to\u00a0go.' : state.activeDay === 'both' ? ' ready across both days' : ' ready';
   progressLabel.textContent = `${done} / ${total}${suffix}`;
   makeItYours.hidden = done === 0;
   if (complete && wasComplete === false && buildModel && !buildModel.classList.contains('no-anim')) {

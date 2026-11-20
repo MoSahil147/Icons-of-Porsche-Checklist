@@ -207,8 +207,20 @@ html:not(.js) .pm-solid { display: none; }
 .make-it-yours { font-size: var(--text-sm); }
 .make-it-yours:not([hidden]) { animation: rise-in 220ms var(--ease-out); }
 @keyframes rise-in { from { opacity: 0; transform: translateY(4px); } }
-.build-model.is-done { transform-origin: 50% 100%; animation: model-done 420ms var(--ease-out); }
-@keyframes model-done { 40% { transform: scale(1.04); } }
+/* Complete: the car revs once. The nose lifts on the rear tyre, settles with a small dip, and the exhaust puffs.
+   The delay lets the last part land first. */
+.build-model.is-done { transform-origin: 24% 98%; animation: rev 560ms 440ms; }
+@keyframes rev {
+  20% { transform: rotate(-1.8deg); animation-timing-function: var(--ease-in-out); }
+  60% { transform: rotate(0.4deg); animation-timing-function: var(--ease-out); }
+}
+.pm-puff { fill: var(--color-ink-2); opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; }
+.build-model.is-done .pm-puff { animation: rev-puff 620ms 520ms linear; }
+.build-model.is-done .pm-puff + .pm-puff { animation-delay: 620ms; }
+@keyframes rev-puff {
+  from { opacity: 0.55; transform: scale(0.6); animation-timing-function: var(--ease-out); }
+  to { opacity: 0; transform: translate(-360px, -110px) scale(2.4); }
+}
 
 html:not(.js) .spec { display: none; }
 .spec { margin-top: var(--section-gap-s); padding-top: var(--space-xl); border-top: 2px solid var(--color-ink); }
@@ -371,7 +383,7 @@ html:not(.js) .spec { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pm-solid .pm-part, .pm-solid .pm-part.is-built { transform: none; }
-  .build-model.is-done, .make-it-yours:not([hidden]) { animation: none; }
+  .build-model.is-done, .build-model.is-done .pm-puff, .make-it-yours:not([hidden]) { animation: none; }
   /* The base rule shortens transitions but keeps delays: drop the wave delays too, so the repaint is instant. */
   .hero-car .hr > *, .hero-car .hc-handle, .hero-car .hc-mirror { transition: none; }
 }

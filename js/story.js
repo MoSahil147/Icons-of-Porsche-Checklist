@@ -41,6 +41,7 @@ function loadImage(src) {
 function buildModelSVG(builtCount, hex) {
   const clone = buildModel.cloneNode(true);
   clone.querySelector('.pm-ghost')?.remove();
+  clone.querySelectorAll('.pm-puff').forEach(puff => puff.remove()); // rev exhaust, page only
   clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
   // An SVG drawn to a canvas needs a size of its own; the viewBox alone gives it none in some browsers.
   const [, , viewWidth, viewHeight] = clone.getAttribute('viewBox').split(' ');
